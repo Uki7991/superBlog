@@ -37,7 +37,7 @@
 # Build data
 /build/
 /vendor/
-/Html/
+/Html/img/
 .idea/
 
 # Backup entities generated with doctrine:generate:entities command

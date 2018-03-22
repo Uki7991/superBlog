@@ -1,0 +1,25 @@
+body {
+    background-color: #ebeaea;
+}
+
+.header {
+    background-color: #362c37;
+    -webkit-box-shadow: 0px 5px 15px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 5px 15px -4px rgba(0,0,0,0.75);
+    box-shadow: 0px 5px 15px -4px rgba(0,0,0,0.75);
+}
+
+.posts {
+    background-color: #fff;
+    color: #615b5b;
+}
+
+.post .card {
+    background-color: transparent;
+}
+
+.blog-all-body {
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
