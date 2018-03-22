@@ -2,7 +2,10 @@
 
 namespace PostBundle\Entity;
 
+use AppBundle\Utils\Helper;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Tag
@@ -25,6 +28,7 @@ class Tag
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=30)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -36,6 +40,16 @@ class Tag
     private $slugName;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Post", mappedBy="tags")
+     */
+    private $posts;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
+
+    /**
      * Get id.
      *
      * @return int
@@ -43,5 +57,97 @@ class Tag
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return Tag
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set slugName.
+     *
+     * @param string $slugName
+     *
+     * @return Tag
+     */
+    public function setSlugName()
+    {
+        $this->slugName = Helper::slugify($this->getName());
+
+        return $this;
+    }
+
+    /**
+     * Get slugName.
+     *
+     * @return string
+     */
+    public function getSlugName()
+    {
+        return $this->slugName;
+    }
+
+    /**
+     * Add post.
+     *
+     * @param \PostBundle\Entity\Post $post
+     *
+     */
+    public function addPost(\PostBundle\Entity\Post $post)
+    {
+        if ($this->posts->contains($post))
+        {
+            return;
+        }
+
+        $this->posts->add($post);
+        $post->addTag($this);
+    }
+
+    /**
+     * Remove post.
+     *
+     * @param \PostBundle\Entity\Post $post
+     *
+     */
+    public function removePost(\PostBundle\Entity\Post $post)
+    {
+        if (!$this->posts->contains($post))
+        {
+            return;
+        }
+
+        $this->posts->removeElement($post);
+        $post->removeTag($this);
+    }
+
+    /**
+     * Get posts.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
     }
 }

@@ -2,15 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: kubanov
- * Date: 3/22/18
- * Time: 12:52 PM
+ * Date: 3/16/18
+ * Time: 10:54 AM
  */
 
-class Dd
-{
-    public function dd($text)
+if (!function_exists('dd')) {
+    function dd($var)
     {
-        dump($text);
-        die();
+        dump($var);
+        die;
     }
 }
