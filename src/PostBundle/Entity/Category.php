@@ -85,6 +85,7 @@ class Category
     public function setName($name)
     {
         $this->name = $name;
+        $this->setSlugName();
 
         return $this;
     }

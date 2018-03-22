@@ -5,6 +5,7 @@ namespace UserBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use PostBundle\PostBundle;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -32,7 +33,14 @@ class User extends BaseUser
     protected $posts;
 
     /**
-     * @ORM\Column(name="avatar", type="string", length=255)
+     * @var \PostBundle\Entity\Comment
+     *
+     * @ORM\OneToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="user")
+     */
+    protected $comments;
+
+    /**
+     * @ORM\Column(name="avatar", type="string", length=255, nullable=true)
      * @Assert\Image()
      * @Assert\File()
      */
@@ -119,5 +127,41 @@ class User extends BaseUser
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Add comment.
+     *
+     * @param \PostBundle\Entity\Comment $comment
+     *
+     * @return User
+     */
+    public function addComment(\PostBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment.
+     *
+     * @param \PostBundle\Entity\Comment $comment
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeComment(\PostBundle\Entity\Comment $comment)
+    {
+        return $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

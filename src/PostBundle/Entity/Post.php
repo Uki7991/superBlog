@@ -63,14 +63,14 @@ class Post
 
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="posts")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private $user;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="posts")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
      */
     private $category;
 
@@ -84,16 +84,16 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="slug_title", type="string", length=50)
+     * @ORM\Column(name="slug_title", type="string", length=50, nullable=true)
      */
     private $slugTitle;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="image", type="string", length=255)
-     * @Assert\Image()
-     * @Assert\File()
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+//     * @Assert\Image()
+//     * @Assert\File()
      */
     private $image;
 
@@ -114,7 +114,7 @@ class Post
     /**
      * @var int
      *
-     * @ORM\Column(name="popularity", type="integer")
+     * @ORM\Column(name="popularity", type="integer", nullable=true)
      */
     private $popularity;
 
@@ -159,6 +159,7 @@ class Post
     public function setTitle($title)
     {
         $this->title = $title;
+        $this->setSlugTitle();
 
         return $this;
     }
