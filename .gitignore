@@ -29,13 +29,15 @@
 # Assets and user uploads
 /web/bundles/
 /web/uploads/
-
+/.web-server-pid
 # PHPUnit
 /app/phpunit.xml
 /phpunit.xml
 
 # Build data
 /build/
+
+.idea/
 
 # Backup entities generated with doctrine:generate:entities command
 **/Entity/*~
