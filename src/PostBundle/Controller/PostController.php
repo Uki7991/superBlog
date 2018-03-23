@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 /**
  * Post controller.
  *
- * @Route("posts")
  */
 class PostController extends Controller
 {
@@ -26,7 +25,7 @@ class PostController extends Controller
 
         $posts = $em->getRepository('PostBundle:Post')->findAll();
 
-        return $this->render('post/index.html.twig', array(
+        return $this->render('PostBundle:post:index.html.twig', array(
             'posts' => $posts,
         ));
     }
@@ -34,7 +33,7 @@ class PostController extends Controller
     /**
      * Creates a new post entity.
      *
-     * @Route("/new", name="posts_new")
+     * @Route("/post/new", name="posts_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -60,7 +59,7 @@ class PostController extends Controller
     /**
      * Finds and displays a post entity.
      *
-     * @Route("/{id}", name="posts_show")
+     * @Route("/post/{id}", name="posts_show")
      * @Method("GET")
      */
     public function showAction(Post $post)
@@ -76,7 +75,7 @@ class PostController extends Controller
     /**
      * Displays a form to edit an existing post entity.
      *
-     * @Route("/{id}/edit", name="posts_edit")
+     * @Route("/post/{id}/edit", name="posts_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Post $post)
@@ -101,7 +100,7 @@ class PostController extends Controller
     /**
      * Deletes a post entity.
      *
-     * @Route("/{id}", name="posts_delete")
+     * @Route("/post/{id}", name="posts_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Post $post)

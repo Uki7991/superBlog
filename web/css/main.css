@@ -1,0 +1,71 @@
+body {
+    background-color: #ebeaea;
+}
+
+.header {
+    background: #0f0c29;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    -webkit-box-shadow: 0px 5px 15px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 5px 15px -4px rgba(0,0,0,0.75);
+    box-shadow: 0px 5px 15px -4px rgba(0,0,0,0.75);
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.header.more {
+    background-size: cover;
+    background-position: center;
+}
+/*
+.header:before {
+    content: "";
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background: rgba(0,0,0,0.2);
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}*/
+
+.posts {
+    background-color: #fff;
+    color: #615b5b;
+    -webkit-box-shadow: 0px 5px 15px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 5px 15px -4px rgba(0,0,0,0.75);
+    box-shadow: 0px 5px 15px -4px rgba(0,0,0,0.75);
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.post .card {
+    background-color: transparent;
+}
+
+.blog-all-body {/*
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);*/
+}
+
+.tags {
+    padding: 4px 10px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    background-color: #343a40;
+}
+
+.tags a {
+    color: #f8f9fa;
+}
+
+.tags.active {
+    background-color: /*#f8f9fa!important*/transparent;
+}
+
+.tags.active a {
+    color: #343a40!important;
+}
