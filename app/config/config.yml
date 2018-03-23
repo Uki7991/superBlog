@@ -10,6 +10,7 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    posts_directory: '%kernel.root_dir%/../web/uploads/posts'
 
 framework:
     #esi: ~
@@ -86,3 +87,18 @@ easy_admin:
     entities:
         Post:
             class: PostBundle\Entity\Post
+            list:
+                fields:
+                    - id
+                    - title
+                    - { property: 'image', type: 'image', base_path: '/uploads/posts' }
+                    - user
+                    - category
+            form:
+                fields:
+                    - title
+                    - user
+                    - category
+                    - blockquote
+                    - content
+                    - { property: 'image', type_options: { data_class: null } }

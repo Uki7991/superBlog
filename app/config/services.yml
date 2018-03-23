@@ -4,6 +4,18 @@ parameters:
     #parameter_name: value
 
 services:
+    app.post_uploader:
+        class: AppBundle\Utils\FileUploader
+        arguments: ['%posts_directory%']
+
+    post.doctrine_post_listener:
+        class: PostBundle\EventListener\PostUploadListener
+        arguments: ['@app.post_uploader']
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+
+
     # default configuration for services in *this* file
     _defaults:
         # automatically injects dependencies in your services
