@@ -2,6 +2,8 @@
 
 namespace PostBundle\Controller;
 
+use PostBundle\Entity\Category;
+use PostBundle\Entity\Post;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,11 +17,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class CategoryController extends Controller
 {
     /**
+     * @param Category|null $categoriesShow
+     * @param null $postsShow
      * @return array
      * @Route("/categories", name="categories_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Category $categoriesShow = null, $postsShow = null)
     {
         $em = $this->getDoctrine()->getManager();
         $categoryRepository = $em->getRepository('PostBundle:Category');
@@ -28,7 +32,40 @@ class CategoryController extends Controller
         $categories = $categoryRepository->findAll();
         $posts = $postRepository->findAll();
 
+        if ($postsShow && $categoriesShow)
+        {
+            $posts = $postsShow;
+            $categories = $categoriesShow;
+
+        }
+
         return[
+            'categories' => $categories,
+            'posts' => $posts,
+        ];
+    }
+
+    /**
+     * @param Category $category
+     * @return array
+     *
+     * @Route("/category/{id}", name="categories_show")
+     * @Method("GET")
+     */
+    public function show(Category $category)
+    {
+        $posts = $category->getPosts();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $categoryRepo = $em->getRepository('PostBundle:Category');
+
+        $categories = $categoryRepo->findAll();
+
+
+
+        return [
+            'active' => $category,
             'categories' => $categories,
             'posts' => $posts,
         ];

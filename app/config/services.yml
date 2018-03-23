@@ -45,3 +45,6 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    PostBundle\DataFixtures\:
+        resource: '../../src/PostBundle/DataFixtures'
+        tags: ['doctrine.fixtures.orm']

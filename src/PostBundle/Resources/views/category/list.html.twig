@@ -2,9 +2,11 @@
     <div class="col-12 text-center">
         <div class="row justify-content-center">
             {% for category in categories %}
-            <div class="col-auto">
-                <p class="tags"><a href="" class="">{{ category.name }}</a></p>
-            </div>
+                <div class="col-auto">
+                    <p class="tags {{ active is defined and category.id == active.id ? 'active' : '' }}">
+                        <a href="{{ path('categories_show', {'id': category.id}) }}" class="">{{ category.name }}</a>
+                    </p>
+                </div>
             {% endfor %}
         </div>
     </div>

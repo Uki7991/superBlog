@@ -77,14 +77,14 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=50)
+     * @ORM\Column(name="title", type="string", length=150)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="slug_title", type="string", length=50, nullable=true)
+     * @ORM\Column(name="slug_title", type="string", length=1550, nullable=true)
      */
     private $slugTitle;
 
@@ -509,5 +509,10 @@ class Post
     public function getIps()
     {
         return $this->ips;
+    }
+
+    public function __toString()
+    {
+        return (string)$this->getTitle();
     }
 }

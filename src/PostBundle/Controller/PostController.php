@@ -67,7 +67,6 @@ class PostController extends Controller
      */
     public function showAction(Post $post, $slug)
     {
-
         return $this->render('@Post/post/show.html.twig', array(
             'post' => $post,
         ));
