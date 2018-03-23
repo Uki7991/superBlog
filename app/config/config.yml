@@ -102,3 +102,8 @@ easy_admin:
                     - blockquote
                     - content
                     - { property: 'image', type_options: { data_class: null } }
+        Category:
+            class: PostBundle\Entity\Category
+            form:
+                fields:
+                    - name

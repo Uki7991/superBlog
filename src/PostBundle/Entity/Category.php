@@ -40,8 +40,7 @@ class Category
     /**
      * @var string
      *
-     * @ORM\Column(name="slug_name", type="string", length=25)
-     * @Assert\NotBlank()
+     * @ORM\Column(name="slug_name", type="string", length=25, nullable=true)
      */
     private $slugName;
 
@@ -55,7 +54,6 @@ class Category
     /**
      *
      * @ORM\Column(name="created_at", type="datetime")
-     * @Assert\NotBlank()
      */
     private $createdAt;
 

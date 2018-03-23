@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-    {{ include('default/headerPost.html.twig') }}
+    {{ include('default/headerPost.html.twig', {'image': post.image, 'title': post.title}) }}
 {% endblock %}
 
 {% block body %}

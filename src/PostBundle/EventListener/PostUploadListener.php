@@ -33,6 +33,12 @@ class PostUploadListener
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
+
+        if ($args->getOldValue('image'))
+        {
+            unlink('uploads/posts/'.$args->getOldValue('image'));
+        }
+
         $this->uploadFile($entity);
     }
 
@@ -48,6 +54,7 @@ class PostUploadListener
         {
             return;
         }
+
         $fileName = $this->uploader->upload($file);
         $entity->setImage($fileName);
     }
