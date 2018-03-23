@@ -1,15 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block name_for_posts %}
-    <div class="row mt-5 mb-4">
-        <div class="col-12 text-center">
-            <p class="h3">Blog posts</p>
-        </div>
-    </div>
-{% endblock %}
+
 
 {% block body %}
 
+    {{ include('@Post/category/list.html.twig') }}
     {{ include('@Post/post/list.html.twig') }}
 
 {% endblock %}

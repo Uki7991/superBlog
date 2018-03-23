@@ -23,11 +23,15 @@ class PostController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $postRepo = $em->getRepository('PostBundle:Post');
+        $catRepo = $em->getRepository('PostBundle:Category');
 
-        $posts = $em->getRepository('PostBundle:Post')->findAll();
+        $posts = $postRepo->findAll();
+        $categories = $catRepo->findAll();
 
         return $this->render('PostBundle:post:index.html.twig', array(
             'posts' => $posts,
+            'categories' => $categories,
         ));
     }
 
