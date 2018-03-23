@@ -26,11 +26,9 @@
                     {{ include('default/header.html.twig') }}
                 {% endblock %}
                 <div class="col-12 posts">
-                    <div class="row mt-5 mb-4">
-                        <div class="col-12 text-center">
-                            <p class="h3">Blog posts</p>
-                        </div>
-                    </div>
+                    {% block name_for_posts %}
+
+                    {% endblock %}
 
 
 

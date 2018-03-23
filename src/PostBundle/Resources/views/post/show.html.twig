@@ -16,7 +16,7 @@
             &nbsp;&nbsp;
             <span class="small text-muted">Category: <a href="" class="">{{ post.category }}</a></span>
 
-            <p class="card-text mt-4">{{ post.content }}</p>
+            {{ post.content|raw }}
 
         </div>
     </div>
