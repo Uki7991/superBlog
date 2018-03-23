@@ -1,6 +1,7 @@
 <?php
 
 namespace PostBundle\Repository;
+use Doctrine\ORM\NoResultException;
 
 /**
  * PostRepository
@@ -10,4 +11,20 @@ namespace PostBundle\Repository;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
+    public function findOneBySlug($slug)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.slugTitle = :slug')
+            ->setParameter('slug', $slug);
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
+
 }

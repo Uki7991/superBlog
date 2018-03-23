@@ -2,6 +2,7 @@
 
 namespace PostBundle\Controller;
 
+use Doctrine\ORM\NoResultException;
 use PostBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -57,18 +58,18 @@ class PostController extends Controller
     }
 
     /**
-     * Finds and displays a post entity.
+     * @param Post $post
+     * @param $slug
+     * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/post/{id}", name="posts_show")
+     * @Route("/post/{id}/{slug}", name="posts_show")
      * @Method("GET")
      */
-    public function showAction(Post $post)
+    public function showAction(Post $post, $slug)
     {
-        $deleteForm = $this->createDeleteForm($post);
 
-        return $this->render('post/show.html.twig', array(
+        return $this->render('@Post/post/show.html.twig', array(
             'post' => $post,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 

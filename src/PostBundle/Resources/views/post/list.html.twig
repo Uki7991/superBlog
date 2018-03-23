@@ -11,7 +11,7 @@
             &nbsp;&nbsp;<br class="d-block d-md-none">
             <span class="small text-muted">Category: <a href="" class="">{{ post.category }}</a></span>
             <p class="card-text mt-4">{{ post.blockquote }}</p>
-            <a href="{{ path('posts_show', { 'id': post.id}) }}" class="">Read more...</a>
+            <a href="{{ path('posts_show', { 'slug': post.slugTitle, 'id': post.id}) }}" class="">Read more...</a>
         </div>
     </div>
 </div>

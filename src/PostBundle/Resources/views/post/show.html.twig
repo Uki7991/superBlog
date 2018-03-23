@@ -1,60 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Post</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ post.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ post.title }}</td>
-            </tr>
-            <tr>
-                <th>Slugtitle</th>
-                <td>{{ post.slugTitle }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ post.image }}</td>
-            </tr>
-            <tr>
-                <th>Blockquote</th>
-                <td>{{ post.blockquote }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ post.content }}</td>
-            </tr>
-            <tr>
-                <th>Popularity</th>
-                <td>{{ post.popularity }}</td>
-            </tr>
-            <tr>
-                <th>Createdat</th>
-                <td>{% if post.createdAt %}{{ post.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Updatedat</th>
-                <td>{% if post.updatedAt %}{{ post.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('posts_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('posts_edit', { 'id': post.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block header %}
+    {{ include('default/headerPost.html.twig') }}
 {% endblock %}
+
+{% block body %}
+
+<div class="post col-12 mb-5">
+    <div class="card border-0">
+        <div class="card-body">
+            <h2 class="card-title my-4 text-center">{{ post.title }}</h2>
+            <span class="small text-muted"><i class="far fa-clock"></i>&nbsp;{{ post.createdAt|date('d') }} <a href="">{{ post.createdAt|date('M, Y') }}</a> {{ post.createdAt|date('H:i') }}</span>
+            &nbsp;&nbsp;
+            <span class="small text-muted"><i class="fas fa-user"></i>&nbsp;<a href="">{{ post.user }}</a></span>
+            &nbsp;&nbsp;
+            <span class="small text-muted">Category: <a href="" class="">{{ post.category }}</a></span>
+
+            <p class="card-text mt-4">{{ post.content }}</p>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

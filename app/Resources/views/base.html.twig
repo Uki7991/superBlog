@@ -22,7 +22,9 @@
     <div class="row">
         <div class="col-12 col-sm-11 col-md-10 col-xl-9 mx-auto blog-all-body">
             <div class="row rounded">
-                {{ include('default/header.html.twig') }}
+                {% block header %}
+                    {{ include('default/header.html.twig') }}
+                {% endblock %}
                 <div class="col-12 posts">
                     <div class="row mt-5 mb-4">
                         <div class="col-12 text-center">
@@ -39,19 +41,8 @@
                         {% endblock %}
 
 
-                        <nav aria-label="Page navigation example" class="col-12">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <a class="page-link bg-dark text-muted" href="#" tabindex="-1">Previous</a>
-                                </li>
-                                <li class="page-item active"><a class="page-link bg-dark text-muted" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link bg-dark text-muted" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link bg-dark text-muted" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link bg-dark text-muted" href="#">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
+                        {% block paginator %}
+                        {% endblock %}
                     </div>
                 </div>
             </div>
