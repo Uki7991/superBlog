@@ -5,6 +5,7 @@ imports:
     - { resource: "@PostBundle/Resources/config/services.yml" }
     - { resource: "@UserBundle/Resources/config/services.yml" }
     - { resource: "@AppBundle/Resources/config/services.yml" }
+    - { resource: "@AdminBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -102,8 +103,18 @@ easy_admin:
                     - blockquote
                     - content
                     - { property: 'image', type_options: { data_class: null } }
+                    - tags
+            controller: AppBundle\Controller\AdminController
         Category:
             class: PostBundle\Entity\Category
             form:
                 fields:
                     - name
+        Tag:
+            class: PostBundle\Entity\Tag
+#            list:
+#                fields:
+#                    - name
+#            form:
+#                fields:
+#                    -name

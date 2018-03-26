@@ -10,7 +10,7 @@ services:
 
     post.doctrine_post_listener:
         class: PostBundle\EventListener\PostUploadListener
-        arguments: ['@app.post_uploader']
+        arguments: ['@app.post_uploader', '@security.token_storage']
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }

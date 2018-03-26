@@ -17,15 +17,15 @@
 </head>
 <body>
 
+{% block header %}
+    {{ include('default/header.html.twig') }}
+{% endblock %}
 
-<div class="container my-xl-5 my-md-3 my-sm-1 my-0">
-    <div class="row">
-        <div class="col-12 col-sm-11 col-md-10 col-xl-9 mx-auto blog-all-body">
-            <div class="row rounded">
-                {% block header %}
-                    {{ include('default/header.html.twig') }}
-                {% endblock %}
-                <div class="col-12 posts">
+<main class="container">
+
+            <div class="row rounded posts">
+
+                <div class="col-9 ">
                     {% block name_for_posts %}
 
                     {% endblock %}
@@ -42,10 +42,12 @@
                         {% block paginator %}
                         {% endblock %}
                 </div>
+                <div class="col bg-light">
+                    {{ include('default/sidebar.html.twig') }}
+                </div>
             </div>
-        </div>
-    </div>
-</div>
+
+</main>
 {% block javascripts %}
     <!-- Bootstrap 4 -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

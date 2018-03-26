@@ -26,7 +26,7 @@ class PostController extends Controller
         $postRepo = $em->getRepository('PostBundle:Post');
         $catRepo = $em->getRepository('PostBundle:Category');
 
-        $posts = $postRepo->findAll();
+        $posts = $postRepo->findAll([], ['createdAt' => 'DESC']);
         $categories = $catRepo->findAll();
 
         return $this->render('PostBundle:post:index.html.twig', array(
@@ -71,19 +71,25 @@ class PostController extends Controller
      */
     public function showAction(Post $post, $slug)
     {
+        $em = $this->getDoctrine()->getManager();
+        $catRepo = $em->getRepository('PostBundle:Category');
+        $categories = $catRepo->findAll();
+
         return $this->render('@Post/post/show.html.twig', array(
             'post' => $post,
+            'categories' => $categories,
         ));
     }
 
     /**
      * Displays a form to edit an existing post entity.
      *
-     * @Route("/post/{id}/edit", name="posts_edit")
+     * @Route("/post2/{id}/edit", name="posts_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Post $post)
     {
+        dd($request->headers->get('referer'));
         $deleteForm = $this->createDeleteForm($post);
         $editForm = $this->createForm('PostBundle\Form\PostType', $post);
         $editForm->handleRequest($request);

@@ -35,7 +35,7 @@ class Tag
     /**
      * @var string
      *
-     * @ORM\Column(name="slug_name", type="string", length=30)
+     * @ORM\Column(name="slug_name", type="string", length=30, nullable=true)
      */
     private $slugName;
 
@@ -47,6 +47,11 @@ class Tag
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return (string)$this->getName();
     }
 
     /**

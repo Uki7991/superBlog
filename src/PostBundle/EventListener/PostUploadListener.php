@@ -14,6 +14,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use PostBundle\Entity\Post;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class PostUploadListener
 {
@@ -34,7 +35,7 @@ class PostUploadListener
     {
         $entity = $args->getEntity();
 
-        if ($args->getOldValue('image'))
+        if ($args->getEntity() instanceof Post && $args->getOldValue('image'))
         {
             unlink('uploads/posts/'.$args->getOldValue('image'));
         }

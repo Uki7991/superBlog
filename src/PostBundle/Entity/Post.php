@@ -349,12 +349,7 @@ class Post
      */
     public function setUser(User $user = null)
     {
-        $this->user = $this->getUser();
-
-        if ($user)
-        {
-            $this->user = $user;
-        }
+        $this->user = $user;
 
         return $this;
     }

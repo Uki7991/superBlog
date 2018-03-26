@@ -11,20 +11,9 @@ use Doctrine\ORM\NoResultException;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
-
-    /**
-     * @param $slug
-     * @return mixed
-     */
-    public function findOneBySlug($slug)
+    public function findAll()
     {
-        $qb = $this->createQueryBuilder('p')
-            ->where('p.slugTitle = :slug')
-            ->setParameter('slug', $slug);
-
-        $query = $qb->getQuery();
-
-        return $query->getResult();
+        return $this->findBy([], ['createdAt' => 'DESC']);
     }
 
 }

@@ -10,12 +10,8 @@
     <div class="card border-0">
         <div class="card-body">
             <h2 class="card-title my-4 text-center">{{ post.title }}</h2>
-            <span class="small text-muted"><i class="far fa-clock"></i>&nbsp;{{ post.createdAt|date('d') }} <a href="">{{ post.createdAt|date('M, Y') }}</a> {{ post.createdAt|date('H:i') }}</span>
-            &nbsp;&nbsp;
-            <span class="small text-muted"><i class="fas fa-user"></i>&nbsp;<a href="">{{ post.user }}</a></span>
-            &nbsp;&nbsp;
-            <span class="small text-muted">Category: <a href="" class="">{{ post.category }}</a></span>
-
+            {{ include('@Post/post/moreInfo.html.twig') }}
+            <a href="{{ path('posts_edit', {'id': post.id}) }}">Edit</a>
             {{ post.content|raw }}
 
         </div>
