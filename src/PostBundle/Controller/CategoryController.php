@@ -54,10 +54,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $posts = $category->getPosts();
-
         $em = $this->getDoctrine()->getManager();
-
+        $posts = $em->getRepository(Post::class)->findBy(['category' => $category], ['createdAt' => 'DESC']);
+        
         $categoryRepo = $em->getRepository('PostBundle:Category');
         $tagRepo = $em->getRepository('PostBundle:Tag');
 
