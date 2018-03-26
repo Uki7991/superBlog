@@ -43,20 +43,30 @@ class PostController extends Controller
      */
     public function newAction(Request $request)
     {
+        if (!$this->getUser())
+        {
+            return $this->redirectToRoute('posts_index');
+        }
         $post = new Post();
         $form = $this->createForm('PostBundle\Form\PostType', $post);
         $form->handleRequest($request);
 
+        $em = $this->getDoctrine()->getManager();
+        $catRepo = $em->getRepository('PostBundle:Category');
+        $categories = $catRepo->findAll();
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $post->setUser($this->getUser());
             $em->persist($post);
             $em->flush();
 
-            return $this->redirectToRoute('posts_show', array('id' => $post->getId()));
+            return $this->redirectToRoute('posts_show', array('id' => $post->getId(), 'slug' => $post->getSlugTitle()));
         }
 
-        return $this->render('post/new.html.twig', array(
+        return $this->render('@Post/post/new.html.twig', array(
             'post' => $post,
+            'categories' => $categories,
             'form' => $form->createView(),
         ));
     }

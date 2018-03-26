@@ -34,7 +34,7 @@ class UserUploadListener
     {
         $entity = $args->getEntity();
 
-        if ($args->getEntity() instanceof User && $args->getOldValue('avatar'))
+        if ($args->getEntity() instanceof User && $args->hasChangedField('avatar'))
         {
             unlink('uploads/users/'.$args->getOldValue('avatar'));
         }

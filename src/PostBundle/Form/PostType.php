@@ -3,6 +3,8 @@
 namespace PostBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,8 +18,12 @@ class PostType extends AbstractType
         $builder
             ->add('title')
             ->add('image')
-            ->add('blockquote')
-            ->add('content')
+            ->add('blockquote', TextareaType::class, [
+                'required' => false,
+            ])
+            ->add('content', TextareaType::class, [
+                'required' => false,
+            ])
             ->add('tags')
             ->add('category');
     }/**

@@ -158,7 +158,7 @@ class User extends BaseUser
     /**
      * Get comments.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \PostBundle\Entity\Comment
      */
     public function getComments()
     {

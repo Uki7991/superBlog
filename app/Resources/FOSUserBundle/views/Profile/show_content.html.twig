@@ -5,10 +5,16 @@
         <div class="col-3">
             <img class="img-fluid" src="/uploads/users/{{ user.avatar }}" alt="">
         </div>
-        <div class="col">
+        <div class="col-auto">
             <p><span class="font-weight-bold">{{ 'profile.show.username'|trans }}:</span> {{ user.username }}</p>
             <p><span class="font-weight-bold">{{ 'profile.show.email'|trans }}:</span> {{ user.email }}</p>
         </div>
+
+        {% if app.user == user %}
+            <div class="col text-right">
+                <a href="{{ path('posts_new') }}" class="btn btn-success">Create post</a>
+            </div>
+        {% endif %}
     </div>
 
 
@@ -16,5 +22,8 @@
 <div class="container">
     <h3 class="text-center">Posts</h3>
     <hr>
+    {% if user == app.user %}
+    {% set ownerPost = true %}
+    {% endif %}
     {{ include('@Post/post/list.html.twig', {'posts': user.posts}) }}
 </div>

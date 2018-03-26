@@ -9,7 +9,7 @@ use UserBundle\Entity\User;
 class UserController extends Controller
 {
     /**
-     * @Route("/profile/{id}", name="profile")
+     * @Route("/profile/{id}/{slug}", name="profile")
      * @param User $user
      *
      * @return \Symfony\Component\HttpFoundation\Response
