@@ -11,11 +11,12 @@ class UserController extends Controller
     /**
      * @Route("/profile/{id}", name="profile")
      * @param User $user
-     * @return string
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function profile(User $user)
     {
-        return $this->renderView('@User/user/index.html.twig', [
+        return $this->render('@User/user/index.html.twig', [
             'user' => $user,
         ]);
     }

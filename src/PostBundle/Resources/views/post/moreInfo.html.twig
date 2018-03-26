@@ -1,6 +1,6 @@
 <span class="small text-muted"><i class="far fa-clock"></i>&nbsp;{{ post.createdAt|date('d') }} <a href="">{{ post.createdAt|date('M, Y') }}</a> {{ post.createdAt|date('H:i') }}</span>
 &nbsp;&nbsp;<br class="d-block d-md-none">
-<span class="small text-muted"><i class="fas fa-user"></i>&nbsp;<a href="{{ path('fos_user_profile_show', {'id': post.user.id}) }}">{{ post.user }}</a></span>
+<span class="small text-muted"><i class="fas fa-user"></i>&nbsp;<a href="{{ path('profile', {'id': post.user.id}) }}">{{ post.user }}</a></span>
 &nbsp;&nbsp;<br class="d-block d-md-none">
 <span class="small text-muted">Category: <a href="{{ path('categories_show', {'id': post.category.id}) }}" class="">{{ post.category }}</a></span>
 <br>

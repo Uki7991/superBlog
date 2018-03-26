@@ -14,6 +14,16 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
+    app.user_uploader:
+        class: AppBundle\Utils\FileUploader
+        arguments: ['%users_directory%']
+
+    user.doctrine_user_listener:
+        class: UserBundle\EventListener\UserUploadListener
+        arguments: ['@app.user_uploader', '@security.token_storage']
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
 
 
     # default configuration for services in *this* file

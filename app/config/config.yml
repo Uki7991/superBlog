@@ -12,6 +12,7 @@ imports:
 parameters:
     locale: en
     posts_directory: '%kernel.root_dir%/../web/uploads/posts'
+    users_directory: '%kernel.root_dir%/../web/uploads/users'
 
 framework:
     #esi: ~
@@ -118,3 +119,18 @@ easy_admin:
 #            form:
 #                fields:
 #                    -name
+        User:
+            class: UserBundle\Entity\User
+            form:
+                fields:
+                    - username
+                    - usernameCanonical
+                    - email
+                    - emailCanonical
+                    - enabled
+                    - password
+                    - lastLogin
+                    - confirmationToken
+                    - passwordRequestedAt
+                    - roles
+                    - {property: 'avatar', type_options: { data_class: null }}
