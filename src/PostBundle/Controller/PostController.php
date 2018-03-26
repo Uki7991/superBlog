@@ -25,13 +25,16 @@ class PostController extends Controller
         $em = $this->getDoctrine()->getManager();
         $postRepo = $em->getRepository('PostBundle:Post');
         $catRepo = $em->getRepository('PostBundle:Category');
+        $tagRepo = $em->getRepository('PostBundle:Tag');
 
         $posts = $postRepo->findAll([], ['createdAt' => 'DESC']);
         $categories = $catRepo->findAll();
+        $tags = $tagRepo->findAll();
 
         return $this->render('PostBundle:post:index.html.twig', array(
             'posts' => $posts,
             'categories' => $categories,
+            'tags' => $tags,
         ));
     }
 
@@ -83,11 +86,15 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $catRepo = $em->getRepository('PostBundle:Category');
+        $tagRepo = $em->getRepository('PostBundle:Tag');
+
+        $tags = $tagRepo->findAll();
         $categories = $catRepo->findAll();
 
         return $this->render('@Post/post/show.html.twig', array(
             'post' => $post,
             'categories' => $categories,
+            'tags' => $tags,
         ));
     }
 

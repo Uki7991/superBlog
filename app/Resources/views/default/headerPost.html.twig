@@ -3,15 +3,28 @@
         <div class="header-backdrop"></div>
     {% endif %}
     <div style="position: relative; z-index: 2">
+
         <div class="row">
             <a href="javascript:window.history.back();">
             {#<a href="{{ app.request.headers.get('referer') }}">#}
                 <i class="fas fa-2x fa-arrow-circle-left" style="color: #ebeaea;"></i>
             </a>
         </div>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <a href="{{ path('posts_index') }}" class="text-light h6">Home</a>
+            </div>
+            <div class="col-auto">
+                <a href="" class="text-light h6">About me</a>
+            </div>
+            <div class="col-auto">
+                <a href="" class="text-light h6">Social</a>
+            </div>
+        </div>
         <div class="row justify-content-center pt-5">
             <h1 class="display-3 text-center" style="color: #ebeaea;">{{ title }}</h1>
         </div>
+
     </div>
 </div>
 

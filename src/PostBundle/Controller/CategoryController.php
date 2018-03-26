@@ -59,15 +59,17 @@ class CategoryController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $categoryRepo = $em->getRepository('PostBundle:Category');
+        $tagRepo = $em->getRepository('PostBundle:Tag');
 
         $categories = $categoryRepo->findAll();
-
+        $tags = $tagRepo->findAll();
 
 
         return [
             'active' => $category,
             'categories' => $categories,
             'posts' => $posts,
+            'tags' => $tags,
         ];
     }
 }

@@ -1,13 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/owlcarousel/dist/assets/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/owlcarousel/dist/assets/owl.theme.default.min.css') }}">
-
-{% endblock %}
-
 {% block body %}
 
     {{ include('@Post/post/list.html.twig') }}
@@ -28,23 +20,4 @@
             </li>
         </ul>
     </nav>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('css/owlcarousel/dist/owl.carousel.min.js') }}"></script>
-    <script>
-        $(document).ready(function(){
-            $(".owl-carousel").owlCarousel({
-                loop: true,
-                items: 6,
-                margin: 10,
-                autoplay: true,
-                autoplayTimeout: 5000,
-                autoplayHoverPause: true,
-                dots: false,
-            });
-        });
-    </script>
-
 {% endblock %}
