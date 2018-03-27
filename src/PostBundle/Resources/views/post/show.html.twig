@@ -6,7 +6,7 @@
 
 {% block body %}
 
-<div class="post col-12 mb-5">
+<div class="post col-12 mb-3">
     <div class="card border-0">
         <div class="card-body">
             <h2 class="card-title my-4 text-center">{{ post.title }}</h2>
@@ -16,6 +16,25 @@
         </div>
     </div>
 </div>
+
+{{ include('@Post/comment/list.html.twig') }}
+    <hr>
+{{ include('@Post/comment/new.html.twig') }}
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script>
+            $('.reply').on('click', function (event) {
+                event.preventDefault(event);
+                var reply = $(event.target);
+                $('#parent_comment').val(reply.data('comment-id'));
+                var username = $('#username_comment_' + reply.data('comment-id')).text();
+                var textarea = $('textarea#comment_form');
+                textarea.val('@' + username + ', ');
+                textarea.focus();
+            });
+        </script>
+    {% endblock %}
 
 {% endblock %}
 

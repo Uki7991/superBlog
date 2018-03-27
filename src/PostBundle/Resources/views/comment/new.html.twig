@@ -1,0 +1,26 @@
+<!-- /comment -->
+<div class="container mb-5">
+    <div class="row pt-2">
+        <div class="col-12">
+            <form action="{{ path('comment_new', {'post': post.id}) }}" method="post">
+                {% if app.user %}
+                    <div class="row col-4 mb-3 p-0 align-items-center">
+                        <div class="col-5"><img src="/uploads/users/{{ app.user.avatar }}" alt="" class="img-fluid"></div>
+                        <span class="small text-muted">{{ app.user.username }}</span>
+                    </div>
+                {% else %}
+                    <div class="form-group col-4 p-0">
+                        <label for="name">Your name <span class="text-danger">*</span></label>
+                        <input type="text" id="name" name="name" required class="form-control">
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="comment_form">Your comment <span class="text-danger">*</span></label>
+                    <textarea class="col-12 w-100" required name="comment" id="comment_form" cols="30" rows="4"></textarea>
+                </div>
+                <input type="hidden" name="parent" id="parent_comment" value="">
+                <button type="submit" class="btn btn-sm btn-primary">Comment</button>
+            </form>
+        </div>
+    </div>
+</div>

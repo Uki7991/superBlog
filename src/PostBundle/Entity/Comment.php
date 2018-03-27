@@ -2,6 +2,7 @@
 
 namespace PostBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use UserBundle\Entity\User;
@@ -45,11 +46,26 @@ class Comment
     private $comment;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=50, nullable=true)
+     */
+    private $name;
+
+    /**
      * @var int
      *
-     * @ORM\Column(name="parent_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="PostBundle\Entity\Comment", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
-    private $parent_id;
+    private $parent;
+
+    /**
+     * @var array
+     *
+     * @ORM\OneToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="parent")
+     */
+    private $children;
 
     /**
      * @ORM\Column(name="created_at", type="datetime")
@@ -60,6 +76,7 @@ class Comment
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
+        $this->children = new ArrayCollection();
     }
 
     /**
@@ -94,30 +111,6 @@ class Comment
     public function getComment()
     {
         return $this->comment;
-    }
-
-    /**
-     * Set parentId.
-     *
-     * @param \int $parentId
-     *
-     * @return Comment
-     */
-    public function setParentId($parentId)
-    {
-        $this->parent_id = $parentId;
-
-        return $this;
-    }
-
-    /**
-     * Get parentId.
-     *
-     * @return \int
-     */
-    public function getParentId()
-    {
-        return $this->parent_id;
     }
 
     /**
@@ -190,5 +183,91 @@ class Comment
     public function getPost()
     {
         return $this->post;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string|null $name
+     *
+     * @return Comment
+     */
+    public function setName($name = null)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Add child.
+     *
+     * @param \PostBundle\Entity\Comment $child
+     *
+     * @return Comment
+     */
+    public function addChild(\PostBundle\Entity\Comment $child)
+    {
+        $child->setParent($this);
+        $this->children[] = $child;
+
+
+        return $this;
+    }
+
+    /**
+     * Remove child.
+     *
+     * @param \PostBundle\Entity\Comment $child
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeChild(\PostBundle\Entity\Comment $child)
+    {
+        return $this->children->removeElement($child);
+    }
+
+    /**
+     * Get children.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set parent.
+     *
+     * @param \PostBundle\Entity\Comment|null $parent
+     *
+     * @return Comment
+     */
+    public function setParent(\PostBundle\Entity\Comment $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent.
+     *
+     * @return int
+     */
+    public function getParent()
+    {
+        return $this->parent;
     }
 }

@@ -100,17 +100,22 @@ class PostController extends Controller
         $em = $this->getDoctrine()->getManager();
         $catRepo = $em->getRepository('PostBundle:Category');
         $tagRepo = $em->getRepository('PostBundle:Tag');
+        $commRepo = $em->getRepository('PostBundle:Comment');
 
         $tags = $tagRepo->findAll();
         $categories = $catRepo->findAll();
         $bigTag = $tagRepo->findBigTag();
-
+        $comms = $commRepo->findBy([
+            'post' => $post,
+            'parent' => null
+        ]);
 
         return $this->render('@Post/post/show.html.twig', array(
             'post' => $post,
             'categories' => $categories,
             'tags' => $tags,
             'bigTag' => $bigTag['counts'],
+            'comments' => $comms,
         ));
     }
 
