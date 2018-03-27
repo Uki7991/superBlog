@@ -2,6 +2,8 @@
 
 namespace PostBundle\Repository;
 
+use PostBundle\Entity\Tag;
+
 /**
  * TagRepository
  *
@@ -10,4 +12,18 @@ namespace PostBundle\Repository;
  */
 class TagRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param $criteria
+     * @return null|object|Tag
+     */
+    public function findTagOrCreate($criteria) {
+        $entity = $this->findOneBy($criteria);
+
+        if ($entity === null) {
+            $entity = new Tag();
+            $entity->setName($criteria['name']);
+        }
+
+        return $entity;
+    }
 }

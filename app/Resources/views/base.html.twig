@@ -25,7 +25,7 @@
 
             <div class="row rounded posts">
 
-                <div class="col-9 ">
+                <div class="col ">
                     {% block name_for_posts %}
 
                     {% endblock %}
@@ -42,9 +42,12 @@
                         {% block paginator %}
                         {% endblock %}
                 </div>
-                <div class="col bg-light">
-                    {{ include('default/sidebar.html.twig') }}
-                </div>
+                {% block sidebar %}
+                    <div class="col-3 bg-light">
+                        {{ include('default/sidebar.html.twig') }}
+                    </div>
+                {% endblock %}
+
             </div>
 
 </main>

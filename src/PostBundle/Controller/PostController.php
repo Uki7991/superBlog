@@ -55,11 +55,23 @@ class PostController extends Controller
         $form->handleRequest($request);
 
         $em = $this->getDoctrine()->getManager();
+        $tagRepo = $em->getRepository('PostBundle:Tag');
         $catRepo = $em->getRepository('PostBundle:Category');
+
+        $tags = $tagRepo->findAll();
         $categories = $catRepo->findAll();
 
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+
+            foreach ($request->request->get('tags') as $tag)
+            {
+                $criteria = ['name' => $tag];
+                $tag = $tagRepo->findTagOrCreate($criteria);
+                $post->addTag($tag);
+                $em->persist($tag);
+            }
+
             $post->setUser($this->getUser());
             $em->persist($post);
             $em->flush();
@@ -69,6 +81,7 @@ class PostController extends Controller
 
         return $this->render('@Post/post/new.html.twig', array(
             'post' => $post,
+            'tags' => $tags,
             'categories' => $categories,
             'form' => $form->createView(),
         ));
