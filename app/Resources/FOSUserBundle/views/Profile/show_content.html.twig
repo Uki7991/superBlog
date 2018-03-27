@@ -25,5 +25,5 @@
     {% if user == app.user %}
     {% set ownerPost = true %}
     {% endif %}
-    {{ include('@Post/post/list.html.twig', {'posts': user.posts}) }}
+    {{ include('@Post/post/list.html.twig', {'posts': posts}) }}
 </div>

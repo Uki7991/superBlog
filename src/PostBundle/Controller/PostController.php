@@ -28,13 +28,13 @@ class PostController extends Controller
         $tagRepo = $em->getRepository('PostBundle:Tag');
 
         $posts = $postRepo->findAll([], ['createdAt' => 'DESC']);
-        $categories = $catRepo->findAll();
-        $tags = $tagRepo->findAll();
+        $bigTag = $tagRepo->findBigTag();
 
         return $this->render('PostBundle:post:index.html.twig', array(
             'posts' => $posts,
-            'categories' => $categories,
-            'tags' => $tags,
+            'categories' => $catRepo->findAll(),
+            'tags' => $tagRepo->findAll(),
+            'bigTag' => $bigTag['counts'],
         ));
     }
 
@@ -103,11 +103,14 @@ class PostController extends Controller
 
         $tags = $tagRepo->findAll();
         $categories = $catRepo->findAll();
+        $bigTag = $tagRepo->findBigTag();
+
 
         return $this->render('@Post/post/show.html.twig', array(
             'post' => $post,
             'categories' => $categories,
             'tags' => $tags,
+            'bigTag' => $bigTag['counts'],
         ));
     }
 

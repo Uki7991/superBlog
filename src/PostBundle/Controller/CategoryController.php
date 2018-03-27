@@ -62,13 +62,14 @@ class CategoryController extends Controller
 
         $categories = $categoryRepo->findAll();
         $tags = $tagRepo->findAll();
-
+        $bigTag = $tagRepo->findBigTag();
 
         return [
             'active' => $category,
             'categories' => $categories,
             'posts' => $posts,
             'tags' => $tags,
+            'bigTag' => $bigTag['counts'],
         ];
     }
 }

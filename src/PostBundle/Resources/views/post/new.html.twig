@@ -36,13 +36,11 @@
                 {{ form_label(form.content) }}
                 {{ form_widget(form.content, {'attr': {'class': 'form-control', 'required': 'false'}, 'id': 'content'}) }}
             </div>
-            <div class="form-group">
+            <div class="form-group d-none">
                 {{ form_label(form.tags) }}
                 {{ form_widget(form.tags, {'attr': {'class': 'form-control'}}) }}
             </div>
-            <br>
-
-            <div class="form-group">
+            <div class="form-group text-dark">
                 <select name="tags[]" id="myTags" class="form-control" multiple>
 
                 </select>

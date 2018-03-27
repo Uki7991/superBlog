@@ -26,4 +26,18 @@ class TagRepository extends \Doctrine\ORM\EntityRepository
 
         return $entity;
     }
+
+    public function findBigTag()
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->innerJoin('t.posts', 'p')
+            ->groupBy('t')
+            ->select('count(p) as counts')
+            ->orderBy('counts', 'DESC')
+            ->setMaxResults(1);
+
+        $query = $qb->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }

@@ -55,3 +55,7 @@ body {
 .tags.active a {
     color: #343a40!important;
 }
+
+.bootstrap-tagsinput .tag {
+    color: #000!important;
+}
