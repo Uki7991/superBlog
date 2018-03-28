@@ -26,6 +26,7 @@ class CommentController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function store(Request $request, Post $post) {
+        dd($request->request);
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         if ($user) {

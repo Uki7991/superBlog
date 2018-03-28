@@ -6,35 +6,76 @@
 
 {% block body %}
 
-<div class="post col-12 mb-3">
-    <div class="card border-0">
-        <div class="card-body">
-            <h2 class="card-title my-4 text-center">{{ post.title }}</h2>
-            {{ include('@Post/post/moreInfo.html.twig') }}
-            {{ post.content|raw }}
+    <div class="post col-12 mb-3">
+        <div class="card border-0">
+            <div class="card-body">
+                <h2 class="card-title my-4 text-center">{{ post.title }}</h2>
+                {{ include('@Post/post/moreInfo.html.twig') }}
+                {{ post.content|raw }}
 
+            </div>
         </div>
     </div>
-</div>
 
-{{ include('@Post/comment/list.html.twig') }}
+    {{ include('@Post/comment/list.html.twig') }}
     <hr>
-{{ include('@Post/comment/new.html.twig') }}
+    {{ include('@Post/comment/new.html.twig') }}
 
-    {% block javascripts %}
-        {{ parent() }}
-        <script>
-            $('.reply').on('click', function (event) {
-                event.preventDefault(event);
-                var reply = $(event.target);
-                $('#parent_comment').val(reply.data('comment-id'));
-                var username = $('#username_comment_' + reply.data('comment-id')).text();
-                var textarea = $('textarea#comment_form');
-                textarea.val('@' + username + ', ');
-                textarea.focus();
-            });
-        </script>
-    {% endblock %}
+{% endblock %}
 
+{% block javascripts %}
+    <script type="application/javascript">
+        var reply, post;
+
+        var textarea = $('textarea#comment_form');
+        var oldText = $('#label-for-comment-text').html();
+        var str = 'Your comment to: ' + '<span style="font-size: 85%; background-color: #0d6aad; color: #fff; padding: 0.2em 0.6em 0.3em; border-radius: .25em;">' + $('#comment-name').val() + '<i class="fas fa-times"></i></span>';
+
+        $('.reply').click(function (event) {
+            event.preventDefault(event);
+            reply = $(event.target);
+
+            $('#parent_comment').val(reply.data('comment-id'));
+            var username = $('#username_comment_' + reply.data('comment-id')).text();
+
+            textarea
+                .val('@' + username + ', ')
+                .focus();
+
+            $('#label-for-comment-text').html(str);
+        });
+
+        $('#comment-button').click(function (e) {
+            e.preventDefault(e);
+            var dataId = null;
+            if (!textarea.val()) {
+                reply = '';
+            }
+            if (reply) {
+                console.log(reply);
+                dataId = reply.data('comment-id');
+            }
+            post = $('input#post-id').val();
+            var data = {
+                'name': $('#comment-name').val(),
+                'comment': textarea.val(),
+                'reply': dataId
+            };
+            console.log(post);
+            console.log(data);
+            // $.ajax({
+            //     url: '/comment/store/' + {{ post.id }},
+            //     method: 'POST',
+            //     dataType: 'JSON',
+            //     data: data,
+            //     success: function ($data) {
+            //         console.log($data);
+            //     },
+            //     error: function ($err) {
+            //         console.log($err);
+            //     }
+            // });
+        });
+    </script>
 {% endblock %}
 

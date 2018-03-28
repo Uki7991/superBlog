@@ -105,10 +105,7 @@ class PostController extends Controller
         $ipRepo = $em->getRepository('UserBundle:Ip');
 
         $ip = $ipRepo->findOneBy(['ip' => $_SERVER['REMOTE_ADDR']]);
-//        dd([
-//            $_SERVER['REMOTE_ADDR'],
-//            $post->getIps()->contains($ip)
-//        ]);
+
         if (!$ip) {
             $ip = new Ip();
             $ip->setIp($_SERVER['REMOTE_ADDR']);
