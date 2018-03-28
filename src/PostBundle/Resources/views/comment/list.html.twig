@@ -1,85 +1,109 @@
+{#<div class="container">#}
+    {#<div class="row">#}
+        {#<div class="comments col-md-9" id="comments">#}
+            {#{% if comments is defined %}#}
+            {#<h3 class="mb-2">Comments</h3>#}
+            {#<!-- comment -->#}
+            {#{% for comment in comments %}#}
+                {#<div class="comment mb-2 row">#}
+                    {#<div class="comment-avatar col-md-1 col-sm-2 text-center pr-1">#}
+                    {#{% if comment.user %}#}
+                        {#<a href=""><img class="mx-auto rounded img-fluid" src="/uploads/users/{{ comment.user.avatar }}" alt="avatar"></a>#}
+                    {#{% endif %}#}
+                    {#</div>#}
+                    {#<div class="comment-content col-md-11 col-sm-10">#}
+                        {#<h6 class="small comment-meta">#}
+                            {#<a href="#" class="username user" id="username_comment_{{ comment.id }}">{{ comment.name }}</a>#}
+                            {#{{ comment.createdAt|time_diff }}, {{ comment.createdAt|date('H:i') }}#}
+                        {#</h6>#}
+                        {#<div class="comment-body">#}
+                            {#<p>#}
+                                {#<span>{{ comment.comment }}</span>#}
+                                {#<br>#}
+                                {#<a href="" class="text-right small reply" data-comment-id="{{ comment.id }}"><i class="ion-reply"></i> Reply</a>#}
+                            {#</p>#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#{% if comment.children is defined %}#}
+                    {#{% for child in comment.children %}#}
+                    {#<!-- reply is indented -->#}
+                    {#<div class="comment-reply col-md-11 offset-md-1 col-sm-10 offset-sm-2">#}
+                        {#<div class="row">#}
+                            {#<div class="comment-avatar col-md-1 col-sm-2 text-center pr-1">#}
+                            {#{% if child.user %}#}
+                                {#<a href=""><img class="mx-auto rounded img-fluid" src="/uploads/users/{{ child.user.avatar }}" alt="avatar"></a>#}
+                            {#{% endif %}#}
+                            {#</div>#}
+                            {#<div class="comment-content col-md-11 col-sm-10 col-12">#}
+                                {#<h6 class="small comment-meta">#}
+                                    {#<a href="#" id="username_comment_{{ child.id }}" class="username user">{{ child.name }}</a>#}
+                                    {#{{ child.createdAt|time_diff }}, {{ child.createdAt|date('H:i') }}#}
+                                {#</h6>#}
+                                {#<div class="comment-body">#}
+                                    {#<p><span>{{ child.comment }}</span>#}
+                                        {#<br>#}
+                                        {#<a href="" class="text-right small reply" data-comment-id="{{ child.id }}"><i class="ion-reply"></i> Reply</a>#}
+                                    {#</p>#}
+                                {#</div>#}
+                            {#</div>#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<!-- /reply is indented -->#}
+                    {#{% endfor %}#}
+                    {#{% endif %}#}
+                {#</div>#}
+            {#{% endfor %}#}
+            {#<!-- /comment -->#}
+
+            {#{% endif %}#}
+        {#</div>#}
+    {#</div>#}
+{#</div>#}
+
+
 <div class="container">
     <div class="row">
-        <div class="comments col-md-9" id="comments">
-            {% if comments is defined %}
-            <h3 class="mb-2">Comments</h3>
-            <!-- comment -->
-            {% for comment in comments %}
-                <div class="comment mb-2 row">
-                    <div class="comment-avatar col-md-1 col-sm-2 text-center pr-1">
-                    {% if comment.user %}
-                        <a href=""><img class="mx-auto rounded img-fluid" src="/uploads/users/{{ comment.user.avatar }}" alt="avatar"></a>
-                    {% endif %}
-                    </div>
-                    <div class="comment-content col-md-11 col-sm-10">
-                        <h6 class="small comment-meta">
-                            <a href="#" class="username user" id="username_comment_{{ comment.id }}">{{ comment.name }}</a>
-                            {{ comment.createdAt|time_diff }}, {{ comment.createdAt|date('H:i') }}
-                        </h6>
-                        <div class="comment-body">
-                            <p>
-                                <span>{{ comment.comment }}</span>
-                                <br>
-                                <a href="" class="text-right small reply" data-comment-id="{{ comment.id }}"><i class="ion-reply"></i> Reply</a>
-                            </p>
-                        </div>
-                    </div>
-                    {% if comment.children is defined %}
-                    {% for child in comment.children %}
-                    <!-- reply is indented -->
-                    <div class="comment-reply col-md-11 offset-md-1 col-sm-10 offset-sm-2">
-                        <div class="row">
-                            <div class="comment-avatar col-md-1 col-sm-2 text-center pr-1">
-                            {% if child.user %}
-                                <a href=""><img class="mx-auto rounded img-fluid" src="/uploads/users/{{ child.user.avatar }}" alt="avatar"></a>
+        <div class="col-9 comments" id="comments2">
+            {% macro recursiveComment(comment) %}
+                {% import _self as self %}
+                        <div class="comment-avatar col-md-1 col-sm-2 text-center pr-1">
+                            {% if comment.user %}
+                                <a href=""><img class="mx-auto rounded img-fluid" src="/uploads/users/{{ comment.user.avatar }}" alt="avatar"></a>
                             {% endif %}
-                            </div>
-                            <div class="comment-content col-md-11 col-sm-10 col-12">
-                                <h6 class="small comment-meta">
-                                    <a href="#" id="username_comment_{{ child.id }}" class="username user">{{ child.name }}</a>
-                                    {{ child.createdAt|time_diff }}, {{ child.createdAt|date('H:i') }}
-                                </h6>
-                                <div class="comment-body">
-                                    <p><span>{{ child.comment }}</span>
-                                        <br>
-                                        <a href="" class="text-right small reply" data-comment-id="{{ child.id }}"><i class="ion-reply"></i> Reply</a>
-                                    </p>
-                                </div>
+                        </div>
+                        <div class="comment-content col-md-11 col-sm-10">
+                            <h6 class="small comment-meta">
+                                <a href="#" class="username user" id="username_comment_{{ comment.id }}">{{ comment.name }}</a>
+                                {{ comment.createdAt|time_diff }}, {{ comment.createdAt|date('H:i') }}
+                            </h6>
+                            <div class="comment-body">
+                                <p>
+                                    <span>{{ comment.comment }}</span>
+                                    <br>
+                                    <a href="" class="text-right small reply" data-comment-id="{{ comment.id }}"><i class="ion-reply"></i> Reply</a>
+                                </p>
                             </div>
                         </div>
-                        {% if child.children %}
-                        {% for childIn in child.children %}
+
+                    {% if comment.children|length %}
+                        {% for child in comment.children %}
                             <div class="comment-reply col-md-11 offset-md-1 col-sm-10 offset-sm-2">
                                 <div class="row">
-                                    <div class="comment-avatar col-md-1 col-sm-2 text-center pr-1">
-                                        {% if childIn.user %}
-                                            <a href=""><img class="mx-auto rounded img-fluid" src="/uploads/users/{{ childIn.user.avatar }}" alt="avatar"></a>
-                                        {% endif %}
-                                    </div>
-                                    <div class="comment-content col-md-11 col-sm-10 col-12">
-                                        <h6 class="small comment-meta">
-                                            <a href="#" id="username_comment_{{ childIn.id }}" class="username user">{{ childIn.name }}</a>
-                                            {{ childIn.createdAt|time_diff }}, {{ childIn.createdAt|date('H:i') }}
-                                        </h6>
-                                        <div class="comment-body">
-                                            <p><span>{{ child.comment }}</span>
-                                                <br>
-                                                <a href="" class="text-right small reply" data-comment-id="{{ childIn.id }}"><i class="ion-reply"></i> Reply</a>
-                                            </p>
-                                        </div>
-                                    </div>
+                                {{ self.recursivecomment(child) }}
                                 </div>
                             </div>
                         {% endfor %}
-                        {% endif %}
-                    </div>
-                    <!-- /reply is indented -->
-                    {% endfor %}
                     {% endif %}
-                </div>
-            {% endfor %}
-            <!-- /comment -->
+            {% endmacro %}
 
+            {% from _self import recursiveComment %}
+
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="comment mb-2 row">
+                        {{ recursiveComment(comment) }}
+                    </div>
+                {% endfor %}
             {% endif %}
         </div>
     </div>
