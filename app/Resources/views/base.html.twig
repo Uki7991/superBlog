@@ -56,6 +56,49 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- List.js -->
+    <script src="{{ asset('js/list.js') }}"></script>
+    <script type="application/javascript">
+        var searchBtn = $('#search');
+        var searchInput = $('#search-input');
+        var searchGroup = $('#search-group');
+        var searchList = $('#search-list');
+        searchBtn.on({
+            click: function (e) {
+                e.preventDefault(e);
+                searchBtn.toggleClass('btn-success');
+                searchInput.toggleClass('d-none');
+                console.log('clicked');
+            }
+        });
+        searchGroup.on({
+            mouseleave: function () {
+                searchBtn.removeClass('btn-success');
+                searchInput.addClass('d-none');
+                searchList.addClass('d-none');
+                console.log('mouse leave');
+            }
+        });
+        searchInput.on({
+            focus: function () {
+                searchList.removeClass('d-none');
+                console.log('focus on input');
+            },
+            keyup: function () {
+                console.log(searchList);
+                if (searchList.hasClass('d-none')) {
+                    searchList.removeClass('d-none');
+                    searchList.css('display', 'block')
+                }
+                console.log('input is keyUped');
+            }
+        });
+
+        new List('search-group', {
+            valueNames: ['name']
+        });
+
+    </script>
 {% endblock %}
 </body>
 </html>

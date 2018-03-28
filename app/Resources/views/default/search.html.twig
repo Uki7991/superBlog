@@ -1,0 +1,14 @@
+<div class="input-group col-3 row justify-content-end" id="search-group">
+    <input type="text" class="form-control d-none search" placeholder="Search" id="search-input" aria-label="Search" aria-describedby="basic-addon2">
+    <div class="input-group-append">
+        <a href="" class="btn text-light" id="search"><i class="fas fa-search"></i></a>
+    </div>
+    <ul class="list bg-light d-none" id="search-list" style="position:absolute; top: 39px; left: 19px; width: 81%;">
+        {% for cat in categories %}
+            <li><a href="" class="text-dark name">{{ cat.name }}</a></li>
+        {% endfor %}
+        {% for tag in tags %}
+            <li><a href="" class="text-dark name">{{ tag.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
