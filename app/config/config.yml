@@ -134,3 +134,9 @@ easy_admin:
                     - passwordRequestedAt
                     - roles
                     - {property: 'avatar', type_options: { data_class: null }}
+        Ip:
+            class: UserBundle\Entity\Ip
+            list:
+                fields:
+                    - id
+                    - ip

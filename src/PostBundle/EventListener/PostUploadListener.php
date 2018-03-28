@@ -35,7 +35,7 @@ class PostUploadListener
     {
         $entity = $args->getEntity();
 
-        if ($args->getEntity() instanceof Post && $args->getOldValue('image'))
+        if ($args->getEntity() instanceof Post && $args->hasChangedField('image'))
         {
             if ($args->getNewValue('image')) {
                 unlink('uploads/posts/'.$args->getOldValue('image'));

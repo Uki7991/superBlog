@@ -7,6 +7,7 @@ use PostBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use UserBundle\Entity\Ip;
 
 /**
  * Post controller.
@@ -101,6 +102,23 @@ class PostController extends Controller
         $catRepo = $em->getRepository('PostBundle:Category');
         $tagRepo = $em->getRepository('PostBundle:Tag');
         $commRepo = $em->getRepository('PostBundle:Comment');
+        $ipRepo = $em->getRepository('UserBundle:Ip');
+
+        $ip = $ipRepo->findOneBy(['ip' => $_SERVER['REMOTE_ADDR']]);
+//        dd([
+//            $_SERVER['REMOTE_ADDR'],
+//            $post->getIps()->contains($ip)
+//        ]);
+        if (!$ip) {
+            $ip = new Ip();
+            $ip->setIp($_SERVER['REMOTE_ADDR']);
+            $em->persist($ip);
+        }
+        if (!$post->getIps()->contains($ip)) {
+            $post->addIp($ip);
+            $em->persist($post);
+            $em->flush();
+        }
 
         $tags = $tagRepo->findAll();
         $categories = $catRepo->findAll();
