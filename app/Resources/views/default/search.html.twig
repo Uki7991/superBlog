@@ -3,12 +3,16 @@
     <div class="input-group-append">
         <a href="" class="btn text-light" id="search"><i class="fas fa-search"></i></a>
     </div>
-    <ul class="list bg-light d-none" id="search-list" style="position:absolute; top: 39px; left: 19px; width: 81%;">
+    <ul class="list bg-light d-none px-5 py-2 border-rounded" id="search-list" style="position:absolute; top: 39px; left: 19px; width: 81%; z-index: 1030;">
+        <span class="small text-muted">Categories</span>
+        <hr class="p-0 m-0">
         {% for cat in categories %}
-            <li><a href="" class="text-dark name">{{ cat.name }}</a></li>
+            <li><a href="{{ path('categories_show', {'id': cat.id}) }}" class="text-dark name">{{ cat.name }}</a>&nbsp;<span class="small">:category</span></li>
         {% endfor %}
+        <span class="small text-muted">Tags</span>
+        <hr class="p-0 m-0">
         {% for tag in tags %}
-            <li><a href="" class="text-dark name">{{ tag.name }}</a></li>
+            <li><a href="" class="text-dark name">{{ tag.name }}</a>&nbsp;<span class="small">:tag</span></li>
         {% endfor %}
     </ul>
 </div>

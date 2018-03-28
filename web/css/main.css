@@ -57,5 +57,14 @@ body {
 }
 
 .bootstrap-tagsinput .tag {
-    color: #000!important;
+    color: #fff!important;
+    margin-right: 2px;
+    background-color: #5bc0de;
+    padding: .2em .6em .3em;
+    border-radius: .25em;
+    font-size: 75%;
+}
+
+.bootstrap-tagsinput {
+    width: 100%;
 }

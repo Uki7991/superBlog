@@ -127,19 +127,31 @@ class PostController extends Controller
      */
     public function editAction(Request $request, Post $post)
     {
-        dd($request->headers->get('referer'));
+        $em = $this->getDoctrine()->getManager();
+        $tagRepo = $em->getRepository('PostBundle:Tag');
+        $catRepo = $em->getRepository('PostBundle:Category');
+
         $deleteForm = $this->createDeleteForm($post);
         $editForm = $this->createForm('PostBundle\Form\PostType', $post);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            foreach ($request->request->get('tags') as $tag)
+            {
+                $criteria = ['name' => $tag];
+                $tag = $tagRepo->findTagOrCreate($criteria);
+                $post->addTag($tag);
+                $em->persist($tag);
+            }
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('posts_edit', array('id' => $post->getId()));
+            return $this->redirectToRoute('posts_show', array('id' => $post->getId(), 'slug' => $post->getSlugTitle()));
         }
 
-        return $this->render('post/edit.html.twig', array(
+        return $this->render('@Post/post/edit.html.twig', array(
             'post' => $post,
+            'categories' => $catRepo->findAll(),
+            'tags' => $tagRepo->findAll(),
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -178,6 +190,6 @@ class PostController extends Controller
             ->setAction($this->generateUrl('posts_delete', array('id' => $post->getId())))
             ->setMethod('DELETE')
             ->getForm()
-        ;
+            ;
     }
 }

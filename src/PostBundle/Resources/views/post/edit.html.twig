@@ -1,21 +1,75 @@
 {% extends 'base.html.twig' %}
 
+{% block sidebar %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}">
+{% endblock %}
+
 {% block body %}
-    <h1>Post edit</h1>
+    <div class="row justify-content-center my-5">
+        <div class="col-auto">
+            <h1>Post creation</h1>
+        </div>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+        <div class="col-10 row justify-content-center">
+            {{ form_start(edit_form, {'attr': {'class': 'col-12'}}) }}
+            <div class="form-group">
+                {{ form_label(edit_form.title) }}
+                {{ form_widget(edit_form.title, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(edit_form.category) }}
+                {{ form_widget(edit_form.category, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(edit_form.image) }}
+                {{ form_widget(edit_form.image, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(edit_form.blockquote) }}
+                {{ form_widget(edit_form.blockquote, {'attr': {'class': 'form-control', 'required': 'false'}, 'id': 'blockquote'}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(edit_form.content) }}
+                {{ form_widget(edit_form.content, {'attr': {'class': 'form-control', 'required': 'false'}, 'id': 'content'}) }}
+            </div>
+            <div class="form-group d-none">
+                {{ form_label(edit_form.tags) }}
+                {{ form_widget(edit_form.tags, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group text-dark">
+                <label for="myTags"></label>
+                <select name="tags[]" id="myTags" class="form-control" multiple>
+                    {% for tag in post.tags %}
+                        <option value="{{ tag.name }}">{{ tag.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('posts_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+            <button type="submit" formnovalidate class="btn btn-primary">Edit</button>
+            {{ form_end(edit_form) }}
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/tinymce/js/tinymce/tinymce.min.js') }}"></script>
+
+    <script src="{{ asset('js/tinymce/js/tinymce/jquery.tinymce.min.js') }}"></script>
+    <script>tinymce.init({ selector:'#blockquote' });</script>
+    <script>tinymce.init({ selector:'#content' });</script>
+
+    <script src="{{ asset('bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
+    <script>
+        $('select#myTags').tagsinput({
+            confirmKeys: [32]
+        });
+    </script>
+
+
 {% endblock %}

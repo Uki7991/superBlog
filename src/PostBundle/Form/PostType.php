@@ -17,7 +17,9 @@ class PostType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('image')
+            ->add('image', null, [
+                'data_class' => null
+            ])
             ->add('blockquote', TextareaType::class, [
                 'required' => false,
             ])

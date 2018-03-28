@@ -37,7 +37,12 @@ class PostUploadListener
 
         if ($args->getEntity() instanceof Post && $args->getOldValue('image'))
         {
-            unlink('uploads/posts/'.$args->getOldValue('image'));
+            if ($args->getNewValue('image')) {
+                unlink('uploads/posts/'.$args->getOldValue('image'));
+            }
+            else {
+                $entity->setImage($args->getOldValue('image'));
+            }
         }
 
         $this->uploadFile($entity);

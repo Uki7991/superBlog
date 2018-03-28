@@ -15,7 +15,7 @@
 
     {% if ownerPost is defined %}
         <div class="col-2 align-self-center">
-            <a href="#" class="btn btn-warning">Edit</a>
+            <a href="{{ path('posts_edit', { 'id': post.id }) }}" class="btn btn-warning">Edit</a>
             <a href="{{ path('posts_delete', { 'id': post.id }) }}" class="btn btn-danger">Delete</a>
         </div>
     {% endif %}
