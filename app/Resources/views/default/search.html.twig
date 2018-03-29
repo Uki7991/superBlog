@@ -12,7 +12,7 @@
         <span class="small text-muted">Tags</span>
         <hr class="p-0 m-0">
         {% for tag in tags %}
-            <li><a href="" class="text-dark name">{{ tag.name }}</a>&nbsp;<span class="small">:tag</span></li>
+            <li><a href="{{ path('tag_show', {'slug': tag.slugName}) }}" class="text-dark name">{{ tag.name }}</a>&nbsp;<span class="small">:tag</span></li>
         {% endfor %}
     </ul>
 </div>
