@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+
+    {{ include('default/headerPost.html.twig', {'title': active.name}) }}
+
+{% endblock %}
+
+{% block body %}
+
+    {{ include('@Post/post/list.html.twig') }}
+
+{% endblock %}
