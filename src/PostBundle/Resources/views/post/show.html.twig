@@ -24,58 +24,84 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script type="application/javascript">
-        var reply, post;
+        var reply, username = null;
 
         var textarea = $('textarea#comment_form');
         var oldText = $('#label-for-comment-text').html();
-        var str = 'Your comment to: ' + '<span style="font-size: 85%; background-color: #0d6aad; color: #fff; padding: 0.2em 0.6em 0.3em; border-radius: .25em;">' + $('#comment-name').val() + '<i class="fas fa-times"></i></span>';
-
-        $('.reply').click(function (event) {
-            event.preventDefault(event);
-            reply = $(event.target);
-
-            $('#parent_comment').val(reply.data('comment-id'));
-            var username = $('#username_comment_' + reply.data('comment-id')).text();
-
-            textarea
-                .val('@' + username + ', ')
-                .focus();
-
-            $('#label-for-comment-text').html(str);
-        });
+        var replyElm = $('.reply');
 
         $('#comment-button').click(function (e) {
             e.preventDefault(e);
-            var dataId = null;
-            if (!textarea.val()) {
+            var commentId = null;
+
+            if (username === null) {
                 reply = '';
             }
-            if (reply) {
-                console.log(reply);
-                dataId = reply.data('comment-id');
+            if (username) {
+                commentId = reply.data('comment-id');
             }
-            post = $('input#post-id').val();
+
             var data = {
                 'name': $('#comment-name').val(),
                 'comment': textarea.val(),
-                'reply': dataId
+                'reply': commentId
             };
-            console.log(post);
+
             console.log(data);
-            // $.ajax({
-            //     url: '/comment/store/' + {{ post.id }},
-            //     method: 'POST',
-            //     dataType: 'JSON',
-            //     data: data,
-            //     success: function ($data) {
-            //         console.log($data);
-            //     },
-            //     error: function ($err) {
-            //         console.log($err);
-            //     }
-            // });
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ app.request.getBaseUrl() }}' + '/comment/store/create/' + {{ post.id }},
+                data: data,
+                dataType: 'html',
+                success: function ($data) {
+                    var replyNew;
+
+                    if (reply) {
+                        replyNew = reply.parents('div.parent' + reply.data('comment-id')).append($data).find('a.reply');
+                    } else {
+                        replyNew = $('#comments2').append($data).find('a.reply');
+                    }
+
+                    replyComment(replyNew);
+                },
+                error: function ($err) {
+                }
+            });
         });
+
+        var replyComment = function (element) {
+            element.click(function (event) {
+                event.preventDefault(event);
+                reply = $(event.target);
+
+                console.log(reply);
+
+                $('#parent_comment').val(reply.data('comment-id'));
+                username = $('#username_comment_' + reply.data('comment-id')).text();
+                var str = 'Your comment to: ' +
+                    '<span class="newText_to_comment">'
+                    + username +
+                    '<i class="fas fa-times ml-2 delete-reply"></i></span>';
+
+                textarea
+                    .val('@' + username + ', ')
+                    .focus();
+
+                $('#label-for-comment-text').html(str);
+
+                $('.delete-reply').click(function () {
+                    $('#label-for-comment-text').html(oldText);
+                    textarea.val('');
+                    username = null;
+                });
+            });
+        };
+
+        replyComment(replyElm);
+
     </script>
 {% endblock %}
 

@@ -68,3 +68,12 @@ body {
 .bootstrap-tagsinput {
     width: 100%;
 }
+
+.newText_to_comment {
+    cursor: pointer;
+    font-size: 85%;
+    background-color: #0d6aad;
+    color: #fff;
+    padding: 0.2em 0.6em 0.3em;
+    border-radius: .25em;
+}

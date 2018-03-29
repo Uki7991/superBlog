@@ -3,7 +3,7 @@
         <div class="col-9 comments" id="comments2">
             {% macro recursiveComment(comment) %}
                 {% import _self as self %}
-                        <div class="comment-avatar col-md-1 col-sm-2 text-center pr-1">
+                        <div class="comment-avatar col-md-1 col-sm-2 text-center pr-1 {{ comment.id }}">
                             {% if comment.user %}
                                 <a href=""><img class="mx-auto rounded img-fluid" src="/uploads/users/{{ comment.user.avatar }}" alt="avatar"></a>
                             {% endif %}
@@ -26,7 +26,7 @@
                     {% if comment.children|length %}
                         {% for child in comment.children %}
                             <div class="comment-reply col-md-11 offset-md-1 col-sm-10 offset-sm-2">
-                                <div class="row parent{{ child.id }}">
+                                <div class="row">
                                 {{ self.recursivecomment(child) }}
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
 
             {% if comments %}
                 {% for comment in comments %}
-                    <div class="comment mb-2 row parent{{ comment.id }}">
+                    <div class="comment mb-2 row hello">
                         {{ recursiveComment(comment) }}
                     </div>
                 {% endfor %}
