@@ -64,7 +64,7 @@
                     } else {
                         replyNew = $('#comments2').append($data).find('a.reply');
                     }
-
+                    $('#count-of-comments').html(parseInt($('#count-of-comments').html()) + 1);
                     replyComment(replyNew);
                 },
                 error: function ($err) {
