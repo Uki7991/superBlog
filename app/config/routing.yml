@@ -8,6 +8,11 @@ app:
     type: annotation
     prefix: /
 
+app_api:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+    prefix: /
+
 user:
     resource: '@UserBundle/Controller/'
     type: annotation

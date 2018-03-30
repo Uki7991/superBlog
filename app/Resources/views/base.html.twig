@@ -6,13 +6,13 @@
 
     {% block stylesheets %}
         <!-- Bootstrap 4 -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
-
+        <link rel="stylesheet" href="{{ asset('css/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css') }}">
         <!-- Other -->
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+        {#<!-- Typeahead -->#}
+        {#<link rel="stylesheet" href="{{ asset('jquery-typeahead/dist/jquery.typeahead.min.css') }}">#}
     {% endblock %}
 </head>
 <body>
@@ -26,11 +26,9 @@
     <div class="row rounded posts">
 
         <div class="col ">
-
             {% block name_for_posts %}{% endblock %}
             {% block body %}{% endblock %}
             {% block paginator %}{% endblock %}
-
         </div>
 
         {% block sidebar %}
@@ -44,50 +42,68 @@
 </main>
 
 <!-- Bootstrap 4 -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="{{ asset('js/jquery.js') }}"></script>
+<script src="{{ asset('js/popper.js') }}"></script>
+<script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 <!-- List.js -->
-<script type="application/javascript" src="{{ asset('js/list.js') }}"></script>
+{#<script type="application/javascript" src="{{ asset('js/list.js') }}"></script>#}
 <script type="application/javascript" src="{{ asset('js/typehead.js') }}"></script>
+{#<script type="application/javascript" src="{{ asset('jquery-typeahead/dist/jquery.typeahead.min.js') }}"></script>#}
 <script type="application/javascript">
-    var searchBtn = $('#search');
+    var selectedOption = $('#selection-of-search option:selected').val();
+    var searchBtn = $('#search-button');
     var searchInput = $('#search-input');
-    var searchGroup = $('#search-group');
-    var searchList = $('#search-list');
-    searchBtn.on({
-        click: function (e) {
-            e.preventDefault(e);
-            searchBtn.toggleClass('btn-success');
-            searchInput.toggleClass('d-none');
-        }
-    });
-    searchGroup.on({
-        mouseleave: function () {
-            searchBtn.removeClass('btn-success');
-            searchInput.addClass('d-none');
-            searchList.addClass('d-none');
-        }
-    });
-    searchInput.on({
-        focus: function () {
-            searchList.removeClass('d-none');
-        },
-        keyup: function () {
-            console.log(searchList);
-            if (searchList.hasClass('d-none')) {
-                searchList.removeClass('d-none');
-                searchList.css('display', 'block')
-            }
-        }
+    var selectOfOptions = $('#selection-of-search');
+    var eraser = $('#search-input-eraser');
+
+    selectOfOptions.change(function () {
+        selectedOption = $(this).val();
+        searchInput.val('');
     });
 
-    new List('search-group', {
-        valueNames: ['name']
+    eraser.click(function (e) {
+        e.preventDefault(e);
+        searchInput.val('');
     });
+
+    searchInput.typeahead({
+        source: function (query, process ) {
+            return $.ajax({
+                url: '{{ app.request.getBaseUrl() }}' + '/search',
+                type: 'GET',
+                data: {
+                    'query': query,
+                    'type': selectedOption
+                },
+                dataType: 'json',
+                success: function (data) {
+                    process(data);
+                }
+            });
+        },
+        delay: 500
+    });
+
+    // new List('search-group', }
+    //     valueNames: ['name']
+    // });
 </script>
 
-
+{#<script>#}
+    {#$.typeahead({#}
+        {#input: '.js-typeahead-game_v1',#}
+        {#minLength: 1,#}
+        {#maxItem: 0,#}
+        {#order: "asc",#}
+        {#hint: true,#}
+        {#group: true,#}
+        {#maxItemPerGroup: 5,#}
+        {#dropdownFilter: "all",#}
+        {#source: function (query) {#}
+            {#console.log(query);#}
+        {#}#}
+    {#});#}
+{#</script>#}
 
 {% block javascripts %}{% endblock %}
 

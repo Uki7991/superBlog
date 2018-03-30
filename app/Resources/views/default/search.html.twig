@@ -1,18 +1,24 @@
-<div class="input-group col-3 row justify-content-end" id="search-group">
-    <input type="text" class="form-control d-none search" placeholder="Search" id="search-input" aria-label="Search" aria-describedby="basic-addon2">
+{#<div class="input-group col-3 row justify-content-end" id="search-group">#}
+    {#<input type="text" class="form-control d-none search" placeholder="Search" id="search-input" aria-label="Search" aria-describedby="basic-addon2">#}
+    {#<div class="input-group-append">#}
+        {#<a href="" class="btn text-light" id="search"><i class="fas fa-search"></i></a>#}
+    {#</div>#}
+{#</div>#}
+
+<div class="input-group row justify-content-end">
+    <input class="col-3 typeahead" type="text" id="search-input" data-provide="typeahead">
+    <i class="fas fa-times small" id="search-input-eraser" style="position: absolute;
+    top: 13px;
+    right: 185px;
+    z-index: 9999;
+    cursor: pointer;"></i>
+    <select class="custom-select col-1" id="selection-of-search">
+        <option value="posts">Posts</option>
+        <option value="categories">Categories</option>
+        <option value="tags">Tags</option>
+    </select>
     <div class="input-group-append">
-        <a href="" class="btn text-light" id="search"><i class="fas fa-search"></i></a>
+        <button class="btn btn-outline-secondary" id="search-button" type="button"><i class="fas fa-search text-light"></i></button>
     </div>
-    <ul class="list bg-light d-none px-5 py-2 border-rounded" id="search-list" style="position:absolute; top: 39px; left: 19px; width: 81%; z-index: 1030;">
-        <span class="small text-muted">Categories</span>
-        <hr class="p-0 m-0">
-        {% for cat in categories %}
-            <li><a href="{{ path('categories_show', {'id': cat.id}) }}" class="text-dark name">{{ cat.name }}</a>&nbsp;<span class="small">:category</span></li>
-        {% endfor %}
-        <span class="small text-muted">Tags</span>
-        <hr class="p-0 m-0">
-        {% for tag in tags %}
-            <li><a href="{{ path('tag_show', {'slug': tag.slugName}) }}" class="text-dark name">{{ tag.name }}</a>&nbsp;<span class="small">:tag</span></li>
-        {% endfor %}
-    </ul>
 </div>
+

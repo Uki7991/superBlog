@@ -2,6 +2,8 @@
 
 namespace PostBundle\Repository;
 
+use Doctrine\ORM\AbstractQuery;
+
 /**
  * CategoryRepository
  *
@@ -10,4 +12,14 @@ namespace PostBundle\Repository;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findApiCats($query){
+        $qb = $this->createQueryBuilder('c')
+            ->where('c.name like :name')
+            ->setParameter('name', $query . '%')
+            ->setMaxResults(8);
+
+        $query = $qb->getQuery();
+
+        return $query->getResult(AbstractQuery::HYDRATE_ARRAY);
+    }
 }

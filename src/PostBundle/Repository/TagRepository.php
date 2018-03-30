@@ -2,6 +2,7 @@
 
 namespace PostBundle\Repository;
 
+use Doctrine\ORM\AbstractQuery;
 use PostBundle\Entity\Tag;
 
 /**
@@ -39,5 +40,26 @@ class TagRepository extends \Doctrine\ORM\EntityRepository
         $query = $qb->getQuery();
 
         return $query->getOneOrNullResult();
+    }
+
+    public function findApiTags($query){
+        $qb = $this->createQueryBuilder('t')
+            ->where('t.name like :name')
+            ->setParameter('name', $query . '%')
+            ->setMaxResults(8);
+
+        $query = $qb->getQuery();
+
+        return $query->getResult(AbstractQuery::HYDRATE_ARRAY);
+    }
+
+    public function findAllApi()
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->select('t.name');
+
+        $query = $qb->getQuery();
+
+        return $query->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 }

@@ -40,4 +40,16 @@ class TagController extends Controller
             'bigTag' => $bigTag['counts'],
         ]);
     }
+
+    /**
+     * @Configuration\Route("/api/tags")
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function allTags()
+    {
+        $tags = $this->getDoctrine()->getManager()->getRepository('PostBundle:Tag')->findAllApi();
+
+        return $this->json($tags);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace PostBundle\Repository;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\AbstractQuery;
 
 /**
  * PostRepository
@@ -16,4 +17,15 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
         return $this->findBy([], ['createdAt' => 'DESC']);
     }
 
+    public function findApiPosts($query){
+        $qb = $this->createQueryBuilder('p')
+            ->select('p.title as name')
+            ->where('p.title like :title')
+            ->setParameter('title', $query . '%')
+            ->setMaxResults(8);
+
+        $query = $qb->getQuery();
+
+        return $query->getResult(AbstractQuery::HYDRATE_ARRAY);
+    }
 }
