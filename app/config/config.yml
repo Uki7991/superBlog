@@ -13,7 +13,8 @@ parameters:
     locale: en
     posts_directory: '%kernel.root_dir%/../web/uploads/posts'
     users_directory: '%kernel.root_dir%/../web/uploads/users'
-    web_directory: '%kernel.root_dir%/../web'
+    web_dir: '%kernel.project_dir%/web'
+    img_dir: '/uploads/images/'
 
 framework:
     #esi: ~

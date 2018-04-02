@@ -2,11 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use Couchbase\Document;
 use PostBundle\Entity\Category;
 use PostBundle\Entity\Post;
 use PostBundle\Entity\Tag;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -56,15 +58,16 @@ class DefaultController extends Controller
      * @Route("/upload-image-tiny", name="upload-image-tiny")
      * @Method("POST")
      */
-    public function upload() {
+    public function upload(Request $request)
+    {
+        /**
+         * @var UploadedFile $temp
+        */
+        $temp = $request->files->get('file');
 
-        $imageFolder = "/uploads/images/";
-        $web = '../web';
-        reset ($_FILES);
-        $temp = current($_FILES);
-        $filetowrite = $web . $imageFolder . $temp['name'];
-        move_uploaded_file($temp['tmp_name'], $filetowrite);
-        $filetowrite = $imageFolder . $temp['name'];
-        return $this->json(array('location' => $filetowrite));
+        $temp->move($this->getParameter('web_dir') . $this->getParameter('img_dir'), $temp->getClientOriginalName());
+        $filePath = $this->getParameter('img_dir') . $temp->getClientOriginalName();
+
+        return $this->json(array('location' => $filePath));
     }
 }
