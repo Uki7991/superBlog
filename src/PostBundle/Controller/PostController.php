@@ -75,13 +75,14 @@ class PostController extends Controller
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            foreach ($request->request->get('tags') as $tag)
-            {
-                $criteria = ['name' => $tag];
-                $tag = $tagRepo->findTagOrCreate($criteria);
-                $post->addTag($tag);
-                $em->persist($tag);
+            if ($request->request->get('tags')) {
+                foreach ($request->request->get('tags') as $tag)
+                {
+                    $criteria = ['name' => $tag];
+                    $tag = $tagRepo->findTagOrCreate($criteria);
+                    $post->addTag($tag);
+                    $em->persist($tag);
+                }
             }
 
             $post->setUser($this->getUser());

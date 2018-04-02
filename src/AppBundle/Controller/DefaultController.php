@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class DefaultController extends Controller
 {
@@ -49,5 +50,21 @@ class DefaultController extends Controller
         }
 
         return $this->json($data);
+    }
+
+    /**
+     * @Route("/upload-image-tiny", name="upload-image-tiny")
+     * @Method("POST")
+     */
+    public function upload() {
+
+        $imageFolder = "/uploads/images/";
+        $web = '../web';
+        reset ($_FILES);
+        $temp = current($_FILES);
+        $filetowrite = $web . $imageFolder . $temp['name'];
+        move_uploaded_file($temp['tmp_name'], $filetowrite);
+        $filetowrite = $imageFolder . $temp['name'];
+        return $this->json(array('location' => $filetowrite));
     }
 }

@@ -13,6 +13,7 @@ parameters:
     locale: en
     posts_directory: '%kernel.root_dir%/../web/uploads/posts'
     users_directory: '%kernel.root_dir%/../web/uploads/users'
+    web_directory: '%kernel.root_dir%/../web'
 
 framework:
     #esi: ~
@@ -43,6 +44,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        file_upload: '@app.post_uploader'
 
 # Doctrine Configuration
 doctrine:
