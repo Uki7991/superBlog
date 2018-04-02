@@ -17,11 +17,14 @@ class PostController extends Controller
 {
     /**
      * Lists all post entities.
+     * @param Request $request
      *
      * @Route("/", name="posts_index")
      * @Method("GET")
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $postRepo = $em->getRepository('PostBundle:Post');
@@ -31,11 +34,19 @@ class PostController extends Controller
         $posts = $postRepo->findAll([], ['createdAt' => 'DESC']);
         $bigTag = $tagRepo->findBigTag();
 
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $posts, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
+
         return $this->render('PostBundle:post:index.html.twig', array(
             'posts' => $posts,
             'categories' => $catRepo->findAll(),
             'tags' => $tagRepo->findAll(),
             'bigTag' => $bigTag['counts'],
+            'pagination' => $pagination,
         ));
     }
 

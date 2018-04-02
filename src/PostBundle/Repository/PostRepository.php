@@ -12,11 +12,18 @@ use Doctrine\ORM\AbstractQuery;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @return array
+     */
     public function findAll()
     {
         return $this->findBy([], ['createdAt' => 'DESC']);
     }
 
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function findApiPosts($query){
         $qb = $this->createQueryBuilder('p')
             ->select('p.title as name')

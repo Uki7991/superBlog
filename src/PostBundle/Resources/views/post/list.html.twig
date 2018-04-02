@@ -1,6 +1,6 @@
 <!-- Posts -->
 <div class="row px-xl-5 px-md-4 px-sm-2 px-1 my-5">
-{% for post in posts %}
+{% for post in pagination %}
 <div class="post {{ ownerPost is defined ? 'col-10' : 'col-12' }} mb-5">
     <div class="text-center"><i class="fas fa-2x fa-bullseye"></i></div>
     <div class="card border-0">
@@ -22,9 +22,10 @@
 
 {% endfor %}
 
+    <div class="col-12 row justify-content-center">
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
 </div>
-
-
-
-
-<!-- End Posts -->
+<!-- End posts -->
