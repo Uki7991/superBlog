@@ -40,7 +40,8 @@
         "symfony/templating": "^4.0",
         "twig/extensions": "^1.5",
         "twig/twig": "^1.0||^2.0",
-        "gregwar/image-bundle": "dev-master"
+        "gregwar/image-bundle": "dev-master",
+        "google/apiclient": "^2.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",

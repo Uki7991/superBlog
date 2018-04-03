@@ -30,6 +30,8 @@ class UserController extends Controller
             10
         );
 
+        $client = new \Google_Client();
+
         return $this->render('@User/user/index.html.twig', [
             'user' => $user,
             'posts' => $posts,
