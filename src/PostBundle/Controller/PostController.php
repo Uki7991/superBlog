@@ -102,6 +102,8 @@ class PostController extends Controller
                     ImageCreator::open($slide->getPathname())->cropResize(100, 100)->save('uploads/images/small/' . $fileName);
                     ImageCreator::open($slide->getPathname())->save('uploads/images/large/' . $fileName);
 
+
+                    
                     $slide = new Image();
                     $slide->setImgPath($fileName);
                     $slide->setPost($post);
