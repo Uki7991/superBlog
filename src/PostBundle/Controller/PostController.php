@@ -3,10 +3,14 @@
 namespace PostBundle\Controller;
 
 use Doctrine\ORM\NoResultException;
+use Gregwar\Image\Image as ImageCreator;
+use PostBundle\Entity\Image;
 use PostBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Entity\Ip;
 
 /**
@@ -75,6 +79,7 @@ class PostController extends Controller
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             if ($request->request->get('tags')) {
                 foreach ($request->request->get('tags') as $tag)
                 {
@@ -82,6 +87,27 @@ class PostController extends Controller
                     $tag = $tagRepo->findTagOrCreate($criteria);
                     $post->addTag($tag);
                     $em->persist($tag);
+                }
+            }
+
+            if ($request->files->get('slides')) {
+                foreach ($request->files->get('slides') as $slide) {
+                    /**
+                     * @var UploadedFile $slide
+                     */
+
+
+                    $fileName = md5(uniqid()) . '.' . $slide->guessExtension();
+
+                    ImageCreator::open($slide->getPathname())->cropResize(755, 755)->save('uploads/images/' . $fileName);
+
+                    ImageCreator::open($slide->getPathname())->save('uploads/images/large/' . $fileName);
+
+                    $slide = new Image();
+                    $slide->setImgPath($fileName);
+                    $slide->setPost($post);
+
+                    $em->persist($slide);
                 }
             }
 

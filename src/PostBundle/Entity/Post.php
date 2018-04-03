@@ -27,6 +27,11 @@ class Post
     private $id;
 
     /**
+     * @ORM\OneToMany(targetEntity="PostBundle\Entity\Image", mappedBy="post")
+     */
+    private $slides;
+
+    /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
      */
     private $comments;
@@ -137,6 +142,7 @@ class Post
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->ips = new ArrayCollection();
+        $this->slides = new ArrayCollection();
     }
 
     /**
@@ -514,5 +520,41 @@ class Post
     public function __toString()
     {
         return (string)$this->getTitle();
+    }
+
+    /**
+     * Add slide.
+     *
+     * @param \PostBundle\Entity\Image $slide
+     *
+     * @return Post
+     */
+    public function addSlide(\PostBundle\Entity\Image $slide)
+    {
+        $this->slides[] = $slide;
+
+        return $this;
+    }
+
+    /**
+     * Remove slide.
+     *
+     * @param \PostBundle\Entity\Image $slide
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeSlide(\PostBundle\Entity\Image $slide)
+    {
+        return $this->slides->removeElement($slide);
+    }
+
+    /**
+     * Get slides.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSlides()
+    {
+        return $this->slides;
     }
 }

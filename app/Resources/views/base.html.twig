@@ -11,8 +11,6 @@
         <link rel="stylesheet" href="{{ asset('css/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css') }}">
         <!-- Other -->
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-        {#<!-- Typeahead -->#}
-        {#<link rel="stylesheet" href="{{ asset('jquery-typeahead/dist/jquery.typeahead.min.css') }}">#}
     {% endblock %}
 </head>
 <body>
@@ -23,7 +21,7 @@
 
 <main class="container">
 
-    <div class="row rounded posts">
+    <div class="row rounded posts justify-content-center">
 
         <div class="col-9">
             {% block name_for_posts %}{% endblock %}
@@ -47,7 +45,6 @@
 <!-- List.js -->
 {#<script type="application/javascript" src="{{ asset('js/list.js') }}"></script>#}
 <script type="application/javascript" src="{{ asset('js/typehead.js') }}"></script>
-{#<script type="application/javascript" src="{{ asset('jquery-typeahead/dist/jquery.typeahead.min.js') }}"></script>#}
 <script type="application/javascript">
     var selectedOption = $('#selection-of-search option:selected').val();
     var searchBtn = $('#search-button');
@@ -82,27 +79,7 @@
         },
         delay: 500
     });
-
-    // new List('search-group', }
-    //     valueNames: ['name']
-    // });
 </script>
-
-{#<script>#}
-    {#$.typeahead({#}
-        {#input: '.js-typeahead-game_v1',#}
-        {#minLength: 1,#}
-        {#maxItem: 0,#}
-        {#order: "asc",#}
-        {#hint: true,#}
-        {#group: true,#}
-        {#maxItemPerGroup: 5,#}
-        {#dropdownFilter: "all",#}
-        {#source: function (query) {#}
-            {#console.log(query);#}
-        {#}#}
-    {#});#}
-{#</script>#}
 
 {% block javascripts %}{% endblock %}
 

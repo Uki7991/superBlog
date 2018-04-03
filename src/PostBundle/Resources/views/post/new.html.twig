@@ -36,6 +36,9 @@
                 {{ form_label(form.content) }}
                 {{ form_widget(form.content, {'attr': {'class': 'form-control', 'required': 'false'}, 'id': 'content'}) }}
             </div>
+            <div class="form-group">
+                <input type="file" name="slides[]" class="form-control" multiple>
+            </div>
             <div class="form-group d-none">
                 {{ form_label(form.tags) }}
                 {{ form_widget(form.tags, {'attr': {'class': 'form-control'}}) }}
