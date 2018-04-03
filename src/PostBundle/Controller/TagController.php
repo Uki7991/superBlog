@@ -5,6 +5,7 @@ namespace PostBundle\Controller;
 use PostBundle\Entity\Tag;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class TagController
@@ -20,7 +21,7 @@ class TagController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
         $tagRepo = $em->getRepository('PostBundle:Tag');
@@ -32,12 +33,20 @@ class TagController extends Controller
         $posts = $activeTag->getPosts();
         $bigTag = $tagRepo->findBigTag();
 
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $posts, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
         return $this->render('@Post/tag/show.html.twig', [
             'tags' => $tags,
             'categories' => $categories,
             'active' => $activeTag,
             'posts' => $posts,
             'bigTag' => $bigTag['counts'],
+            'pagination' => $pagination,
         ]);
     }
 

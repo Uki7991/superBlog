@@ -56,7 +56,7 @@ class Comment
     /**
      * @var int
      *
-     * @ORM\ManyToOne(targetEntity="PostBundle\Entity\Comment", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="PostBundle\Entity\Comment", inversedBy="children", cascade={"remove"})
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
     private $parent;
@@ -64,7 +64,7 @@ class Comment
     /**
      * @var array
      *
-     * @ORM\OneToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="parent", cascade={"remove"})
      */
     private $children;
 

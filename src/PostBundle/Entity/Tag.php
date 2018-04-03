@@ -98,7 +98,7 @@ class Tag
      */
     public function setSlugName()
     {
-        $this->slugName = Helper::slugify($this->getName());
+        $this->slugName = Helper::url_slug($this->getName(), ['transliterate' => true]);
 
         return $this;
     }
