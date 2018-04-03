@@ -79,7 +79,7 @@ class PostController extends Controller
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            
             if ($request->request->get('tags')) {
                 foreach ($request->request->get('tags') as $tag)
                 {
@@ -96,11 +96,9 @@ class PostController extends Controller
                      * @var UploadedFile $slide
                      */
 
-
                     $fileName = md5(uniqid()) . '.' . $slide->guessExtension();
 
                     ImageCreator::open($slide->getPathname())->cropResize(755, 755)->save('uploads/images/' . $fileName);
-
                     ImageCreator::open($slide->getPathname())->save('uploads/images/large/' . $fileName);
 
                     $slide = new Image();
