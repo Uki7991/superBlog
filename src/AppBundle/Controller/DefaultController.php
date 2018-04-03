@@ -65,8 +65,8 @@ class DefaultController extends Controller
         */
         $temp = $request->files->get('file');
 
-        $temp->move($this->getParameter('web_dir') . $this->getParameter('img_dir'), $temp->getClientOriginalName());
-        $filePath = $this->getParameter('img_dir') . $temp->getClientOriginalName();
+        $temp->move($this->getParameter('web_dir') . $this->getParameter('posts_img_dir'), $temp->getClientOriginalName());
+        $filePath = $this->getParameter('posts_img_dir') . $temp->getClientOriginalName();
 
         return $this->json(array('location' => $filePath));
     }

@@ -42,7 +42,7 @@ class PostController extends Controller
         $pagination = $paginator->paginate(
             $posts, /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
-            10/*limit per page*/
+            8/*limit per page*/
         );
 
         return $this->render('PostBundle:post:index.html.twig', array(
@@ -102,8 +102,6 @@ class PostController extends Controller
                     ImageCreator::open($slide->getPathname())->cropResize(100, 100)->save('uploads/images/small/' . $fileName);
                     ImageCreator::open($slide->getPathname())->save('uploads/images/large/' . $fileName);
 
-
-                    
                     $slide = new Image();
                     $slide->setImgPath($fileName);
                     $slide->setPost($post);

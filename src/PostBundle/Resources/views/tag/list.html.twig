@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             {% for tag in tags %}
                 <div class="col-auto px-1">
-                    <p class="small tags" style="font-size: {{ (tag.posts|length / bigTag) * (140 - 80) + 80 }}%">
+                    <p class="small tags" style="font-size: {{ tag.posts.count > 0 ? (tag.posts|length / bigTag) * (140 - 80) + 80 : '' }}%">
                         <a href="{{ path('tag_show', {'slug': tag.slugname}) }}" class="">{{ tag.name }}</a>
                     </p>
                 </div>

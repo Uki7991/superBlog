@@ -27,12 +27,12 @@ class Post
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="PostBundle\Entity\Image", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="PostBundle\Entity\Image", mappedBy="post", cascade={"remove"})
      */
     private $slides;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"remove"})
      */
     private $comments;
 
@@ -187,8 +187,8 @@ class Post
      */
     public function setSlugTitle()
     {
-        $this->slugTitle = Helper::slugify($this->getTitle());
-
+        $this->slugTitle = Helper::url_slug($this->getTitle(), ['transliterate' => true]);
+        
         return $this;
     }
 

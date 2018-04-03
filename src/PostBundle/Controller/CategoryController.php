@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class CategoryController
@@ -52,7 +53,7 @@ class CategoryController extends Controller
      * @Route("/category/{id}", name="categories_show")
      * @Method("GET")
      */
-    public function show(Category $category)
+    public function show(Request $request, Category $category)
     {
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository(Post::class)->findBy(['category' => $category], ['createdAt' => 'DESC']);
@@ -64,12 +65,20 @@ class CategoryController extends Controller
         $tags = $tagRepo->findAll();
         $bigTag = $tagRepo->findBigTag();
 
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $posts, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
         return [
             'active' => $category,
             'categories' => $categories,
             'posts' => $posts,
             'tags' => $tags,
             'bigTag' => $bigTag['counts'],
+            'pagination' => $pagination
         ];
     }
 }

@@ -5,7 +5,7 @@
     <div class="text-center"><i class="fas fa-2x fa-bullseye"></i></div>
     <div class="card border-0">
         <div class="card-body">
-            <h2 class="card-title mb-3 mb-md-0">{{ post.title }}</h2>
+            <h2 class="card-title mb-3 mb-md-0"><a href="{{ path('posts_show', { 'id': post.id, 'slug': post.slugTitle }) }}">{{ post.title }}</a></h2>
             {{ include('@Post/post/moreInfo.html.twig') }}
             <p class="card-text mt-4">{{ post.blockquote|raw }}</p>
             <a href="{{ path('posts_show', { 'slug': post.slugTitle, 'id': post.id}) }}" class="">Read more...</a>

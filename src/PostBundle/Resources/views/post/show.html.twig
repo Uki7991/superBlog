@@ -18,52 +18,48 @@
             <div class="card-body">
                 <h2 class="card-title my-4 text-center">{{ post.title }}</h2>
                 {{ include('@Post/post/moreInfo.html.twig') }}
-                <br>
-                {#<div class=" owl-carousel owl-theme">#}
-                {#{% for slide in post.slides %}#}
-                    {#<div class="item"><a href=""><img src="/uploads/images/{{ slide.imgPath }}" alt=""></a></div>#}
-                {#{% endfor %}#}
-                {#</div>#}
 
-                <div class="row justify-content-center">
-                    <!--Main Slider Container-->
-                    <div class="col-9 slider-container">
-                        <!--Main Slider Start-->
-                        <div id="slider" class="slider owl-carousel">
-                            {% for slide in post.slides %}
-                                <div class="item">
-                                    <div class="content">
-                                        <a data-fancybox="gallery" href="/uploads/images/large/{{ slide.imgPath }}">
-                                            <img src="/uploads/images/{{ slide.imgPath }}" class="img-responsive">
-                                        </a>
+                {% if post.slides.count > 0 %}
+                    <div class="row justify-content-center my-4">
+                        <!--Main Slider Container-->
+                        <div class="col-9 slider-container">
+                            <!--Main Slider Start-->
+                            <div id="slider" class="slider owl-carousel">
+                                {% for slide in post.slides %}
+                                    <div class="item">
+                                        <div class="content">
+                                            <a data-fancybox="gallery" href="/uploads/images/large/{{ slide.imgPath }}">
+                                                <img src="/uploads/images/medium/{{ slide.imgPath }}" class="img-responsive">
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <!--Main Slider End-->
+                                {% endfor %}
+                            </div>
+                            <!--Main Slider End-->
 
-                        <!--Navigation Links For the Main Items-->
-                        <div class="slider-controls">
-                            <a class="slider-left" href="javascript:;"><span><i class="fa fa-2x fa-chevron-left"></i></span></a>
-                            <a class="slider-right" href="javascript:;"><span><i class="fa fa-2x fa-chevron-right"></i></span></a>
+                            <!--Navigation Links For the Main Items-->
+                            <div class="slider-controls">
+                                <a class="slider-left" href="javascript:;"><span><i class="fa fa-2x fa-chevron-left"></i></span></a>
+                                <a class="slider-right" href="javascript:;"><span><i class="fa fa-2x fa-chevron-right"></i></span></a>
+                            </div>
+                        </div>
+
+                        <!--Thumbnail slider container-->
+                        <div class="col-9 thumbnail-slider-container">
+                            <!--Thumbnail Slider Start-->
+                            <div id="thumbnailSlider" class="thumbnail-slider owl-carousel">
+                                {% for slide in post.slides %}
+                                    <div class="item">
+                                        <div class="content">
+                                            <img src="/uploads/images/small/{{ slide.imgPath }}" class="img-responsive">
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <!--Thumbnail Slider End-->
                         </div>
                     </div>
-
-                    <!--Thumbnail slider container-->
-                    <div class="col-9 thumbnail-slider-container">
-                        <!--Thumbnail Slider Start-->
-                        <div id="thumbnailSlider" class="thumbnail-slider owl-carousel">
-                            {% for slide in post.slides %}
-                                <div class="item">
-                                    <div class="content">
-                                        <img src="/uploads/images/{{ slide.imgPath }}" class="img-responsive">
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <!--Thumbnail Slider End-->
-                    </div>
-                </div>
+                {% endif %}
 
                 {{ post.content|raw }}
 
