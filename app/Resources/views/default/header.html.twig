@@ -5,7 +5,7 @@
     </div>
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <div class="row justify-content-end">
-            <a class="text-muted" href="{{ path('profile', {'slug': app.user.usernameCanonical}) }}">My profile</a>
+            <a class="text-muted" href="{{ path('fos_user_profile_show_over') }}">My profile</a>
         </div>
     {% else %}
         <div class="row justify-content-end">

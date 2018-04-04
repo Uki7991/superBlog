@@ -6,7 +6,7 @@
 <span class="small text-muted">
     <i class="fas fa-user"></i>&nbsp;
     {% if post.user %}
-    <a href="{{ path('profile', {'slug': post.user.usernameCanonical}) }}">{{ post.user }}</a>
+    <a href="{{ path('show_profile_', {'slug': post.user.usernameCanonical}) }}">{{ post.user }}</a>
     {% endif %}
 </span>
 &nbsp;&nbsp;<br class="d-block d-md-none">

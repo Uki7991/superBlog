@@ -47,6 +47,13 @@ class User extends BaseUser
     protected $avatar;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="g_id", type="string", length=255, nullable=true, unique=true)
+     */
+    protected $gId;
+
+    /**
      * Get id.
      *
      * @return int
@@ -163,5 +170,29 @@ class User extends BaseUser
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set gId.
+     *
+     * @param int|null $gId
+     *
+     * @return User
+     */
+    public function setGId($gId = null)
+    {
+        $this->gId = $gId;
+
+        return $this;
+    }
+
+    /**
+     * Get gId.
+     *
+     * @return int|null
+     */
+    public function getGId()
+    {
+        return $this->gId;
     }
 }
