@@ -137,6 +137,8 @@ class UserController extends Controller
     /**
      * @Route("/api/new/user", name="apiNewUser")
      *
+     * @Method("GET")
+     *
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -145,12 +147,14 @@ class UserController extends Controller
     {
         $userManager = $this->container->get('fos_user.user_manager');
 
-        $user = $userManager->findUserBy(['gId' => $request->query->get('id')]);
+        $data = $request->query;
+
+        $user = $userManager->findUserBy(['gId' => $data->get('id')]);
         if (!$user) {
             $user = $userManager->createUser();
-            $user->setGId($request->query->get('id'));
-            $user->setUsername($request->query->get('username'));
-            $user->setEmail($request->query->get('email'));
+            $user->setGId($data->get('id'));
+            $user->setUsername($data->get('username'));
+            $user->setEmail($data->get('email'));
             $user->setPlainPassword(md5(rand(111111, 999999)));
             $user->setEnabled(true);
 
