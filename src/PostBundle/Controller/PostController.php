@@ -45,12 +45,17 @@ class PostController extends Controller
             8/*limit per page*/
         );
 
+        $csrfToken = $this->get('security.csrf.token_manager')
+            ? $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue()
+            : null;
+
         return $this->render('PostBundle:post:index.html.twig', array(
             'posts' => $posts,
             'categories' => $catRepo->findAll(),
             'tags' => $tagRepo->findAll(),
             'bigTag' => $bigTag['counts'],
             'pagination' => $pagination,
+            'csrf_token' => $csrfToken,
         ));
     }
 
