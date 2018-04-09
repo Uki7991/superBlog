@@ -1,0 +1,26 @@
+<div class="container-fluid pb-5">
+    <div class="row">
+        <div id="map" class="w-100" style="height: 350px;"></div>
+    </div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnqyXc6CBzdIEIWwf0p3fs4BngF3wRv-0&callback=initMap"
+        async defer></script>
+<script>
+    function initMap() {
+        var myLatLng = {lat: 42.849722, lng: 74.590021};
+
+        // Create a map object and specify the DOM element for display.
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatLng,
+            zoom: 15
+        });
+
+        // Create a marker and set its position.
+        var marker = new google.maps.Marker({
+            map: map,
+            position: myLatLng,
+            title: 'Hello World!'
+        });
+    }
+</script>

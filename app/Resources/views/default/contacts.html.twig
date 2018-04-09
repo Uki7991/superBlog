@@ -26,19 +26,84 @@
                 <form class="text-verona text-center">
                     <div class="form-group">
                         <label for="nameInput" class="font-weight-bold">Ваше имя:</label>
-                        <input type="text" class="form-control mx-auto col-12 col-lg-6 text-center" id="nameInput" aria-describedby="nameHelp" placeholder="">
+                        <input type="text" name="name" class="form-control mx-auto col-12 col-lg-6 text-center" id="nameInput" aria-describedby="nameHelp" placeholder="">
                         <small id="nameHelp" class="form-text text-muted">Мы не используем Ваши данные для передачи третьим лицам</small>
                     </div>
                     <div class="form-group">
                         <label for="telInput" class="font-weight-bold">Ваш номер телефона:</label>
-                        <input type="tel" class="form-control mx-auto col-12 col-lg-6 text-center" id="telInput" placeholder="+996 (700) 700 - 700">
+                        <input type="tel" name="phone" class="form-control mx-auto col-12 col-lg-6 text-center" id="telInput" placeholder="+996 (700) 700 - 700">
                     </div>
-                    <button type="submit" class="btn btn-primary">Оставить заявку!</button>
+                    <button type="submit" class="btn btn-primary" id="proposal_submit">Оставить заявку!</button>
                 </form>
             </div>
         </div>
 
-
     </div>
+
+    {{ include(':default:map.html.twig') }}
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-success" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0" style="background: linear-gradient(45deg, #543093 32%, #d960ae 100%);">
+                <div class="modal-body text-light">
+                    <div class="row justify-content-end">
+                        <button type="button" class="close mr-4" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="color:#fff;">&times;</span>
+                        </button>
+                    </div>
+                    <div class="row pt-3 justify-content-center">
+                        <span class="h3">Success!</span>
+                    </div>
+                    <div class="row my-3 justify-content-center">
+                        <p>That thing that you were trying to do worked.</p>
+                    </div>
+                    <div class="row pb-3 justify-content-center">
+                        <svg width="150" height="150" viewBox="0 0 510 510" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path fill="#fff" d="M150.45,206.55l-35.7,35.7L229.5,357l255-255l-35.7-35.7L229.5,285.6L150.45,206.55z M459,255c0,112.2-91.8,204-204,204 S51,367.2,51,255S142.8,51,255,51c20.4,0,38.25,2.55,56.1,7.65l40.801-40.8C321.3,7.65,288.15,0,255,0C114.75,0,0,114.75,0,255 s114.75,255,255,255s255-114.75,255-255H459z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script type="application/javascript">
+        $('#proposal_submit').click(function (e) {
+            e.preventDefault(e);
+
+            var phone = $('#telInput').val();
+            var name = $('#nameInput').val();
+
+            var data = {
+                'name': name,
+                'phone': phone
+            };
+
+            if (!phone || !name) {
+                data = null;
+            }
+
+            $.ajax({
+                url: '/proposal',
+                type: 'POST',
+                data: data,
+                dataType: 'JSON',
+                success: function (data) {
+                    console.log(data.status);
+                    if (data.status === 'success') {
+                        $('#modal-success').modal();
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        });
+    </script>
 
 {% endblock %}
