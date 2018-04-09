@@ -2,6 +2,7 @@
 
 namespace UserBundle\Controller;
 
+use AppBundle\Utils\Helper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -135,28 +136,69 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/api/new/user", name="apiNewUser")
+     * @Route("/google/user", name="login_google")
      *
      * @Method("GET")
      *
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function newUser(Request $request)
+    public function googleUser(Request $request)
+    {
+        $data = $request->query->all();
+
+        $token = $this->loginUser($data, 'googleId');
+
+        $request->getSession()->set('_security_secured_area', serialize($token));
+
+        return $this->json($token);
+    }
+
+    /**
+     * @Route("/fb/user", name="login_fb")
+     *
+     * @Method("GET")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function fbUser(Request $request)
+    {
+        $data = $request->query->all();
+
+        $token = $this->loginUser($data, 'facebookId');
+
+        $request->getSession()->set('_security_secured_area', serialize($token));
+
+        return $this->json($token);
+    }
+
+    /**
+     * @param array  $data
+     * @param string $source
+     *
+     * @return UsernamePasswordToken
+     */
+    protected function loginUser(array $data, string $source = null)
     {
         $userManager = $this->container->get('fos_user.user_manager');
 
-        $data = $request->query;
-
-        $user = $userManager->findUserBy(['gId' => $data->get('id')]);
+        $user = $userManager->findUserBy([$source => $data['id']]);
         if (!$user) {
             $user = $userManager->createUser();
-            $user->setGId($data->get('id'));
-            $user->setUsername($data->get('username'));
-            $user->setEmail($data->get('email'));
+            $user->setUsername(Helper::url_slug($data['username'], ['transliterate' => true]));
+            $user->setEmail($data['email']);
             $user->setPlainPassword(md5(rand(111111, 999999)));
             $user->setEnabled(true);
+
+            if ($source === 'googleId') {
+                $user->setGoogleId($data['id']);
+            }
+            if ($source === 'facebookId') {
+                $user->setFacebookId($data['id']);
+            }
 
             $userManager->updateUser($user, true);
         }
@@ -170,11 +212,6 @@ class UserController extends Controller
 
         $this->get('security.token_storage')->setToken($token);
 
-        $request->getSession()->set('_security_secured_area', serialize($token));
-
-//        return $this->redirectToRoute('profile_show', [
-//            'slug' => $user->getUsernameCanonical(),
-//        ]);
-        return $this->redirectToRoute('posts_index');
+        return $token;
     }
 }

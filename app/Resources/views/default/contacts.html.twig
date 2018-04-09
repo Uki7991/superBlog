@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+
+        <div class="row pt-4">
+            <h2 class="text-verona text-center col-12">Контакты</h2>
+        </div>
+        <hr>
+
+        <div class="row justify-content-center mb-5">
+            {% if contact %}
+            <div class="col-6 text-center">
+                <h3 class="text-verona text-center col-12 mb-5">Наши контакты</h3>
+
+                <h4 class="my-3"><u>Телефоны:</u></h4>
+                <p class="font-weight-bold">{{ contact.phone }}</p>
+
+                <h4 class="my-3"><u>E-mail:</u></h4>
+                <p class="font-weight-bold">{{ contact.email }}</p>
+            </div>
+            {% endif %}
+            <div class="col-6">
+                <h3 class="text-verona text-center col-12 mb-5">Оставьте заявку</h3>
+                <form class="text-verona text-center">
+                    <div class="form-group">
+                        <label for="nameInput" class="font-weight-bold">Ваше имя:</label>
+                        <input type="text" class="form-control mx-auto col-12 col-lg-6 text-center" id="nameInput" aria-describedby="nameHelp" placeholder="">
+                        <small id="nameHelp" class="form-text text-muted">Мы не используем Ваши данные для передачи третьим лицам</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="telInput" class="font-weight-bold">Ваш номер телефона:</label>
+                        <input type="tel" class="form-control mx-auto col-12 col-lg-6 text-center" id="telInput" placeholder="+996 (700) 700 - 700">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Оставить заявку!</button>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}

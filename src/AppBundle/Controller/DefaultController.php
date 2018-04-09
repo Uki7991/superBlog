@@ -70,4 +70,14 @@ class DefaultController extends Controller
 
         return $this->json(array('location' => $filePath));
     }
+
+    /**
+     * @Route("/terms")
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function terms()
+    {
+        return $this->render(':default:terms.html.twig');
+    }
 }

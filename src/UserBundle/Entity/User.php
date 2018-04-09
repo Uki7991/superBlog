@@ -47,11 +47,18 @@ class User extends BaseUser
     protected $avatar;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="g_id", type="string", length=255, nullable=true, unique=true)
+     * @ORM\Column(name="google_id", type="string", length=255, nullable=true, unique=true)
      */
-    protected $gId;
+    protected $googleId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true, unique=true)
+     */
+    protected $facebookId;
 
     /**
      * Get id.
@@ -173,26 +180,50 @@ class User extends BaseUser
     }
 
     /**
-     * Set gId.
+     * Set googleId.
      *
-     * @param int|null $gId
+     * @param string|null $googleId
      *
      * @return User
      */
-    public function setGId($gId = null)
+    public function setGoogleId($googleId = null)
     {
-        $this->gId = $gId;
+        $this->googleId = $googleId;
 
         return $this;
     }
 
     /**
-     * Get gId.
+     * Get googleId.
      *
-     * @return int|null
+     * @return string|null
      */
-    public function getGId()
+    public function getGoogleId()
     {
-        return $this->gId;
+        return $this->googleId;
+    }
+
+    /**
+     * Set facebookId.
+     *
+     * @param string|null $facebookId
+     *
+     * @return User
+     */
+    public function setFacebookId($facebookId = null)
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    /**
+     * Get facebookId.
+     *
+     * @return string|null
+     */
+    public function getFacebookId()
+    {
+        return $this->facebookId;
     }
 }
