@@ -1,11 +1,12 @@
 <header class="p-5 header">
 
-    <div class="row justify-content-end mb-3">
-        {{ include(':default:search.html.twig') }}
-    </div>
+
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <div class="row justify-content-end">
-            <a class="text-muted" href="{{ path('fos_user_profile_show_over') }}">My profile</a>
+            <a class="text-muted" href="{{ path('fos_user_profile_show_over') }}">
+                <img src="/uploads/users/{{ app.user.avatar }}" class="rounded-circle" width="50" height="50" alt="">
+                {{ app.user.username }}
+            </a>
         </div>
     {% else %}
         <div class="row justify-content-end">
@@ -15,9 +16,15 @@
             <a class="text-muted ml-3" href="{{ path('fos_user_registration_register') }}">Register</a>
         </div>
     {% endif %}
+    <div class="row justify-content-end my-3">
+        {{ include(':default:search.html.twig') }}
+    </div>
     <div class="row justify-content-center">
         <div class="col-auto">
             <a href="{{ path('posts_index') }}" class="text-light h6">Home</a>
+        </div>
+        <div class="col-auto">
+            <a href="{{ path('contacts') }}" class="text-light h6">Contacts</a>
         </div>
     </div>
     <div class="row justify-content-center pt-5">

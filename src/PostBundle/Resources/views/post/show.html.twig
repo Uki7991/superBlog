@@ -11,8 +11,15 @@
     <link rel="stylesheet" href="{{ asset('css/fancybox-master/dist/jquery.fancybox.min.css') }}">
 {% endblock %}
 
-{% block body %}
+{% block like %}
+    <div class="sticky-top bg-light" id="like-post">
+        <div class="row justify-content-center p-3">
+            <i class="fas fa-2x fa-heart text-danger"></i>
+        </div>
+    </div>
+{% endblock %}
 
+{% block body %}
     <div class="post col-12 mb-3">
         <div class="card border-0">
             <div class="card-body">

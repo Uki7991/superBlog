@@ -296,3 +296,14 @@ body {
 .thumbnail-slider .owl-item.active.center{
     border: 3px solid #333333;
 }
+
+.sticky-top + main{
+    margin-top: -114px;
+}
+
+#like-post {
+    width: 100px;
+    left: 200px;
+    top: 100px;
+    margin-top: 50px;
+}
