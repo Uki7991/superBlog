@@ -263,12 +263,11 @@
                 url: '/like/comment/' + $(e.target).data('comment-id'),
                 type: 'POST',
                 success: function (data) {
-                    console.log(data);
                     if (data.like_flag) {
-                        $(e.target).next().html(parseInt($('#badge-like-comment').html()) + 1)
+                        $(e.target).next().html(parseInt($(e.target).next().html()) + 1)
                     }
                     else {
-                        $(e.target).next().html(parseInt($('#badge-like-comment').html()) - 1)
+                        $(e.target).next().html(parseInt($(e.target).next().html()) - 1)
                     }
                 },
                 error: function (e) {
