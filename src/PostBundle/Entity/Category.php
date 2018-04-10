@@ -45,11 +45,19 @@ class Category
     private $slugName;
 
     /**
-     * @var int
+    * @var int
+    *
+    * @ORM\ManyToOne(targetEntity="PostBundle\Entity\Category", inversedBy="children", cascade={"remove"})
+    * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
+    */
+    private $parent;
+
+    /**
+     * @var array
      *
-     * @ORM\Column(name="parent_id", type="integer", nullable=true)
+     * @ORM\OneToMany(targetEntity="PostBundle\Entity\Category", mappedBy="parent", cascade={"remove"})
      */
-    private $parentId;
+    private $children;
 
     /**
      *
@@ -61,6 +69,7 @@ class Category
     {
         $this->setCreatedAt(new \DateTime());
         $this->posts = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     /**
@@ -207,5 +216,66 @@ class Category
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Set parent.
+     *
+     * @param \PostBundle\Entity\Category|null $parent
+     *
+     * @return Category
+     */
+    public function setParent(\PostBundle\Entity\Category $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent.
+     *
+     * @return int
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Add child.
+     *
+     * @param \PostBundle\Entity\Category $child
+     *
+     * @return Category
+     */
+    public function addChild(\PostBundle\Entity\Category $child)
+    {
+        $child->setParent($this);
+        $this->children[] = $child;
+
+        return $this;
+    }
+
+    /**
+     * Remove child.
+     *
+     * @param \PostBundle\Entity\Category $child
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeChild(\PostBundle\Entity\Category $child)
+    {
+        return $this->children->removeElement($child);
+    }
+
+    /**
+     * Get children.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 }

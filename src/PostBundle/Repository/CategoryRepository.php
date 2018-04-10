@@ -22,4 +22,21 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
+
+    public function getParentCats() {
+        $qb = $this->createQueryBuilder('c')
+            ->where('c.parent is null');
+
+        return $qb;
+    }
+
+    public function getChildren($query) {
+        $qb = $this->createQueryBuilder('c')
+            ->where('c.parent = :parent')
+            ->setParameter('parent', $query);
+
+        $query = $qb->getQuery();
+
+        return $query->getResult(AbstractQuery::HYDRATE_ARRAY);
+    }
 }

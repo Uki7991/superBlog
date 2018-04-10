@@ -2,6 +2,9 @@
 
 namespace PostBundle\Form;
 
+use PostBundle\Entity\Category;
+use PostBundle\Repository\CategoryRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,7 +19,9 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', TextType::class, [
+                'required' => true,
+            ])
             ->add('image', null, [
                 'data_class' => null
             ])
@@ -27,7 +32,13 @@ class PostType extends AbstractType
                 'required' => false,
             ])
             ->add('tags')
-            ->add('category');
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'placeholder' => 'Select a category...',
+                'query_builder' => function(CategoryRepository $repository) {
+                    return $repository->getParentCats();
+                }
+            ]);
     }/**
      * {@inheritdoc}
      */

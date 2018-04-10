@@ -18,12 +18,13 @@
             {{ form_start(form, {'attr': {'class': 'col-12'}}) }}
             <div class="form-group">
                 {{ form_label(form.title) }}
-                {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(form.title, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
             </div>
             <div class="form-group">
                 {{ form_label(form.category) }}
-                {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(form.category, {'attr': {'class': 'form-control new_select'}, 'id': 'select_category_post'}) }}
             </div>
+            <div id="categories-ajax"></div>
             <div class="form-group">
                 {{ form_label(form.image) }}
                 {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
@@ -63,7 +64,8 @@
     <script>tinymce.init({
             selector:'#blockquote'
     });</script>
-    <script>tinymce.init({
+    <script>
+        tinymce.init({
             selector:'#content',
             height: 500,
             plugins: [
@@ -117,7 +119,8 @@
 
                 input.click();
             }
-    });</script>
+        });
+    </script>
 
     <script src="{{ asset('bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
     <script>
@@ -126,5 +129,47 @@
         });
     </script>
 
+    <script type="application/javascript">
+        function ajaxSelect(el) {
+            $.ajax({
+                url: '/category/children/' + el.val(),
+                type: 'GET',
+                success: function (data) {
+                    if (data.status === 'success') {
+                        $('#categories-ajax').append(
+                            '<select class="new_select form-control">' +
+
+                            '</select>'
+                        );
+
+                        $('.new_select:last').append(
+                            '<option selected>' +
+                                'Choose one!' +
+                            '</option>'
+                        );
+
+                        $.each(data.children, function (key, val) {
+                            $('.new_select:last').append(
+                                '<option value="' + val.id + '">' +
+                                val.name +
+                                '</option>'
+                            );
+                        });
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+
+        $('#select_category_post').change(function () {
+            console.log('success');
+            $('#categories-ajax').empty();
+            console.log($('#select_category_post').val());
+            ajaxSelect($('.new_select'));
+        });
+
+    </script>
 
 {% endblock %}

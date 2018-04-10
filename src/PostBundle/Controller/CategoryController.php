@@ -81,4 +81,34 @@ class CategoryController extends Controller
             'pagination' => $pagination
         ];
     }
+
+    /**
+     * @Route("/category/children/{id}")
+     *
+     * @Method("GET")
+     *
+     * @param Category $category
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function getChildren(Category $category)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $catRepo = $em->getRepository('PostBundle:Category');
+
+        $children = $catRepo->getChildren($category->getId());
+
+        if (!$children) {
+            $status = 'noChildren';
+            return $this->json([
+                'status' => $status,
+            ]);
+        }
+
+        $status = 'success';
+
+        return $this->json([
+            'status' => $status,
+            'children' => $children,
+        ]);
+    }
 }

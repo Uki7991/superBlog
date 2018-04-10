@@ -118,6 +118,7 @@ easy_admin:
             form:
                 fields:
                     - name
+                    - parent
         Tag:
             class: PostBundle\Entity\Tag
 #            list:
