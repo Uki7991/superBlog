@@ -33,6 +33,13 @@ class User extends BaseUser
     protected $posts;
 
     /**
+     * @ORM\ManyToMany(targetEntity="PostBundle\Entity\Post", mappedBy="usersLikes")
+     *
+     * @var array
+     */
+    protected $postsLikes;
+
+    /**
      * @var \PostBundle\Entity\Comment
      *
      * @ORM\OneToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="user")
@@ -74,6 +81,7 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->posts = new ArrayCollection();
+        $this->postsLikes = new ArrayCollection();
     }
 
     /**
@@ -225,5 +233,62 @@ class User extends BaseUser
     public function getFacebookId()
     {
         return $this->facebookId;
+    }
+
+
+    /**
+     * Add postsLike.
+     *
+     * @param \PostBundle\Entity\Post $postsLike
+     *
+     * @return void
+     */
+    public function addPostsLike(\PostBundle\Entity\Post $postsLike)
+    {
+        if ($this->postsLikes->contains($postsLike))
+        {
+            return;
+        }
+
+        $this->postsLikes->add($postsLike);
+        $postsLike->addUsersLike($this);
+    }
+
+    /**
+     * Remove postsLike.
+     *
+     * @param \PostBundle\Entity\Post $postsLike
+     *
+     * @return void TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removePostsLike(\PostBundle\Entity\Post $postsLike)
+    {
+        if (!$this->postsLikes->contains($postsLike))
+        {
+            return;
+        }
+
+        $this->postsLikes->removeElement($postsLike);
+        $postsLike->removeUsersLike($this);
+    }
+
+    /**
+     * Get postsLikes.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPostsLikes()
+    {
+        return $this->postsLikes;
+    }
+
+    public function getUserPostsLikesIds()
+    {
+        $likes = [];
+        foreach ($this->getPostsLikes() as $postsLike) {
+            $likes[] = $postsLike->getId();
+        }
+
+        return $likes;
     }
 }

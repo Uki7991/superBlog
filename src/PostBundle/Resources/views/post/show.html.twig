@@ -12,9 +12,16 @@
 {% endblock %}
 
 {% block like %}
-    <div class="sticky-top bg-light" id="like-post">
+    <div class="sticky-top" id="like-post">
         <div class="row justify-content-center p-3">
-            <i class="fas fa-2x fa-heart text-danger"></i>
+            {% if app.user %}
+                <i class="fas fa-2x fa-heart {% if post.id in app.user.userPostsLikesIds %} text-danger {% else %} text-secondary {% endif %} mt-1" id="like-post-heart"></i>
+                <span class="badge badge-pill badge-dark" id="badge-like-post">{{ post.usersLikes.count }}</span>
+            {% else %}
+                <a href="{{ path('fos_user_registration_register') }}">
+                    <i class="fas fa-2x fa-heart text-danger mt-1"></i>
+                </a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
@@ -220,5 +227,30 @@
         });
     </script>
     <script src="{{ asset('css/fancybox-master/dist/jquery.fancybox.min.js') }}"></script>
+
+    <script>
+        $('#like-post-heart').click(function (e) {
+            e.preventDefault(e);
+            $('#like-post-heart').toggleClass('text-secondary');
+            $('#like-post-heart').toggleClass('text-danger');
+
+            $.ajax({
+                url: '/like/post/' + {{ post.id }},
+                type: 'POST',
+                success: function (data) {
+                    console.log(data);
+                    if (data.like_flag) {
+                        $('#badge-like-post').html(parseInt($('#badge-like-post').html()) + 1)
+                    }
+                    else {
+                        $('#badge-like-post').html(parseInt($('#badge-like-post').html()) - 1)
+                    }
+                },
+                error: function (e) {
+                    alert('error')
+                }
+            });
+        });
+    </script>
 {% endblock %}
 

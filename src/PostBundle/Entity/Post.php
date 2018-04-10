@@ -73,6 +73,18 @@ class Post
     private $user;
 
     /**
+     * @var array
+     *
+     * @ORM\ManyToMany(targetEntity="UserBundle\Entity\User", inversedBy="postsLikes")
+     * @ORM\JoinTable(
+     *     name="posts_users_like",
+     *     joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
+     */
+    private $usersLikes;
+
+    /**
      *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="posts")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
@@ -143,6 +155,7 @@ class Post
         $this->comments = new ArrayCollection();
         $this->ips = new ArrayCollection();
         $this->slides = new ArrayCollection();
+        $this->usersLikes = new ArrayCollection();
     }
 
     /**
@@ -556,5 +569,51 @@ class Post
     public function getSlides()
     {
         return $this->slides;
+    }
+
+
+    /**
+     * Add usersLike.
+     *
+     * @param \UserBundle\Entity\User $usersLike
+     *
+     * @return void
+     */
+    public function addUsersLike(\UserBundle\Entity\User $usersLike)
+    {
+        if ($this->usersLikes->contains($usersLike))
+        {
+            return;
+        }
+
+        $this->usersLikes->add($usersLike);
+        $usersLike->addPostsLike($this);
+    }
+
+    /**
+     * Remove usersLike.
+     *
+     * @param \UserBundle\Entity\User $usersLike
+     *
+     * @return void TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeUsersLike(\UserBundle\Entity\User $usersLike)
+    {
+        if (!$this->usersLikes->contains($usersLike)){
+            return;
+        }
+
+        $this->usersLikes->removeElement($usersLike);
+        $usersLike->removePostsLike($this);
+    }
+
+    /**
+     * Get usersLikes.
+     *
+     * @return array
+     */
+    public function getUsersLikes()
+    {
+        return $this->usersLikes;
     }
 }

@@ -298,7 +298,7 @@ body {
 }
 
 .sticky-top + main{
-    margin-top: -114px;
+    margin-top: -117px;
 }
 
 #like-post {
@@ -306,4 +306,13 @@ body {
     left: 200px;
     top: 100px;
     margin-top: 50px;
+}
+
+#like-post-heart {
+    cursor: pointer;
+}
+
+#badge-like-post {
+    position: absolute;
+    top: 0px;
 }
