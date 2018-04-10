@@ -2,6 +2,7 @@
 
 namespace PostBundle\Controller;
 
+use PostBundle\Entity\Comment;
 use PostBundle\Entity\Post;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,12 +13,13 @@ class LikeController extends Controller
 {
     /**
      * @Route("/like/post/{id}")
+     *
      * @Method("POST")
      *
      * @param Post $post
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function like(Post $post)
+    public function likePost(Post $post)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -31,6 +33,36 @@ class LikeController extends Controller
         }
 
         $em->persist($post);
+        $em->flush();
+
+        return $this->json([
+            'status' => 'success',
+            'like_flag' => $like_flag,
+        ]);
+    }
+
+    /**
+     * @Route("/like/comment/{id}")
+     *
+     * @Method("POST")
+     *
+     * @param Comment $comment
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function likeComment(Comment $comment)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        if (!$comment->getUsersLikes()->contains($this->getUser())) {
+            $comment->addUsersLike($this->getUser());
+            $like_flag = true;
+        }
+        else {
+            $comment->removeUsersLike($this->getUser());
+            $like_flag = false;
+        }
+
+        $em->persist($comment);
         $em->flush();
 
         return $this->json([

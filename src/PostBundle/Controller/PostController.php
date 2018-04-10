@@ -167,12 +167,17 @@ class PostController extends Controller
             'parent' => null
         ]);
 
+        $csrfToken = $this->get('security.csrf.token_manager')
+            ? $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue()
+            : null;
+
         return $this->render('@Post/post/show.html.twig', array(
             'post' => $post,
             'categories' => $categories,
             'tags' => $tags,
             'bigTag' => $bigTag['counts'],
             'comments' => $comms,
+            'csrf_token' => $csrfToken,
         ));
     }
 

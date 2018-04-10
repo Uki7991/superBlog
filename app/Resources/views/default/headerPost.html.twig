@@ -26,4 +26,8 @@
 
     </div>
 </div>
+{% if app.user %}
 
+{% else %}
+    {{ include(':default:modalLogIn.html.twig') }}
+{% endif %}

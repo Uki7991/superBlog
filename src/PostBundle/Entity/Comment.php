@@ -54,6 +54,18 @@ class Comment
     private $name;
 
     /**
+     * @ORM\ManyToMany(targetEntity="UserBundle\Entity\User", inversedBy="commentsLikes")
+     * @ORM\JoinTable(
+     *     name="comments_users_likes",
+     *     joinColumns={@ORM\JoinColumn(name="comment_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
+     *
+     * @var array
+     */
+    private $usersLikes;
+
+    /**
      * @var int
      *
      * @ORM\ManyToOne(targetEntity="PostBundle\Entity\Comment", inversedBy="children", cascade={"remove"})
@@ -78,6 +90,7 @@ class Comment
     {
         $this->setCreatedAt(new \DateTime());
         $this->children = new ArrayCollection();
+        $this->usersLikes = new ArrayCollection();
     }
 
     /**
@@ -270,5 +283,49 @@ class Comment
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Add usersLike.
+     *
+     * @param \UserBundle\Entity\User $usersLike
+     *
+     * @return void
+     */
+    public function addUsersLike(\UserBundle\Entity\User $usersLike)
+    {
+        if ($this->usersLikes->contains($usersLike)) {
+            return;
+        }
+
+        $this->usersLikes->add($usersLike);
+        $usersLike->addCommentsLike($this);
+    }
+
+    /**
+     * Remove usersLike.
+     *
+     * @param \UserBundle\Entity\User $usersLike
+     *
+     * @return void TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeUsersLike(\UserBundle\Entity\User $usersLike)
+    {
+        if (!$this->usersLikes->contains($usersLike)) {
+            return;
+        }
+
+        $this->usersLikes->removeElement($usersLike);
+        $usersLike->removeCommentsLike($this);
+    }
+
+    /**
+     * Get usersLikes.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsersLikes()
+    {
+        return $this->usersLikes;
     }
 }

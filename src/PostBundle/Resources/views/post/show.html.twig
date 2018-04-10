@@ -18,9 +18,10 @@
                 <i class="fas fa-2x fa-heart {% if post.id in app.user.userPostsLikesIds %} text-danger {% else %} text-secondary {% endif %} mt-1" id="like-post-heart"></i>
                 <span class="badge badge-pill badge-dark" id="badge-like-post">{{ post.usersLikes.count }}</span>
             {% else %}
-                <a href="{{ path('fos_user_registration_register') }}">
+                <a href="" data-toggle="modal" data-target="#exampleModal">
                     <i class="fas fa-2x fa-heart text-danger mt-1"></i>
                 </a>
+                <span class="badge badge-pill badge-dark" id="badge-like-post">{{ post.usersLikes.count }}</span>
             {% endif %}
         </div>
     </div>
@@ -244,6 +245,30 @@
                     }
                     else {
                         $('#badge-like-post').html(parseInt($('#badge-like-post').html()) - 1)
+                    }
+                },
+                error: function (e) {
+                    alert('error')
+                }
+            });
+        });
+    </script>
+    <script>
+        $('.like-comment').click(function (e) {
+            e.preventDefault(e);
+            $(e.target).toggleClass('far');
+            $(e.target).toggleClass('fas');
+
+            $.ajax({
+                url: '/like/comment/' + $(e.target).data('comment-id'),
+                type: 'POST',
+                success: function (data) {
+                    console.log(data);
+                    if (data.like_flag) {
+                        $(e.target).next().html(parseInt($('#badge-like-comment').html()) + 1)
+                    }
+                    else {
+                        $(e.target).next().html(parseInt($('#badge-like-comment').html()) - 1)
                     }
                 },
                 error: function (e) {

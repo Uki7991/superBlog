@@ -40,6 +40,13 @@ class User extends BaseUser
     protected $postsLikes;
 
     /**
+     * @ORM\ManyToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="usersLikes")
+     *
+     * @var array
+     */
+    protected $commentsLikes;
+
+    /**
      * @var \PostBundle\Entity\Comment
      *
      * @ORM\OneToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="user")
@@ -82,6 +89,7 @@ class User extends BaseUser
         parent::__construct();
         $this->posts = new ArrayCollection();
         $this->postsLikes = new ArrayCollection();
+        $this->commentsLikes = new ArrayCollection();
     }
 
     /**
@@ -290,5 +298,49 @@ class User extends BaseUser
         }
 
         return $likes;
+    }
+
+    /**
+     * Add commentsLike.
+     *
+     * @param \PostBundle\Entity\Comment $commentsLike
+     *
+     * @return void
+     */
+    public function addCommentsLike(\PostBundle\Entity\Comment $commentsLike)
+    {
+        if ($this->commentsLikes->contains($commentsLike)) {
+            return;
+        }
+
+        $this->commentsLikes->add($commentsLike);
+        $commentsLike->addUsersLike($this);
+    }
+
+    /**
+     * Remove commentsLike.
+     *
+     * @param \PostBundle\Entity\Comment $commentsLike
+     *
+     * @return void TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeCommentsLike(\PostBundle\Entity\Comment $commentsLike)
+    {
+        if (!$this->commentsLikes->contains($commentsLike)) {
+            return;
+        }
+
+        $this->commentsLikes->removeElement($commentsLike);
+        $commentsLike->removeUsersLike($this);
+    }
+
+    /**
+     * Get commentsLikes.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentsLikes()
+    {
+        return $this->commentsLikes;
     }
 }

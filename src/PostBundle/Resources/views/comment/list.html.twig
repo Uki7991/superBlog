@@ -19,6 +19,12 @@
                                     <span>{{ comment.comment }}</span>
                                     <br>
                                     <a href="" class="text-right small reply" data-comment-id="{{ comment.id }}"><i class="ion-reply"></i> Reply</a>
+                                    {% if app.user %}
+                                    <i class="{% if app.user in comment.usersLikes %} fas {% else %} far {% endif %} text-primary fa-thumbs-up ml-3 like-comment" id="like-comment" data-comment-id="{{ comment.id }}"></i>
+                                    {% else %}
+                                        <a href="" data-toggle="modal" data-target="#exampleModal"><i class="far text-primary fa-thumbs-up ml-3"></i></a>
+                                    {% endif %}
+                                    <span class="badge badge-primary" id="badge-like-comment">{{ comment.usersLikes.count }}</span>
                                 </p>
                             </div>
                         </div>
