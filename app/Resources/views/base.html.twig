@@ -202,12 +202,16 @@
         });
     }
 </script>
+
+<script>
+    $('#accordion').collapse({
+        toggle: false
+    })
+</script>
+
 <script async="async" defer="defer" src="https://apis.google.com/js/api.js"
         onload="this.onload=function(){};handleClientLoad();"
         onreadystatechange="if (this.readyState === 'complete') this.onload();" type="application/javascript"></script>
-
-
-
 
 
 {% block javascripts %}{% endblock %}

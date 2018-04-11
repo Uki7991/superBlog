@@ -30,6 +30,10 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
         return $qb;
     }
 
+    public function getParentCatsR() {
+        return $this->getParentCats()->getQuery()->getResult();
+    }
+
     public function getChildren($query) {
         $qb = $this->createQueryBuilder('c')
             ->where('c.parent = :parent')

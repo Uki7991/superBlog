@@ -61,7 +61,7 @@ class CategoryController extends Controller
         $categoryRepo = $em->getRepository('PostBundle:Category');
         $tagRepo = $em->getRepository('PostBundle:Tag');
 
-        $categories = $categoryRepo->findAll();
+        $categories = $categoryRepo->getParentCatsR();
         $tags = $tagRepo->findAll();
         $bigTag = $tagRepo->findBigTag();
 

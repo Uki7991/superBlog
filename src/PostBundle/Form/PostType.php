@@ -37,7 +37,7 @@ class PostType extends AbstractType
                 'placeholder' => 'Select a category...',
                 'query_builder' => function(CategoryRepository $repository) {
                     return $repository->getParentCats();
-                }
+                },
             ]);
     }/**
      * {@inheritdoc}

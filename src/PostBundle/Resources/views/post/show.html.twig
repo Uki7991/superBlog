@@ -123,14 +123,17 @@
                 dataType: 'html',
                 success: function ($data) {
                     var replyNew;
-
+                    var likeCommentNew;
                     if (reply) {
                         replyNew = reply.parents('div.parent' + reply.data('comment-id')).append($data).find('a.reply');
+                        likeCommentNew = replyNew.next();
                     } else {
                         replyNew = $('#comments2').append($data).find('a.reply');
+                        likeCommentNew = replyNew.next();
                     }
                     $('#count-of-comments').html(parseInt($('#count-of-comments').html()) + 1);
                     replyComment(replyNew);
+                    likeComment(likeCommentNew);
                 },
                 error: function ($err) {
                 }
@@ -254,27 +257,35 @@
         });
     </script>
     <script>
-        $('.like-comment').click(function (e) {
-            e.preventDefault(e);
-            $(e.target).toggleClass('far');
-            $(e.target).toggleClass('fas');
 
-            $.ajax({
-                url: '/like/comment/' + $(e.target).data('comment-id'),
-                type: 'POST',
-                success: function (data) {
-                    if (data.like_flag) {
-                        $(e.target).next().html(parseInt($(e.target).next().html()) + 1)
+        likeButton = $('.like-comment');
+
+        var likeComment = function (elm) {
+            $(elm).click(function (e) {
+                e.preventDefault(e);
+                $(e.target).toggleClass('far');
+                $(e.target).toggleClass('fas');
+
+                $.ajax({
+                    url: '/like/comment/' + $(e.target).data('comment-id'),
+                    type: 'POST',
+                    success: function (data) {
+                        if (data.like_flag) {
+                            $(e.target).next().html(parseInt($(e.target).next().html()) + 1)
+                        }
+                        else {
+                            $(e.target).next().html(parseInt($(e.target).next().html()) - 1)
+                        }
+                    },
+                    error: function (e) {
+                        alert('error')
                     }
-                    else {
-                        $(e.target).next().html(parseInt($(e.target).next().html()) - 1)
-                    }
-                },
-                error: function (e) {
-                    alert('error')
-                }
+                });
             });
-        });
+        };
+
+        likeComment(likeButton);
+
     </script>
 {% endblock %}
 

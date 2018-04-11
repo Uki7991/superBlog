@@ -21,10 +21,17 @@
                 {{ form_widget(form.title, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
             </div>
             <div class="form-group">
-                {{ form_label(form.category) }}
-                {{ form_widget(form.category, {'attr': {'class': 'form-control new_select'}, 'id': 'select_category_post'}) }}
+                <label for="select_category_post">Category</label>
+                <select name="category" id="select_category_post" class="new_select form-control">
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
-            <div id="categories-ajax"></div>
+            <div class="d-none">
+                {{ form_label(form.category) }}
+                {{ form_widget(form.category) }}
+            </div>
             <div class="form-group">
                 {{ form_label(form.image) }}
                 {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
@@ -136,17 +143,29 @@
                 type: 'GET',
                 success: function (data) {
                     if (data.status === 'success') {
-                        $('#categories-ajax').append(
+                        $(el).parent().nextAll('.new-form-group').remove();
+
+                        $(el).attr('name', 'category');
+
+                        $('.new_select:last').parent().after(
+                            '<div class="new-form-group form-group">' +
+
+                            '</div>'
+                        );
+
+                        $('.new-form-group:last').append(
                             '<select class="new_select form-control">' +
 
                             '</select>'
                         );
 
+                        $('.new_select').removeAttr('name');
+
                         $('.new_select:last').append(
                             '<option selected>' +
                                 'Choose one!' +
                             '</option>'
-                        );
+                        ).attr('name', 'category');
 
                         $.each(data.children, function (key, val) {
                             $('.new_select:last').append(
@@ -155,20 +174,30 @@
                                 '</option>'
                             );
                         });
+                        onChangeSelect($('.new_select:last'));
+
+                    }
+                    if (data.status === 'noChildren') {
+                        $(el).parent().nextAll('.new-form-group').remove();
+
+                        $(el).attr('name', 'category');
                     }
                 },
                 error: function (e) {
-                    console.log(e);
+                    $(el).parent().nextAll('.new-form-group').remove();
+
+                    $(el).attr('name', 'category');
                 }
             });
         }
 
-        $('#select_category_post').change(function () {
-            console.log('success');
-            $('#categories-ajax').empty();
-            console.log($('#select_category_post').val());
-            ajaxSelect($('.new_select'));
-        });
+        var onChangeSelect = function (el) {
+            $(el).change(function () {
+                ajaxSelect($(el));
+            });
+        };
+
+        onChangeSelect($('#select_category_post'));
 
     </script>
 

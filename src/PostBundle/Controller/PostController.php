@@ -42,7 +42,7 @@ class PostController extends Controller
         $pagination = $paginator->paginate(
             $posts, /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
-            8/*limit per page*/
+            4/*limit per page*/
         );
 
         $csrfToken = $this->get('security.csrf.token_manager')
@@ -51,7 +51,7 @@ class PostController extends Controller
 
         return $this->render('PostBundle:post:index.html.twig', array(
             'posts' => $posts,
-            'categories' => $catRepo->findAll(),
+            'categories' => $catRepo->getParentCatsR(),
             'tags' => $tagRepo->findAll(),
             'bigTag' => $bigTag['counts'],
             'pagination' => $pagination,
@@ -80,7 +80,7 @@ class PostController extends Controller
         $catRepo = $em->getRepository('PostBundle:Category');
 
         $tags = $tagRepo->findAll();
-        $categories = $catRepo->findAll();
+        $categories = $catRepo->getParentCatsR();
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -115,6 +115,7 @@ class PostController extends Controller
                 }
             }
 
+            $post->setCategory($catRepo->find($request->request->get('category')));
             $post->setUser($this->getUser());
             $em->persist($post);
             $em->flush();
@@ -160,7 +161,7 @@ class PostController extends Controller
         }
 
         $tags = $tagRepo->findAll();
-        $categories = $catRepo->findAll();
+        $categories = $catRepo->getParentCatsR();
         $bigTag = $tagRepo->findBigTag();
         $comms = $commRepo->findBy([
             'post' => $post,
