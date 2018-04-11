@@ -12,8 +12,8 @@
                                 <div class="card-header" id="category{{ child.id }}">
                                     <h5 class="mb-0">
                                         <span><a href="{{ path('categories_show', {'id': child.id}) }}">{{ child.name }}</a></span>
-                                        <a class="btn btn-link" type="button" data-toggle="collapse" href="#{{ child.id }}" aria-expanded="false" aria-controls="{{ child.id }}">
-                                            <i class="fas fa-times"></i>
+                                        <a class="" data-toggle="collapse" href="#{{ child.id }}" aria-expanded="false" aria-controls="{{ child.id }}">
+                                            <i class="fas small fa-plus"></i>
                                         </a>
                                     </h5>
                                 </div>
@@ -32,8 +32,8 @@
                         <div class="card-header" id="category{{ category.id }}">
                             <h5 class="mb-0">
                                 <span><a href="{{ path('categories_show', {'id': category.id}) }}">{{ category.name }}</a></span>
-                                <a class="btn btn-link" type="button" data-toggle="collapse" href="#{{ category.id }}" aria-expanded="false" aria-controls="{{ category.id }}">
-                                    <i class="fas fa-times"></i>
+                                <a class="" data-toggle="collapse" href="#{{ category.id }}" aria-expanded="false" aria-controls="{{ category.id }}">
+                                    <i class="fas small fa-plus"></i>
                                 </a>
                             </h5>
                         </div>

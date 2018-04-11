@@ -54,7 +54,7 @@ class User extends BaseUser
     protected $comments;
 
     /**
-     * @ORM\Column(name="avatar", type="string", length=255, nullable=true)
+     * @ORM\Column(name="avatar", type="string", length=255, options={"default" = "default_avatar.png"})
      * @Assert\Image()
      * @Assert\File()
      */
@@ -90,6 +90,7 @@ class User extends BaseUser
         $this->posts = new ArrayCollection();
         $this->postsLikes = new ArrayCollection();
         $this->commentsLikes = new ArrayCollection();
+        $this->setAvatar('default_avatar.png');
     }
 
     /**
@@ -99,7 +100,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function setAvatar($avatar)
+    public function setAvatar($avatar = 'default_avatar.png')
     {
         $this->avatar = $avatar;
 

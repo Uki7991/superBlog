@@ -18,7 +18,7 @@ class ProposalController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request, \Swift_Mailer $mailer)
     {
         $message = [
             'status' => 'error',
@@ -38,7 +38,21 @@ class ProposalController extends Controller
         $em->persist($proposal);
         $em->flush();
 
+        $messageEmail = (new \Swift_Message('Hello Email'))
+            ->setFrom('support@superblog.test')
+            ->setTo('tilek.kubanov@gmail.com')
+            ->setBody(
+                $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                    ':Emails:registration.html.twig',
+                    array('name' => $proposal->getName())
+                ),
+                'text/html'
+            );
+
         $message['status'] = 'success';
+
+        $mailer->send($messageEmail);
 
         return $this->json($message);
     }
