@@ -35,4 +35,25 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
+
+    public function getOldPostsByDays($days)
+    {
+        $date = new \DateTime();
+        dump($date);
+        try {
+            $dateInterval = new \DateInterval("P{$days}D");
+        } catch (\Exception $e) {
+        }
+        $date->sub($dateInterval);
+        dump($date);
+
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.createdAt < :date')
+            ->setParameter('date', $date)
+            ->andWhere('p.isActive = true');
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
 }

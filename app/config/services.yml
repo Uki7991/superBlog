@@ -17,6 +17,11 @@ services:
         class: AppBundle\Service\ConfirmationMail
         arguments: ['@Swift_Mailer', '@twig']
 
+    post.archive:
+        class: PostBundle\Service\PostArchive
+        arguments: ['@doctrine.orm.entity_manager']
+        public: true
+
     post.doctrine_post_listener:
         class: PostBundle\EventListener\PostUploadListener
         arguments: ['@app.post_uploader', '@security.token_storage']

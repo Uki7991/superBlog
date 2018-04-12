@@ -136,6 +136,13 @@ class Post
     private $popularity;
 
     /**
+     * @ORM\Column(name="is_active", type="boolean", options={"default"=true})
+     *
+     * @var bool
+     */
+    private $isActive;
+
+    /**
      *
      * @ORM\Column(name="created_at", type="datetime")
      */
@@ -615,5 +622,29 @@ class Post
     public function getUsersLikes()
     {
         return $this->usersLikes;
+    }
+
+    /**
+     * Set isActive.
+     *
+     * @param bool $isActive
+     *
+     * @return Post
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive.
+     *
+     * @return bool
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
     }
 }
