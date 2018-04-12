@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Proposal;
+use AppBundle\Service\ConfirmationMail;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -16,9 +17,13 @@ class ProposalController extends Controller
      * @Method("POST")
      *
      * @param Request $request
+     * @param ConfirmationMail $confirmationMail
      * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
-    public function store(Request $request, \Swift_Mailer $mailer)
+    public function store(Request $request, ConfirmationMail $confirmationMail)
     {
         $message = [
             'status' => 'error',
@@ -38,21 +43,9 @@ class ProposalController extends Controller
         $em->persist($proposal);
         $em->flush();
 
-        $messageEmail = (new \Swift_Message('Hello Email'))
-            ->setFrom('support@superblog.test')
-            ->setTo('tilek.kubanov@gmail.com')
-            ->setBody(
-                $this->renderView(
-                // app/Resources/views/Emails/registration.html.twig
-                    ':Emails:registration.html.twig',
-                    array('name' => $proposal->getName())
-                ),
-                'text/html'
-            );
+        $confirmationMail->confirmAction($proposal, 'tilek.kubanov@gmail.com');
 
         $message['status'] = 'success';
-
-        $mailer->send($messageEmail);
 
         return $this->json($message);
     }
