@@ -1,14 +1,19 @@
-<header class="p-5 header">
+<header class="p-5 header" style="position:relative; overflow:hidden;">
+
+    <video autoplay muted loop style="position: absolute; top: 0; right: 0; left: 0; bottom: 0;">
+        <source src="/1.mp4" type="video/mp4">
+    </video>
+    <div id="overlay" style="position: absolute; top: 0; right: 0; left: 0; bottom: 0; background: rgba(0,0,0,0.3);"></div>
 
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        <div class="row justify-content-end">
-            <a class="text-muted" href="{{ path('fos_user_profile_show_over') }}">
+        <div class="row justify-content-end position-relative">
+            <a class="text-light" href="{{ path('fos_user_profile_show_over') }}">
                 <img src="/uploads/users/{{ app.user.avatar }}" class="rounded-circle" width="50" height="50" alt="">
                 {{ app.user.username }}
             </a>
         </div>
     {% else %}
-        <div class="row justify-content-end">
+        <div class="row justify-content-end position-relative">
             {#href="{{ path('fos_user_security_login') }}"#}
             {{ include(':default:modalLogIn.html.twig') }}
             <a class="text-muted" data-toggle="modal" data-target="#exampleModal" style="cursor: pointer;">Login</a>
@@ -26,11 +31,67 @@
             <a href="{{ path('contacts') }}" class="text-light h6">Contacts</a>
         </div>
     </div>
-    <div class="row justify-content-center pt-5">
+    <div class="row justify-content-center pt-5 position-relative">
         <h1 class="display-3 font-weight-bold" style="color: #ebeaea;">Super Blog</h1>
     </div>
-    <div class="row my-2 justify-content-center pb-5">
+    <div class="row my-2 justify-content-center pb-5 position-relative">
         <p class="h3"><span style="color: #ebeaea;">From</span> <a href="" class="text-info">Tilek Kubanov</a></p>
     </div>
 
 </header>
+
+<script>
+    var video = document.querySelector('video')
+        , container = document.querySelector('header');
+
+    var setVideoDimensions = function () {
+        // Video's intrinsic dimensions
+        var w = video.videoWidth
+            , h = video.videoHeight;
+
+        // Intrinsic Ratio
+        // Will be more than 1 if W > H and less if W < H
+        var videoRatio = (w / h).toFixed(2);
+
+        // Get the container's computed styles
+        //
+        // Also calculate the min dimensions required (this will be
+        // the container dimentions)
+        var containerStyles = window.getComputedStyle(container)
+            , minW = parseInt( containerStyles.getPropertyValue('width') )
+            , minH = parseInt( containerStyles.getPropertyValue('height') );
+
+        // What's the min:intrinsic dimensions
+        //
+        // The idea is to get which of the container dimension
+        // has a higher value when compared with the equivalents
+        // of the video. Imagine a 1200x700 container and
+        // 1000x500 video. Then in order to find the right balance
+        // and do minimum scaling, we have to find the dimension
+        // with higher ratio.
+        //
+        // Ex: 1200/1000 = 1.2 and 700/500 = 1.4 - So it is best to
+        // scale 500 to 700 and then calculate what should be the
+        // right width. If we scale 1000 to 1200 then the height
+        // will become 600 proportionately.
+        var widthRatio = minW / w
+            , heightRatio = minH / h;
+
+        // Whichever ratio is more, the scaling
+        // has to be done over that dimension
+        if (widthRatio > heightRatio) {
+            var newWidth = minW;
+            var newHeight = Math.ceil( newWidth / videoRatio );
+        }
+        else {
+            var newHeight = minH;
+            var newWidth = Math.ceil( newHeight * videoRatio );
+        }
+
+        video.style.width = newWidth + 'px';
+        video.style.height = newHeight + 'px';
+    };
+
+    video.addEventListener('loadedmetadata', setVideoDimensions, false);
+    window.addEventListener('resize', setVideoDimensions, false);
+</script>
