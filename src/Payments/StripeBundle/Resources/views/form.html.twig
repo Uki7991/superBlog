@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<form action="{{ path('stripe_create') }}" method="post">
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="{{ stripe['publishable_key'] }}"
+            data-description="Access for a year"
+            data-amount="5000"
+            data-locale="auto"></script>
+</form>
+
+{% endblock %}

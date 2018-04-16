@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use UserBundle\Entity\Ip;
 
 /**
@@ -30,6 +31,13 @@ class PostController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $session = new Session();
+        $countPost = $session->get('count_post');
+
+        if (!isset($countPost)) {
+            $session->set('count_post', 3);
+        }
+
         $em = $this->getDoctrine()->getManager();
         $postRepo = $em->getRepository('PostBundle:Post');
         $catRepo = $em->getRepository('PostBundle:Category');
@@ -141,6 +149,18 @@ class PostController extends Controller
      */
     public function showAction(Post $post, $slug)
     {
+        $session = new Session();
+        $countPost = $session->get('count_post');
+
+        if ($countPost === 0) {
+            $session;
+            return $this->redirect('/stripe');
+        }
+        if ($countPost != 0) {
+            $countPost--;
+            $session->set('count_post', $countPost);
+        }
+
         $em = $this->getDoctrine()->getManager();
         $catRepo = $em->getRepository('PostBundle:Category');
         $tagRepo = $em->getRepository('PostBundle:Tag');

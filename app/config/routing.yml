@@ -1,3 +1,15 @@
+plan:
+    resource: "@PlanBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+stripe:
+    resource: "@StripeBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+
+
 #admin:
 #    resource: "@AdminBundle/Controller/"
 #    type:     annotation
