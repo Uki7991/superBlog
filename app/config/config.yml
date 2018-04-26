@@ -8,6 +8,8 @@ imports:
     - { resource: "@AdminBundle/Resources/config/services.yml" }
     - { resource: "@StripeBundle/Resources/config/services.yml" }
     - { resource: "@PlanBundle/Resources/config/services.yml" }
+    - { resource: "@PaymentBundle/Resources/config/services.yml" }
+    - { resource: "@PaypalBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -17,6 +19,10 @@ parameters:
     users_directory: '%kernel.root_dir%/../web/uploads/users'
     web_dir: '%kernel.project_dir%/web'
     posts_img_dir: '/uploads/images/postsimage/'
+    payment.stripe.secretkey: 'sk_test_hiOrp6IhITvHJDFlfmWqMBy0'
+    payment.stripe.publishablekey: 'pk_test_AAdi3Gu0N2JmXHz39Lww0buh'
+    payment.paypal.clientId: 'ARxAYtLbjiDhKsQqgKchBzpJn6SaJjZSkYicQy5DAXc8dXAPCpRt8IWcEIJiyZK8R8KitGphk2Q5D_Y0'
+    payment.paypal.clientSecret: 'EERmVaBChv057uua6kHa3DcPDstBn1TA5vPkKU8wa2qVVhlooIapuB7DgU5RK5oO62WKtYrr-m5GXYzp'
 
 framework:
     #esi: ~
@@ -28,7 +34,7 @@ framework:
     form: ~
     csrf_protection: ~
     validation: { enable_annotations: true }
-    #serializer: { enable_annotations: true }
+    serializer: { enable_annotations: true }
     default_locale: '%locale%'
     trusted_hosts: ~
     session:

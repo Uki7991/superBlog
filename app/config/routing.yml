@@ -1,3 +1,35 @@
+
+#admin:
+#    resource: "@AdminBundle/Controller/"
+#    type:     annotation
+#    prefix:   /
+
+app:
+    resource: '@PostBundle/Controller/'
+    type: annotation
+    prefix: /
+
+paypal:
+    resource: "@PaypalBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+
+app_api:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+    prefix: /
+
+user:
+    resource: '@UserBundle/Controller/'
+    type: annotation
+    prefix: /
+
+payment:
+    resource: "@PaymentBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 plan:
     resource: "@PlanBundle/Controller/"
     type:     annotation
@@ -10,25 +42,6 @@ stripe:
 
 
 
-#admin:
-#    resource: "@AdminBundle/Controller/"
-#    type:     annotation
-#    prefix:   /
-
-app:
-    resource: '@PostBundle/Controller/'
-    type: annotation
-    prefix: /
-
-app_api:
-    resource: '@AppBundle/Controller/'
-    type: annotation
-    prefix: /
-
-user:
-    resource: '@UserBundle/Controller/'
-    type: annotation
-    prefix: /
 
 #
 #fos_user:

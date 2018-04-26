@@ -2,6 +2,7 @@
 
 namespace StripeBundle\Controller;
 
+use PaymentBundle\StripeCreator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Stripe\Charge;
 use Stripe\Customer;
@@ -9,6 +10,7 @@ use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use PaymentBundle\CreatorPayment;
 
 class IndexController extends Controller
 {
@@ -20,54 +22,24 @@ class IndexController extends Controller
      */
     public function index(Request $request)
     {
-        $stripe = array(
-            "secret_key"      => "sk_test_hiOrp6IhITvHJDFlfmWqMBy0",
-            "publishable_key" => "pk_test_AAdi3Gu0N2JmXHz39Lww0buh"
-        );
+        $stripe = new StripeCreator();
 
-        Stripe::setApiKey($stripe['secret_key']);
+        $secretKey = $this->getParameter('payment.stripe.secretkey');
+        $publishableKey = $this->getParameter('payment.stripe.publishablekey');
 
-        $token = $request->request->get('stripeToken');
-        $email = $request->request->get('stripeEmail');
+        $stripe->factoryMethod()->init($secretKey, $publishableKey);
 
-        $customer = Customer::create(array(
-            'email' => $email,
-            'source'  => $token
-        ));
+        $data = $request->request->all();
 
-        $product = \Stripe\Product::create([
-            'name' => 'My SaaS Platform',
-            'type' => 'service',
-        ]);
+        $customer = $stripe->factoryMethod()->getNewCustomer($data['stripeEmail'], $data['stripeToken']);
 
-        $plan = \Stripe\Plan::create([
-            'product' => $product->id,
-            'nickname' => $product->name,
-            'interval' => 'month',
-            'currency' => 'usd',
-            'amount' => 10000,
-        ]);
+        $product = $stripe->factoryMethod()->getNewProduct('BlogSubscription', 'service');
 
-        $subscription = \Stripe\Subscription::create([
-            'customer' => $customer->id,
-            'items' => [['plan' => $plan->id]],
-        ]);
+        $plan = $stripe->factoryMethod()->getNewPlan($product->id, $product->name, '5000');
 
-        $charge = Charge::create(array(
-            'customer' => $customer->id,
-            'amount'   => 5000,
-            'currency' => 'usd'
-        ));
+        $subscription = $stripe->factoryMethod()->getNewSubscription($customer, $plan);
 
-        $chargeNew = new \StripeBundle\Entity\Charge();
-        $chargeNew->setStripeId($charge->id);
-        $chargeNew->setAmount($charge->amount);
-        $chargeNew->setBalanceTransaction($charge->balance_transaction);
-        $chargeNew->setCustomer($charge->customer);
-        $chargeNew->setStatus($charge->status);
-        $chargeNew->setCreatedAt(date('Y-m-d H:i:s', $charge->created));
-
-        dd($chargeNew);
+        dd($subscription);
     }
 
     /**
@@ -78,12 +50,12 @@ class IndexController extends Controller
      */
     public function form()
     {
-        $stripe = array(
-            "secret_key"      => "sk_test_hiOrp6IhITvHJDFlfmWqMBy0",
-            "publishable_key" => "pk_test_AAdi3Gu0N2JmXHz39Lww0buh"
-        );
+        $stripe = new StripeCreator();
 
-        Stripe::setApiKey($stripe['secret_key']);
+        $secretKey = $this->getParameter('payment.stripe.secretkey');
+        $publishableKey = $this->getParameter('payment.stripe.publishablekey');
+
+        $stripe = $stripe->factoryMethod()->init($secretKey, $publishableKey);
 
         $csrfToken = $this->get('security.csrf.token_manager')
             ? $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue()

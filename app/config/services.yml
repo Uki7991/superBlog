@@ -22,6 +22,10 @@ services:
         arguments: ['@doctrine.orm.entity_manager']
         public: true
 
+    payment.stripe:
+        class: StripeBundle\Service\StripePayment
+        arguments: ['%payment.stripe.secretkey%', '%payment.stripe.publishablekey%']
+
     post.doctrine_post_listener:
         class: PostBundle\EventListener\PostUploadListener
         arguments: ['@app.post_uploader', '@security.token_storage']

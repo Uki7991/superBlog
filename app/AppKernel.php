@@ -26,6 +26,8 @@ class AppKernel extends Kernel
             new Gregwar\ImageBundle\GregwarImageBundle(),
             new StripeBundle\StripeBundle(),
             new PlanBundle\PlanBundle(),
+            new PaymentBundle\PaymentBundle(),
+            new PaypalBundle\PaypalBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

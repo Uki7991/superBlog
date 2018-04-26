@@ -9,7 +9,9 @@
             "PostBundle\\": "src/PostBundle",
             "AdminBundle\\": "src/AdminBundle",
             "PlanBundle\\": "src/PlanBundle",
-            "StripeBundle\\": "src/Payments/StripeBundle"
+            "StripeBundle\\": "src/Payments/StripeBundle",
+            "PaymentBundle\\": "src/PaymentBundle",
+            "PaypalBundle\\": "src/Payments/PaypalBundle"
         },
         "classmap": [
             "app/AppKernel.php",
@@ -35,6 +37,7 @@
         "gregwar/image-bundle": "dev-master",
         "incenteev/composer-parameter-handler": "^2.0",
         "knplabs/knp-paginator-bundle": "^2.7",
+        "paypal/rest-api-sdk-php": "*",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^5.0.0",
         "stripe/stripe-php": "^6.6",
