@@ -24,10 +24,9 @@ class AppKernel extends Kernel
             new AdminBundle\AdminBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Gregwar\ImageBundle\GregwarImageBundle(),
-            new StripeBundle\StripeBundle(),
             new PlanBundle\PlanBundle(),
             new PaymentBundle\PaymentBundle(),
-            new PaypalBundle\PaypalBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

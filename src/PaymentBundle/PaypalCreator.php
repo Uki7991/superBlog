@@ -9,7 +9,7 @@
 namespace PaymentBundle;
 
 
-use PaypalBundle\Service\PaypalPayment;
+use PaymentBundle\Service\PaypalPayment;
 
 class PaypalCreator implements CreatorPayment
 {

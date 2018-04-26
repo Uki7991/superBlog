@@ -9,12 +9,6 @@ app:
     type: annotation
     prefix: /
 
-paypal:
-    resource: "@PaypalBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-
 app_api:
     resource: '@AppBundle/Controller/'
     type: annotation
@@ -34,14 +28,6 @@ plan:
     resource: "@PlanBundle/Controller/"
     type:     annotation
     prefix:   /
-
-stripe:
-    resource: "@StripeBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-
-
 
 #
 #fos_user:

@@ -9,9 +9,7 @@
             "PostBundle\\": "src/PostBundle",
             "AdminBundle\\": "src/AdminBundle",
             "PlanBundle\\": "src/PlanBundle",
-            "StripeBundle\\": "src/Payments/StripeBundle",
-            "PaymentBundle\\": "src/PaymentBundle",
-            "PaypalBundle\\": "src/Payments/PaypalBundle"
+            "PaymentBundle\\": "src/PaymentBundle"
         },
         "classmap": [
             "app/AppKernel.php",
@@ -30,6 +28,7 @@
     "require": {
         "php": ">=5.5.9",
         "doctrine/doctrine-bundle": "^1.6",
+        "doctrine/doctrine-migrations-bundle": "^1.0",
         "doctrine/orm": "^2.5",
         "easycorp/easyadmin-bundle": "^1.17",
         "friendsofsymfony/user-bundle": "^2.1",

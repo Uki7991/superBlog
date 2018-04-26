@@ -9,7 +9,7 @@
 namespace PaymentBundle;
 
 
-use StripeBundle\Service\StripePayment;
+use PaymentBundle\Service\StripePayment;
 
 class StripeCreator implements CreatorPayment
 {

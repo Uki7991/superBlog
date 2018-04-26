@@ -129,13 +129,6 @@ class Post
     private $content;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="popularity", type="integer", nullable=true)
-     */
-    private $popularity;
-
-    /**
      * @ORM\Column(name="is_active", type="boolean", options={"default"=true})
      *
      * @var bool
