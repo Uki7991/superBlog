@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Books list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for book in books %}
+            <tr>
+                <td><a href="{{ path('book_show', { 'id': book.id }) }}">{{ book.title }}</a></td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('book_show', { 'id': book.id }) }}">Show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('book_edit', { 'id': book.id }) }}">Buy</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('book_new') }}">Create a new book</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -55,7 +55,7 @@ class PaypalController extends Controller
 
 //        dd($this->json($paymentID));
 
-        return $this->json(['paymentID' => $payment]);
+        return $this->json(['paymentID' => $payment->id]);
     }
 
     /**
