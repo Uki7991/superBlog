@@ -12,9 +12,13 @@
                                 <div class="card-header" id="category{{ child.id }}">
                                     <h5 class="mb-0">
                                         <span><a href="{{ path('categories_show', {'id': child.id}) }}">{{ child.name }}</a></span>
-                                        <a class="" data-toggle="collapse" href="#{{ child.id }}" aria-expanded="false" aria-controls="{{ child.id }}">
-                                            <i class="fas small fa-plus"></i>
-                                        </a>
+                                        {% if child.children|length %}
+
+                                            <a class="" data-toggle="collapse" href="#{{ child.id }}" aria-expanded="false" aria-controls="{{ child.id }}">
+                                                <i class="fas small fa-plus"></i>
+                                            </a>
+
+                                        {% endif %}
                                     </h5>
                                 </div>
                                 {{ self.recursiveCategory(child) }}
@@ -32,9 +36,13 @@
                         <div class="card-header" id="category{{ category.id }}">
                             <h5 class="mb-0">
                                 <span><a href="{{ path('categories_show', {'id': category.id}) }}">{{ category.name }}</a></span>
-                                <a class="" data-toggle="collapse" href="#{{ category.id }}" aria-expanded="false" aria-controls="{{ category.id }}">
-                                    <i class="fas small fa-plus"></i>
-                                </a>
+                                {% if category.children|length %}
+
+                                    <a class="" data-toggle="collapse" href="#{{ category.id }}" aria-expanded="false" aria-controls="{{ category.id }}">
+                                        <i class="fas small fa-plus"></i>
+                                    </a>
+
+                                {% endif %}
                             </h5>
                         </div>
                         {{ recursiveCategory(category) }}

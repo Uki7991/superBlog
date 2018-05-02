@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ book.id }}
+
+    {% include '@Payment/paypal/form.html.twig' %}
+
+    {% include '@Payment/stripe/form.html.twig' %}
+
+{% endblock %}

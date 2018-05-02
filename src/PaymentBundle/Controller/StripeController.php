@@ -33,13 +33,15 @@ class StripeController extends Controller
 
         $customer = $stripe->factoryMethod()->getNewCustomer($data['stripeEmail'], $data['stripeToken']);
 
-        $product = $stripe->factoryMethod()->getNewProduct('BlogSubscription', 'service');
+        $charge = $stripe->factoryMethod()->getNewCharge($customer, $data['amount'] * 100);
 
-        $plan = $stripe->factoryMethod()->getNewPlan($product->id, $product->name, '5000');
+//        $product = $stripe->factoryMethod()->getNewProduct($data['name'], 'service');
 
-        $subscription = $stripe->factoryMethod()->getNewSubscription($customer, $plan);
+//        $plan = $stripe->factoryMethod()->getNewPlan($product->id, $product->name, $data['amount'] * 100);
 
-        dd($subscription);
+//        $subscription = $stripe->factoryMethod()->getNewSubscription($customer, $plan);
+
+        dd($charge);
     }
 
     /**

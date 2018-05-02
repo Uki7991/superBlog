@@ -1,13 +1,9 @@
-{% extends 'base.html.twig' %}
-
-{% block body %}
-
 <form action="{{ path('stripe_create') }}" method="post">
     <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
             data-key="{{ stripe['publishable_key'] }}"
-            data-description="Access for a year"
-            data-amount="5000"
+            data-description="Purchasing {{ book.title }}"
+            data-amount="{{ book.price * 100 }}"
             data-locale="auto"></script>
+    <input type="hidden" name="amount" value="{{ book.price }}">
+    <input type="hidden" name="name" value="{{ book.title }}">
 </form>
-
-{% endblock %}

@@ -1,37 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Books list</h1>
+    <h1 class="my-5 text-center">Books list</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="row justify-content-center">
         {% for book in books %}
-            <tr>
-                <td><a href="{{ path('book_show', { 'id': book.id }) }}">{{ book.title }}</a></td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('book_show', { 'id': book.id }) }}">Show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('book_edit', { 'id': book.id }) }}">Buy</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('book_new') }}">Create a new book</a>
-        </li>
-    </ul>
+            <div class="col-4 mt-4">
+                <a href="{{ path('book_show', { 'id': book.id }) }}" class="text-dark">
+                    <div class="card">
+                        <img class="card-img-top" src="{{ asset('image/3.jpg') }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ book.title }}</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                        <div class="card-body">
+                            <span>$</span><span class="h3">{{ book.price }}</span>
+                            <a href="{{ path('book_buy', { 'id': book.id }) }}" class="btn btn-outline-info float-right">Buy</a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        {% endfor %}
+    </div>
 {% endblock %}

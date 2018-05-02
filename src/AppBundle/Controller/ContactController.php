@@ -23,10 +23,16 @@ class ContactController extends Controller
 
         $contact = $contactRepo->find(1);
 
+        $csrfToken = $this->get('security.csrf.token_manager')
+            ? $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue()
+            : null;
+
+
         return $this->render(':default:contacts.html.twig', [
             'contact' => $contact,
             'categories' => null,
             'tags' => null,
+            'csrf_token' => $csrfToken,
         ]);
     }
 }

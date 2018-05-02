@@ -125,11 +125,11 @@
                     var replyNew;
                     var likeCommentNew;
                     if (reply) {
-                        replyNew = reply.parents('div.parent' + reply.data('comment-id')).append($data).find('a.reply');
-                        likeCommentNew = replyNew.next();
+                        replyNew = reply.parents('div.parent' + reply.data('comment-id')).append($data).find('a.reply').data('comment-id');
+                        likeCommentNew = replyNew.next().data('comment-id');
                     } else {
-                        replyNew = $('#comments2').append($data).find('a.reply');
-                        likeCommentNew = replyNew.next();
+                        replyNew = $('#comments2').append($data).find('a.reply').data('comment-id');
+                        likeCommentNew = replyNew.next().data('comment-id');
                     }
                     $('#count-of-comments').html(parseInt($('#count-of-comments').html()) + 1);
                     replyComment(replyNew);

@@ -2,6 +2,7 @@
 
 namespace PostBundle\Controller;
 
+use PaymentBundle\StripeCreator;
 use PostBundle\Entity\Book;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -22,7 +23,7 @@ class BookController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $books = $em->getRepository('PostBundle:Book')->findAll();
+        $books = $em->getRepository('PostBundle:Book')->findBy([], ['price' => 'ASC']);
 
         $em = $this->getDoctrine()->getManager();
         $catRepo = $em->getRepository('PostBundle:Category');
@@ -78,11 +79,25 @@ class BookController extends Controller
      */
     public function showAction(Book $book)
     {
+        $em = $this->getDoctrine()->getManager();
+        $catRepo = $em->getRepository('PostBundle:Category');
+        $tagRepo = $em->getRepository('PostBundle:Tag');
+
+        $bigTag = $tagRepo->findBigTag();
+
+        $csrfToken = $this->get('security.csrf.token_manager')
+            ? $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue()
+            : null;
+
         $deleteForm = $this->createDeleteForm($book);
 
         return $this->render('@Post/book/show.html.twig', array(
             'book' => $book,
             'delete_form' => $deleteForm->createView(),
+            'categories' => $catRepo->getParentCatsR(),
+            'tags' => $tagRepo->findAll(),
+            'bigTag' => $bigTag['counts'],
+            'csrf_token' => $csrfToken,
         ));
     }
 
@@ -145,5 +160,41 @@ class BookController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * @Route("/book/buy/{id}", name="book_buy")
+     * @Method("GET")
+     *
+     * @param Book $book
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function buyBook(Book $book)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $catRepo = $em->getRepository('PostBundle:Category');
+        $tagRepo = $em->getRepository('PostBundle:Tag');
+
+        $bigTag = $tagRepo->findBigTag();
+
+        $csrfToken = $this->get('security.csrf.token_manager')
+            ? $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue()
+            : null;
+
+        $stripeCreator = new StripeCreator();
+
+        $secret = $this->getParameter('payment.stripe.secretkey');
+        $publish = $this->getParameter('payment.stripe.publishablekey');
+
+        $stripe = $stripeCreator->factoryMethod()->init($secret, $publish);
+
+        return $this->render('@Post/book/buy.html.twig', array(
+            'book' => $book,
+            'categories' => $catRepo->getParentCatsR(),
+            'tags' => $tagRepo->findAll(),
+            'bigTag' => $bigTag['counts'],
+            'csrf_token' => $csrfToken,
+            'stripe' => $stripe,
+        ));
     }
 }

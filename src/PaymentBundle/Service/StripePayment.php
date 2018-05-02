@@ -53,6 +53,17 @@ class StripePayment implements SBPayment
         ]);
     }
 
+    public function getNewCharge($customer, $amount)
+    {
+        $charge = \Stripe\Charge::create(array(
+            'customer' => $customer->id,
+            'amount'   => $amount,
+            'currency' => 'usd'
+        ));
+
+        return $charge;
+    }
+
     public function init($secretKey, $publushableKey)
     {
         $stripe = array(
