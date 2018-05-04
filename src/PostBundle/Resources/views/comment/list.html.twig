@@ -12,7 +12,7 @@
                             <h6 class="small comment-meta">
                                 <a href="#" class="username user" id="username_comment_{{ comment.id }}">{{ comment.name }}</a>
                                 <input type="hidden" value="{{ comment.name }}" id="comment-name-recipient">
-                                {{ comment.createdAt|time_diff }}, {{ comment.createdAt|date('H:i') }}
+                                {{ comment.createdAt|ago }}, {{ comment.createdAt|date('H:i') }}
                             </h6>
                             <div class="comment-body">
                                 <p>

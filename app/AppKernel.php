@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new PlanBundle\PlanBundle(),
             new PaymentBundle\PaymentBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Knp\Bundle\TimeBundle\KnpTimeBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
