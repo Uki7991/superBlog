@@ -24,22 +24,30 @@ class StripeController extends Controller
     {
         $stripe = new StripeCreator();
 
+        $stripeInstance = $stripe->factoryMethod();
+
         $secretKey = $this->getParameter('payment.stripe.secretkey');
         $publishableKey = $this->getParameter('payment.stripe.publishablekey');
 
-        $stripe->factoryMethod()->init($secretKey, $publishableKey);
+        $stripeInstance->init($secretKey, $publishableKey);
 
         $data = $request->request->all();
 
-        $customer = $stripe->factoryMethod()->getNewCustomer($data['stripeEmail'], $data['stripeToken']);
+        $customer = $stripeInstance->getNewCustomer($data['stripeEmail'], $data['stripeToken']);
 
-        $charge = $stripe->factoryMethod()->getNewCharge($customer, $data['amount'] * 100);
+        $charge = $stripeInstance->getNewCharge($customer, $data['amount'] * 100);
 
-//        $product = $stripe->factoryMethod()->getNewProduct($data['name'], 'service');
+//        $product = $stripeInstance->getNewProduct($data['name'], 'service');
 
-//        $plan = $stripe->factoryMethod()->getNewPlan($product->id, $product->name, $data['amount'] * 100);
+//        $plan = $stripeInstance->getNewPlan($product->id, $product->name, $data['amount'] * 100);
 
-//        $subscription = $stripe->factoryMethod()->getNewSubscription($customer, $plan);
+//        $subscription = $stripeInstance->getNewSubscription($customer, $plan);
+
+        $customer = $stripeInstance->getCustomer($customer->id);
+
+        $charges = $stripeInstance->getAllChargesByCustomerId($customer->id);
+
+        dd($customer);
 
         dd($charge);
     }

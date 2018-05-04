@@ -33,6 +33,13 @@ class User extends BaseUser
     protected $posts;
 
     /**
+     * @ORM\OneToMany(targetEntity="PaymentBundle\Entity\Customer", mappedBy="user")
+     *
+     * @var array
+     */
+    protected $customers;
+
+    /**
      * @ORM\ManyToMany(targetEntity="PostBundle\Entity\Post", mappedBy="usersLikes")
      *
      * @var array
@@ -90,6 +97,7 @@ class User extends BaseUser
         $this->posts = new ArrayCollection();
         $this->postsLikes = new ArrayCollection();
         $this->commentsLikes = new ArrayCollection();
+        $this->customers = new ArrayCollection();
         $this->setAvatar('default_avatar.png');
     }
 
@@ -343,5 +351,41 @@ class User extends BaseUser
     public function getCommentsLikes()
     {
         return $this->commentsLikes;
+    }
+
+    /**
+     * Add customer.
+     *
+     * @param \PaymentBundle\Entity\Customer $customer
+     *
+     * @return User
+     */
+    public function addCustomer(\PaymentBundle\Entity\Customer $customer)
+    {
+        $this->customers[] = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Remove customer.
+     *
+     * @param \PaymentBundle\Entity\Customer $customer
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeCustomer(\PaymentBundle\Entity\Customer $customer)
+    {
+        return $this->customers->removeElement($customer);
+    }
+
+    /**
+     * Get customers.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCustomers()
+    {
+        return $this->customers;
     }
 }

@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    {{ book.id }}
+    <input type="hidden" value="{{ book.id }}">
 
     {% include '@Payment/paypal/form.html.twig' %}
 

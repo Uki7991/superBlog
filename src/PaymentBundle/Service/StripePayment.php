@@ -58,7 +58,7 @@ class StripePayment implements SBPayment
         $charge = \Stripe\Charge::create(array(
             'customer' => $customer->id,
             'amount'   => $amount,
-            'currency' => 'usd'
+            'currency' => 'usd',
         ));
 
         return $charge;
@@ -74,5 +74,15 @@ class StripePayment implements SBPayment
         Stripe::setApiKey($stripe['secret_key']);
 
         return $stripe;
+    }
+
+    public function getCustomer($id)
+    {
+        return Customer::retrieve($id);
+    }
+
+    public function getAllChargesByCustomerId($id)
+    {
+        return \Stripe\Charge::all(['customer' => $id]);
     }
 }
