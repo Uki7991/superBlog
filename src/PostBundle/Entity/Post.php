@@ -5,6 +5,7 @@ namespace PostBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Utils\Helper;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use UserBundle\Entity\User;
 use PostBundle\Entity\Category;
@@ -28,11 +29,13 @@ class Post
 
     /**
      * @ORM\OneToMany(targetEntity="PostBundle\Entity\Image", mappedBy="post", cascade={"remove"})
+     * @Serializer\Exclude()
      */
     private $slides;
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"remove"})
+     * @Serializer\Exclude()
      */
     private $comments;
 
@@ -47,6 +50,7 @@ class Post
      *          @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
      *     }
      * )
+     * @Serializer\Exclude()
      */
     private $tags;
 
@@ -63,6 +67,7 @@ class Post
      *          @ORM\JoinColumn(name="ip_id", referencedColumnName="id")
      *     }
      * )
+     * @Serializer\Exclude()
      */
     private $ips;
 
@@ -81,6 +86,7 @@ class Post
      *     joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      * )
+     * @Serializer\Exclude()
      */
     private $usersLikes;
 
@@ -88,6 +94,7 @@ class Post
      *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="posts")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
+     * @Serializer\Exclude()
      */
     private $category;
 

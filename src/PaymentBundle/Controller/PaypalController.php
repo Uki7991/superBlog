@@ -7,17 +7,26 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class PaypalController
+ */
 class PaypalController extends Controller
 {
     /**
      * @Route("/paypal")
+     *
      * @Method("GET")
+     *
+     * @return Response
      */
     public function index()
     {
         $csrfToken = $this->get('security.csrf.token_manager')
-            ? $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue()
+            ? $this->get('security.csrf.token_manager')
+                ->getToken('authenticate')
+                ->getValue()
             : null;
 
         $em = $this->getDoctrine()->getManager();
@@ -38,7 +47,10 @@ class PaypalController extends Controller
 
     /**
      * @Route("/paypal")
+     *
      * @Method("POST")
+     *
+     * @return Response
      */
     public function create()
     {
@@ -60,6 +72,7 @@ class PaypalController extends Controller
 
     /**
      * @Route("/paypal/pay")
+     *
      * @Method("POST")
      *
      * @param Request $request

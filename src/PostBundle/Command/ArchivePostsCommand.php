@@ -8,13 +8,23 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class ArchivePostsCommand
+ */
 class ArchivePostsCommand extends ContainerAwareCommand
 {
+    /**
+     * ArchivePostsCommand constructor.
+     * @param null|string $name
+     */
     public function __construct(?string $name = null)
     {
         parent::__construct($name);
     }
 
+    /**
+     *
+     */
     protected function configure()
     {
         $this
@@ -26,9 +36,11 @@ class ArchivePostsCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
+     *
      * @return int|null|void
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -39,10 +51,8 @@ class ArchivePostsCommand extends ContainerAwareCommand
         $flag = $this->getContainer()->get('post.archive')->archiveMany($argument);
         if ($flag) {
             $output->writeln('Success');
-        }
-        else {
+        } else {
             $output->writeln('No posts to archive');
         }
     }
-
 }

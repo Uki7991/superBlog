@@ -29,6 +29,17 @@ plan:
     type:     annotation
     prefix:   /
 
+
+api:
+    resource: "@ApiBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+users:
+    type:     rest
+    prefix:   /api/
+    resource: "@ApiBundle/Controller/PostController.php"
+
 #
 #fos_user:
 #    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

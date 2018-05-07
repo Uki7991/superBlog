@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @author Tilek
+ */
 namespace PaymentBundle\Controller;
 
 use PaymentBundle\StripeCreator;
@@ -12,10 +15,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use PaymentBundle\CreatorPayment;
 
+/**
+ * Class StripeController
+ */
 class StripeController extends Controller
 {
     /**
      * @Route("/stripe/create", name="stripe_create")
+     *
      * @Method("POST")
      *
      * @param Request $request
@@ -54,6 +61,7 @@ class StripeController extends Controller
 
     /**
      * @Route("/stripe")
+     *
      * @Method("GET")
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -72,11 +80,9 @@ class StripeController extends Controller
             : null;
 
         $em = $this->getDoctrine()->getManager();
-        $postRepo = $em->getRepository('PostBundle:Post');
         $catRepo = $em->getRepository('PostBundle:Category');
         $tagRepo = $em->getRepository('PostBundle:Tag');
 
-        $posts = $postRepo->findAll([], ['createdAt' => 'DESC']);
         $bigTag = $tagRepo->findBigTag();
 
         return $this->render('PaymentBundle:stripe:form.html.twig', [
