@@ -48,7 +48,7 @@ class UserController extends Controller
      * @Route("/profile/show/{slug}", name="show_profile_")
      *
      * @param Request $request
-     * @param $slug
+     * @param string  $slug
      *
      * @return Response
      */
@@ -86,21 +86,22 @@ class UserController extends Controller
      *
      * @throws \Google_Exception
      *
+     * @return Response
      */
     public function apiGoogle()
     {
         $client = new Google_Client();
         $projectDir = $this->getParameter('kernel.project_dir');
-        $client->setAuthConfig($projectDir . '/client_secret.json');
+        $client->setAuthConfig($projectDir.'/client_secret.json');
         $client->setAccessType("offline");        // offline access
         $client->setIncludeGrantedScopes(true);   // incremental auth
         $client->addScope(\Google_Service_Plus::USERINFO_EMAIL);
 //        $client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/');
         $client->setRedirectUri('http://super-blog.com/app_dev.php/api/google/auth');
 //        oauth2callback.php
-        $auth_url = $client->createAuthUrl();
+        $authUrl = $client->createAuthUrl();
 
-        return $this->redirect($auth_url);
+        return $this->redirect($authUrl);
     }
 
     /**
@@ -114,7 +115,7 @@ class UserController extends Controller
     {
         $client = new Google_Client();
         $projectDir = $this->getParameter('kernel.project_dir');
-        $client->setAuthConfig($projectDir . '/client_secret.json');
+        $client->setAuthConfig($projectDir.'/client_secret.json');
         $client->addScope(\Google_Service_Plus::USERINFO_EMAIL);
         $client->setRedirectUri('http://super-blog.com/app_dev.php/api/google/auth');
 
@@ -193,10 +194,10 @@ class UserController extends Controller
             $user->setPlainPassword(md5(rand(111111, 999999)));
             $user->setEnabled(true);
 
-            if ($source === 'googleId') {
+            if ('googleId' === $source) {
                 $user->setGoogleId($data['id']);
             }
-            if ($source === 'facebookId') {
+            if ('facebookId' === $source) {
                 $user->setFacebookId($data['id']);
             }
 

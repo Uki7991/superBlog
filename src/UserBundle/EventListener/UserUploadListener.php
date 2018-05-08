@@ -11,6 +11,7 @@ namespace UserBundle\EventListener;
 use AppBundle\Utils\FileUploader;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Mapping\Entity;
 use UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -19,39 +20,49 @@ class UserUploadListener
 {
     private $uploader;
 
+    /**
+     * UserUploadListener constructor.
+     * @param FileUploader $uploader
+     */
     public function __construct(FileUploader $uploader)
     {
         $this->uploader = $uploader;
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         $this->uploadFile($entity);
     }
 
+    /**
+     * @param PreUpdateEventArgs $args
+     */
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
 
-        if ($args->getEntity() instanceof User && $args->hasChangedField('avatar'))
-        {
+        if ($args->getEntity() instanceof User && $args->hasChangedField('avatar')) {
             unlink('uploads/users/'.$args->getOldValue('avatar'));
         }
 
         $this->uploadFile($entity);
     }
 
+    /**
+     * @param $entity
+     */
     public function uploadFile($entity)
     {
-        if (!$entity instanceof User)
-        {
+        if (!$entity instanceof User) {
             return;
         }
         $file = $entity->getAvatar();
 
-        if (!$file instanceof UploadedFile)
-        {
+        if (!$file instanceof UploadedFile) {
             return;
         }
 

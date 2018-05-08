@@ -35,10 +35,15 @@ api:
     type:     annotation
     prefix:   /
 
-users:
+posts:
     type:     rest
     prefix:   /api/
     resource: "@ApiBundle/Controller/PostController.php"
+
+users:
+    type:     rest
+    prefix:   /api/
+    resource: "@ApiBundle/Controller/UserController.php"
 
 #
 #fos_user:

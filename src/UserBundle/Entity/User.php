@@ -1,10 +1,14 @@
 <?php
 
+/**
+ * @author Tilek.kubanov@gmail.com
+ */
 namespace UserBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use JMS\Serializer\Annotation as Serializer;
 use PostBundle\PostBundle;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -22,6 +26,8 @@ class User extends BaseUser
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Exclude()
      */
     protected $id;
 
@@ -29,6 +35,8 @@ class User extends BaseUser
      * @var \PostBundle\Entity\Post
      *
      * @ORM\OneToMany(targetEntity="PostBundle\Entity\Post", mappedBy="user")
+     *
+     * @Serializer\Exclude()
      */
     protected $posts;
 
@@ -36,6 +44,8 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="PaymentBundle\Entity\Customer", mappedBy="user")
      *
      * @var array
+     *
+     * @Serializer\Exclude()
      */
     protected $customers;
 
@@ -43,6 +53,8 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity="PostBundle\Entity\Post", mappedBy="usersLikes")
      *
      * @var array
+     *
+     * @Serializer\Exclude()
      */
     protected $postsLikes;
 
@@ -50,6 +62,8 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="usersLikes")
      *
      * @var array
+     *
+     * @Serializer\Exclude()
      */
     protected $commentsLikes;
 
@@ -57,6 +71,8 @@ class User extends BaseUser
      * @var \PostBundle\Entity\Comment
      *
      * @ORM\OneToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="user")
+     *
+     * @Serializer\Exclude()
      */
     protected $comments;
 
@@ -91,6 +107,9 @@ class User extends BaseUser
         return $this->id;
     }
 
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -133,13 +152,11 @@ class User extends BaseUser
      */
     public function addPost(\PostBundle\Entity\Post $post)
     {
-        if ($this->posts->contains($post))
-        {
+        if ($this->posts->contains($post)) {
             return;
         }
 
         $this->posts->add($post);
-
     }
 
     /**
@@ -150,8 +167,7 @@ class User extends BaseUser
      */
     public function removePost(\PostBundle\Entity\Post $post)
     {
-        if (!$this->posts->contains($post))
-        {
+        if (!$this->posts->contains($post)) {
             return;
         }
 
@@ -262,8 +278,7 @@ class User extends BaseUser
      */
     public function addPostsLike(\PostBundle\Entity\Post $postsLike)
     {
-        if ($this->postsLikes->contains($postsLike))
-        {
+        if ($this->postsLikes->contains($postsLike)) {
             return;
         }
 
@@ -280,8 +295,7 @@ class User extends BaseUser
      */
     public function removePostsLike(\PostBundle\Entity\Post $postsLike)
     {
-        if (!$this->postsLikes->contains($postsLike))
-        {
+        if (!$this->postsLikes->contains($postsLike)) {
             return;
         }
 
@@ -299,6 +313,9 @@ class User extends BaseUser
         return $this->postsLikes;
     }
 
+    /**
+     * @return array
+     */
     public function getUserPostsLikesIds()
     {
         $likes = [];
