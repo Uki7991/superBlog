@@ -20,8 +20,8 @@ parameters:
     posts_img_dir: '/uploads/images/postsimage/'
     payment.stripe.secretkey: 'sk_test_hiOrp6IhITvHJDFlfmWqMBy0'
     payment.stripe.publishablekey: 'pk_test_AAdi3Gu0N2JmXHz39Lww0buh'
-    payment.paypal.clientId: 'ARxAYtLbjiDhKsQqgKchBzpJn6SaJjZSkYicQy5DAXc8dXAPCpRt8IWcEIJiyZK8R8KitGphk2Q5D_Y0'
-    payment.paypal.clientSecret: 'EERmVaBChv057uua6kHa3DcPDstBn1TA5vPkKU8wa2qVVhlooIapuB7DgU5RK5oO62WKtYrr-m5GXYzp'
+    payment.paypal.clientid: 'ARxAYtLbjiDhKsQqgKchBzpJn6SaJjZSkYicQy5DAXc8dXAPCpRt8IWcEIJiyZK8R8KitGphk2Q5D_Y0'
+    payment.paypal.clientsecret: 'EERmVaBChv057uua6kHa3DcPDstBn1TA5vPkKU8wa2qVVhlooIapuB7DgU5RK5oO62WKtYrr-m5GXYzp'
 
 framework:
     #esi: ~

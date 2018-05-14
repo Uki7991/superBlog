@@ -80,6 +80,8 @@ class User extends BaseUser
      * @ORM\Column(name="avatar", type="string", length=255, options={"default" = "default_avatar.png"})
      * @Assert\Image()
      * @Assert\File()
+     *
+     * @Serializer\Exclude()
      */
     protected $avatar;
 
