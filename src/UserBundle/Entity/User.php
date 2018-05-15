@@ -41,7 +41,7 @@ class User extends BaseUser
     protected $posts;
 
     /**
-     * @ORM\OneToMany(targetEntity="PaymentBundle\Entity\Customer", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="PaymentBundle\Entity\Customer", mappedBy="user", cascade={"remove"})
      *
      * @var array
      *
@@ -50,7 +50,7 @@ class User extends BaseUser
     protected $customers;
 
     /**
-     * @ORM\ManyToMany(targetEntity="PostBundle\Entity\Post", mappedBy="usersLikes")
+     * @ORM\ManyToMany(targetEntity="PostBundle\Entity\Post", mappedBy="usersLikes", cascade={"remove"})
      *
      * @var array
      *
@@ -59,7 +59,7 @@ class User extends BaseUser
     protected $postsLikes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="usersLikes")
+     * @ORM\ManyToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="usersLikes", cascade={"remove"})
      *
      * @var array
      *
@@ -70,7 +70,7 @@ class User extends BaseUser
     /**
      * @var \PostBundle\Entity\Comment
      *
-     * @ORM\OneToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="PostBundle\Entity\Comment", mappedBy="user", cascade={"remove"})
      *
      * @Serializer\Exclude()
      */
@@ -78,6 +78,7 @@ class User extends BaseUser
 
     /**
      * @ORM\Column(name="avatar", type="string", length=255, options={"default" = "default_avatar.png"})
+     *
      * @Assert\Image()
      * @Assert\File()
      *

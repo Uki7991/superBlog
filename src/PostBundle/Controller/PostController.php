@@ -1,8 +1,10 @@
 <?php
 
+/**
+ * @author Tilek.kubanov@gmail.com
+ */
 namespace PostBundle\Controller;
 
-use Doctrine\ORM\NoResultException;
 use Gregwar\Image\Image as ImageCreator;
 use PostBundle\Entity\Image;
 use PostBundle\Entity\Post;
@@ -11,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Response;
 use UserBundle\Entity\Ip;
 
 /**
@@ -25,6 +27,7 @@ class PostController extends Controller
      * @param Request $request
      *
      * @Route("/", name="posts_index")
+     *
      * @Method("GET")
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -70,13 +73,19 @@ class PostController extends Controller
     /**
      * Creates a new post entity.
      *
+     * @param Request $request
+     *
      * @Route("/post/new", name="posts_new")
+     *
      * @Method({"GET", "POST"})
+     *
+     * @return Response
+     *
+     * @throws \Exception
      */
     public function newAction(Request $request)
     {
-        if (!$this->getUser())
-        {
+        if (!$this->getUser()) {
             return $this->redirectToRoute('posts_index');
         }
         $post = new Post();
@@ -92,10 +101,8 @@ class PostController extends Controller
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             if ($request->request->get('tags')) {
-                foreach ($request->request->get('tags') as $tag)
-                {
+                foreach ($request->request->get('tags') as $tag) {
                     $criteria = ['name' => $tag];
                     $tag = $tagRepo->findTagOrCreate($criteria);
                     $post->addTag($tag);
@@ -109,7 +116,7 @@ class PostController extends Controller
                      * @var UploadedFile $slide
                      */
 
-                    $fileName = md5(uniqid()) . '.' . $slide->guessExtension();
+                    $fileName = md5(uniqid()).'.'.$slide->guessExtension();
 
                     ImageCreator::open($slide->getPathname())->cropResize(755, 755)->save('uploads/images/medium/' . $fileName);
                     ImageCreator::open($slide->getPathname())->cropResize(100, 100)->save('uploads/images/small/' . $fileName);
@@ -141,13 +148,14 @@ class PostController extends Controller
 
     /**
      * @param Post $post
-     * @param $slug
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @Route("/post/{id}/{slug}", name="posts_show")
+     *
      * @Method("GET")
      */
-    public function showAction(Post $post, $slug)
+    public function showAction(Post $post)
     {
 //        $session = new Session();
 //        $countPost = $session->get('count_post');
@@ -185,7 +193,7 @@ class PostController extends Controller
         $bigTag = $tagRepo->findBigTag();
         $comms = $commRepo->findBy([
             'post' => $post,
-            'parent' => null
+            'parent' => null,
         ]);
 
         $csrfToken = $this->get('security.csrf.token_manager')
@@ -203,10 +211,16 @@ class PostController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param Post    $post
+     *
      * Displays a form to edit an existing post entity.
      *
      * @Route("/post2/{id}/edit", name="posts_edit")
+     *
      * @Method({"GET", "POST"})
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function editAction(Request $request, Post $post)
     {
@@ -219,8 +233,7 @@ class PostController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            foreach ($request->request->get('tags') as $tag)
-            {
+            foreach ($request->request->get('tags') as $tag) {
                 $criteria = ['name' => $tag];
                 $tag = $tagRepo->findTagOrCreate($criteria);
                 $post->addTag($tag);
@@ -243,19 +256,20 @@ class PostController extends Controller
     /**
      * Deletes a post entity.
      *
+     * @param Request $request
+     * @param Post    $post
+     *
      * @Route("/post/{id}", name="posts_delete")
+     *
      * @Method("DELETE")
+     *
+     * @return Response
      */
     public function deleteAction(Request $request, Post $post)
     {
-        $form = $this->createDeleteForm($post);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($post);
-            $em->flush();
-        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($post);
+        $em->flush();
 
         return $this->redirectToRoute('posts_index');
     }
@@ -265,7 +279,7 @@ class PostController extends Controller
      *
      * @param Post $post The post entity
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
      */
     private function createDeleteForm(Post $post)
     {

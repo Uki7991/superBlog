@@ -37,10 +37,15 @@ class UserController extends Controller
             10
         );
 
+        $csrfToken = $this->get('security.csrf.token_manager')
+            ? $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue()
+            : null;
+
         return $this->render('@User/user/index.html.twig', [
             'user' => $user,
             'posts' => $posts,
             'pagination' => $pagination,
+            'csrf_token' => $csrfToken,
         ]);
     }
 

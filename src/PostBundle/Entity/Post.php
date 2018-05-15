@@ -29,12 +29,14 @@ class Post
 
     /**
      * @ORM\OneToMany(targetEntity="PostBundle\Entity\Image", mappedBy="post", cascade={"remove"})
+     *
      * @Serializer\Exclude()
      */
     private $slides;
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"remove"})
+     *
      * @Serializer\Exclude()
      */
     private $comments;
@@ -57,7 +59,7 @@ class Post
     /**
      * @var array
      *
-     * @ORM\ManyToMany(targetEntity="UserBundle\Entity\Ip", inversedBy="posts")
+     * @ORM\ManyToMany(targetEntity="UserBundle\Entity\Ip", inversedBy="posts", cascade={"remove"})
      * @ORM\JoinTable(
      *     name="ips_posts",
      *     joinColumns={
@@ -72,8 +74,7 @@ class Post
     private $ips;
 
     /**
-     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="posts", cascade={"remove"})
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="posts")
      */
     private $user;
 
@@ -94,6 +95,7 @@ class Post
      *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="posts")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
+     *
      * @Serializer\Exclude()
      */
     private $category;
@@ -156,6 +158,7 @@ class Post
 
     public function __construct()
     {
+        $this->setIsActive(true);
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt($this->getCreatedAt());
         $this->tags = new ArrayCollection();

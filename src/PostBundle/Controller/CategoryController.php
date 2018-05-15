@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class CategoryController
@@ -47,17 +48,20 @@ class CategoryController extends Controller
     }
 
     /**
+     * @param Request  $request
      * @param Category $category
+     *
      * @return array
      *
      * @Route("/category/{id}", name="categories_show")
+     *
      * @Method("GET")
      */
     public function show(Request $request, Category $category)
     {
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository(Post::class)->findBy(['category' => $category], ['createdAt' => 'DESC']);
-        
+
         $categoryRepo = $em->getRepository('PostBundle:Category');
         $tagRepo = $em->getRepository('PostBundle:Tag');
 
@@ -74,7 +78,7 @@ class CategoryController extends Controller
 
         return [
             'active' => $category,
-            'categories' => $categories,
+            'categories' => $categoryRepo->getParentCatsR(),
             'posts' => $posts,
             'tags' => $tags,
             'bigTag' => $bigTag['counts'],

@@ -32,8 +32,8 @@ class Comment
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
-     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments", cascade={"remove"})
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $post;
 
@@ -41,6 +41,7 @@ class Comment
      * @var string
      *
      * @ORM\Column(name="comment", type="text")
+     *
      * @Assert\NotBlank()
      */
     private $comment;
@@ -49,12 +50,13 @@ class Comment
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=50)
+     *
      * @Assert\NotBlank()
      */
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="UserBundle\Entity\User", inversedBy="commentsLikes")
+     * @ORM\ManyToMany(targetEntity="UserBundle\Entity\User", inversedBy="commentsLikes", cascade={"remove"})
      * @ORM\JoinTable(
      *     name="comments_users_likes",
      *     joinColumns={@ORM\JoinColumn(name="comment_id", referencedColumnName="id")},
@@ -69,7 +71,7 @@ class Comment
      * @var int
      *
      * @ORM\ManyToOne(targetEntity="PostBundle\Entity\Comment", inversedBy="children", cascade={"remove"})
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $parent;
 
@@ -82,10 +84,14 @@ class Comment
 
     /**
      * @ORM\Column(name="created_at", type="datetime")
+     *
      * @Assert\NotBlank()
      */
     private $createdAt;
 
+    /**
+     * Comment constructor.
+     */
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());

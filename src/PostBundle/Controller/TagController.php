@@ -42,7 +42,7 @@ class TagController extends Controller
 
         return $this->render('@Post/tag/show.html.twig', [
             'tags' => $tags,
-            'categories' => $categories,
+            'categories' => $catRepo->getParentCatsR(),
             'active' => $activeTag,
             'posts' => $posts,
             'bigTag' => $bigTag['counts'],

@@ -16,7 +16,16 @@
     {% if ownerPost is defined %}
         <div class="col-2 align-self-center">
             <a href="{{ path('posts_edit', { 'id': post.id }) }}" class="btn btn-warning">Edit</a>
-            <a href="{{ path('posts_delete', { 'id': post.id }) }}" class="btn btn-danger">Delete</a>
+            <a class="btn btn-danger" href="{{ path('posts_delete', { 'id': post.id }) }}"
+               onclick="event.preventDefault();
+                                                     document.getElementById('post-delete').submit();">Удалить
+            </a>
+            <form id="post-delete" action="{{ path('posts_delete', { 'id': post.id }) }}" method="POST" style="display: none;">
+                <input type="hidden" name="_method" value="DELETE">
+                {% if csrf_token %}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                {% endif %}
+            </form>
         </div>
     {% endif %}
 
