@@ -114,8 +114,6 @@
                 'reply': commentId
             };
 
-            console.log(data);
-
             $.ajax({
                 type: 'POST',
                 url: '{{ app.request.getBaseUrl() }}' + '/comment/store/create/' + {{ post.id }},
@@ -125,11 +123,13 @@
                     var replyNew;
                     var likeCommentNew;
                     if (reply) {
-                        replyNew = reply.parents('div.parent' + reply.data('comment-id')).append($data).find('a.reply').data('comment-id');
-                        likeCommentNew = replyNew.next().data('comment-id');
+                        replyNew = reply.parents('div.parent' + reply.data('comment-id')).append($data).find('a.reply').last();
+                        likeCommentNew = replyNew.next();
+                        console.log(likeCommentNew);
                     } else {
-                        replyNew = $('#comments2').append($data).find('a.reply').data('comment-id');
-                        likeCommentNew = replyNew.next().data('comment-id');
+                        replyNew = $('#comments2').append($data).find('a.reply').last();
+                        likeCommentNew = replyNew.next();
+                        console.log(likeCommentNew);
                     }
                     $('#count-of-comments').html(parseInt($('#count-of-comments').html()) + 1);
                     replyComment(replyNew);
@@ -144,8 +144,6 @@
             element.click(function (event) {
                 event.preventDefault(event);
                 reply = $(event.target);
-
-                console.log(reply);
 
                 $('#parent_comment').val(reply.data('comment-id'));
                 username = $('#username_comment_' + reply.data('comment-id')).text();

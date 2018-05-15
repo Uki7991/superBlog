@@ -18,7 +18,7 @@
                                 <p>
                                     <span>{{ comment.comment }}</span>
                                     <br>
-                                    <a href="" class="text-right small reply" data-comment-id="{{ comment.id }}"><i class="ion-reply"></i> Reply</a>
+                                    <a href="" class="text-right small reply" id="{{ comment.id }}" data-comment-id="{{ comment.id }}"><i class="ion-reply"></i> Reply</a>
                                     {% if app.user %}
                                     <i class="{% if app.user in comment.usersLikes %} fas {% else %} far {% endif %} text-primary fa-thumbs-up ml-3 like-comment" id="like-comment" data-comment-id="{{ comment.id }}"></i>
                                     {% else %}

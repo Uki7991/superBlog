@@ -64,7 +64,7 @@ class CommentController extends Controller
      * @Configuration\Template
      *
      * @param Request $request
-     * @param Post $post
+     * @param Post    $post
      *
      * @return array | string
      */
