@@ -32,8 +32,8 @@ class Comment
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments", cascade={"remove"})
-     * @ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     private $post;
 
@@ -70,8 +70,8 @@ class Comment
     /**
      * @var int
      *
-     * @ORM\ManyToOne(targetEntity="PostBundle\Entity\Comment", inversedBy="children", cascade={"remove"})
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="PostBundle\Entity\Comment", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
     private $parent;
 

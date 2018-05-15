@@ -125,11 +125,9 @@
                     if (reply) {
                         replyNew = reply.parents('div.parent' + reply.data('comment-id')).append($data).find('a.reply').last();
                         likeCommentNew = replyNew.next();
-                        console.log(likeCommentNew);
                     } else {
                         replyNew = $('#comments2').append($data).find('a.reply').last();
                         likeCommentNew = replyNew.next();
-                        console.log(likeCommentNew);
                     }
                     $('#count-of-comments').html(parseInt($('#count-of-comments').html()) + 1);
                     replyComment(replyNew);
