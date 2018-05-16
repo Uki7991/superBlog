@@ -21,7 +21,9 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/profile">Posts</a>
                             <a class="dropdown-item" href="{{ path('fos_user_profile_edit') }}">Edit profile</a>
-                            <a class="dropdown-item" href="{{ path('fos_user_change_password') }}">Change Password</a>
+                            {% if not(app.user.googleId or app.user.facebookId) %}
+                                <a class="dropdown-item" href="{{ path('fos_user_change_password') }}">Change Password</a>
+                            {% endif %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">Logout</a>
                         </div>
