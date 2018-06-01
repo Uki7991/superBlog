@@ -44,6 +44,11 @@ services:
         tags:
             - { name: form.type, alias: app_user_profile }
 
+    user.actions:
+        class: UserBundle\Services\UserActions
+        arguments: ['@fos_user.user_manager', '@security.encoder_factory', '@security.token_storage', '@event_dispatcher', '@session']
+        public: true
+
     fos_user.profile.controller:
         class: UserBundle\Controller\ProfileController
         arguments: ['@event_dispatcher', '@fos_user.profile.form.factory', '@fos_user.user_manager']

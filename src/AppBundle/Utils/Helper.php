@@ -35,7 +35,7 @@ class Helper
      * @license http://creativecommons.org/publicdomain/zero/1.0/
      *
      * @param string $str
-     * @param array $options
+     * @param array  $options
      * @return string
      */
     static public function url_slug($str, $options = array()) {

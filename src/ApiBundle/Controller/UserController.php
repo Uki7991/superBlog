@@ -5,11 +5,10 @@
  */
 namespace ApiBundle\Controller;
 
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\UserBundle\Model\UserManager;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class UserController
@@ -51,10 +50,38 @@ class UserController extends FOSRestController
 
         if ($content = $request->getContent()) {
             $params = json_decode($content, true);
+
+            $userActions = $this->get('user.actions');
+            $successfullyRegistered = $userActions->register($params["email"], $params["userName"], $params["password"]);
+
+            $params = $successfullyRegistered + $params;
         }
-        $view = $this->view($content, 200);
+        $view = $this->view($params, 200);
 
         return $this->handleView($view);
     }
 
+    /**
+     * @param Request $request
+     *
+     * @Rest\Route("/users/login")
+     *
+     * @return Response
+     */
+    public function postUsersLoginAction(Request $request)
+    {
+        $params = [];
+
+        if ($content = $request->getContent()) {
+            $params = json_decode($content, true);
+
+            $userActions = $this->get('user.actions');
+            $successfullyLogin = $userActions->loginAction($request, $params['userName'], $params['password']);
+
+            $params = $successfullyLogin + $params;
+        }
+        $view = $this->view($params, 200);
+
+        return $this->handleView($view);
+    }
 }
