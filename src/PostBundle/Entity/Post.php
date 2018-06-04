@@ -43,6 +43,7 @@ class Post
 
     /**
      * @ORM\ManyToMany(targetEntity="Tag", inversedBy="posts", cascade={"remove"})
+     *
      * @Serializer\Exclude()
      */
     private $tags;
