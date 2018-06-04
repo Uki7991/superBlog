@@ -41,6 +41,15 @@ class Tag
 
     /**
      * @ORM\ManyToMany(targetEntity="Post", mappedBy="tags")
+     * @ORM\JoinTable(
+     *     name="posts_tags",
+     *     joinColumns={
+     *          @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
+     *     },
+     *     inverseJoinColumns={
+     *          @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     *     }
+     * )
      */
     private $posts;
 

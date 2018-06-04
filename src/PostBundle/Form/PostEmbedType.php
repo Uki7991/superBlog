@@ -6,15 +6,20 @@
 namespace PostBundle\Form;
 
 use PostBundle\Entity\Category;
+use PostBundle\Entity\Tag;
 use PostBundle\Repository\CategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PostType extends AbstractType
+/**
+ * Class PostEmbedType
+ */
+class PostEmbedType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -35,16 +40,10 @@ class PostType extends AbstractType
                 'required' => false,
             ])
             ->add('tags')
-            ->add('category', EntityType::class, [
-                'class' => Category::class,
-                'placeholder' => 'Select a category...',
-                'query_builder' => function (CategoryRepository $repository) {
-                    return $repository->getParentCats();
-                },
-            ]);
+        ;
     }/**
-     * {@inheritdoc}
-     */
+ * {@inheritdoc}
+ */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

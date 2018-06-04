@@ -2,9 +2,12 @@
 
 namespace PostBundle\Controller;
 
+use FOS\RestBundle\Controller\Annotations as Rest;
 use PostBundle\Entity\Category;
 use PostBundle\Entity\Post;
+use PostBundle\Entity\Tag;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,16 +16,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class CategoryController
- * @package PostBundle\Controller
+ *
  * @Template()
  */
 class CategoryController extends Controller
 {
     /**
      * @param Category|null $categoriesShow
-     * @param null $postsShow
+     * @param null          $postsShow
+     *
      * @return array
+     *
      * @Route("/categories", name="categories_index")
+     *
      * @Method("GET")
      */
     public function indexAction(Category $categoriesShow = null, $postsShow = null)
@@ -34,8 +40,7 @@ class CategoryController extends Controller
         $categories = $categoryRepository->findAll();
         $posts = $postRepository->findAll();
 
-        if ($postsShow && $categoriesShow)
-        {
+        if ($postsShow && $categoriesShow) {
             $posts = $postsShow;
             $categories = $categoriesShow;
 
@@ -82,7 +87,7 @@ class CategoryController extends Controller
             'posts' => $posts,
             'tags' => $tags,
             'bigTag' => $bigTag['counts'],
-            'pagination' => $pagination
+            'pagination' => $pagination,
         ];
     }
 
@@ -92,6 +97,7 @@ class CategoryController extends Controller
      * @Method("GET")
      *
      * @param Category $category
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function getChildren(Category $category)
@@ -103,6 +109,7 @@ class CategoryController extends Controller
 
         if (!$children) {
             $status = 'noChildren';
+
             return $this->json([
                 'status' => $status,
             ]);
@@ -113,6 +120,48 @@ class CategoryController extends Controller
         return $this->json([
             'status' => $status,
             'children' => $children,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @Route("/categories/create", name="create_category_with_posts")
+     *
+     * @Method({"GET", "POST"})
+     *
+     * @return Response
+     */
+    public function createCategoryWithPosts(Request $request)
+    {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $tagRepo = $em->getRepository('PostBundle:Tag');
+        $catRepo = $em->getRepository('PostBundle:Category');
+
+        $tags = $tagRepo->findAll();
+        $categories = $catRepo->getParentCatsR();
+        $bigTag = $tagRepo->findBigTag();
+
+        $category = new Category();
+        $form = $this->createForm('PostBundle\Form\CategoryType', $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($category->getPosts() as $post) {
+                $post->setUser($user);
+                $post->setCategory($category);
+            }
+
+            $em->persist($category);
+            $em->flush();
+        }
+
+        return $this->render('@Post/category/create.html.twig', [
+            'form' => $form->createView(),
+            'categories' => $categories,
+            'tags' => $tags,
+            'bigTag' => $bigTag['counts'],
         ]);
     }
 }

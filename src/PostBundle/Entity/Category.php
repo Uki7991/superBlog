@@ -25,7 +25,7 @@ class Category
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Post", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="category", cascade={"persist"})
      */
     private $posts;
 
