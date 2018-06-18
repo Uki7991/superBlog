@@ -148,6 +148,9 @@ class Post
      */
     private $updatedAt;
 
+    /**
+     * Post constructor.
+     */
     public function __construct()
     {
         $this->setIsActive(true);
@@ -202,8 +205,8 @@ class Post
      */
     public function setSlugTitle()
     {
-        $this->slugTitle = Helper::url_slug($this->getTitle(), ['transliterate' => true]);
-        
+        $this->slugTitle = Helper::urlSlug($this->getTitle(), ['transliterate' => true]);
+
         return $this;
     }
 
@@ -453,8 +456,7 @@ class Post
      */
     public function addTag(\PostBundle\Entity\Tag $tag)
     {
-        if ($this->tags->contains($tag))
-        {
+        if ($this->tags->contains($tag)) {
             return;
         }
 
@@ -470,8 +472,7 @@ class Post
      */
     public function removeTag(\PostBundle\Entity\Tag $tag)
     {
-        if (!$this->tags->contains($tag))
-        {
+        if (!$this->tags->contains($tag)) {
             return;
         }
 
@@ -496,8 +497,7 @@ class Post
      */
     public function addIp(\UserBundle\Entity\Ip $ip)
     {
-        if ($this->ips->contains($ip))
-        {
+        if ($this->ips->contains($ip)) {
             return;
         }
 
@@ -513,8 +513,7 @@ class Post
      */
     public function removeIp(\UserBundle\Entity\Ip $ip)
     {
-        if (!$this->ips->contains($ip))
-        {
+        if (!$this->ips->contains($ip)) {
             return;
         }
 
@@ -532,9 +531,12 @@ class Post
         return $this->ips;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
-        return (string)$this->getTitle();
+        return (string) $this->getTitle();
     }
 
     /**
@@ -583,8 +585,7 @@ class Post
      */
     public function addUsersLike(\UserBundle\Entity\User $usersLike)
     {
-        if ($this->usersLikes->contains($usersLike))
-        {
+        if ($this->usersLikes->contains($usersLike)) {
             return;
         }
 
@@ -601,7 +602,7 @@ class Post
      */
     public function removeUsersLike(\UserBundle\Entity\User $usersLike)
     {
-        if (!$this->usersLikes->contains($usersLike)){
+        if (!$this->usersLikes->contains($usersLike)) {
             return;
         }
 

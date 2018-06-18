@@ -94,6 +94,7 @@ class CommentController extends Controller
 
         if (count($errors) > 0) {
             $status = ['status' => 'error', 'message' => $errors];
+
             return $this->json($status, 400);
         }
 
@@ -103,6 +104,7 @@ class CommentController extends Controller
             $data['comment_id'] = $comment->getId();
         } catch (\Exception $e) {
             $status = ['status' => 'error', 'message' => $e->getMessage()];
+
             return $this->json($status, 400);
         }
 

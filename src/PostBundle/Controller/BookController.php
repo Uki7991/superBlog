@@ -6,7 +6,10 @@ use PaymentBundle\StripeCreator;
 use PostBundle\Entity\Book;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Book controller.
@@ -48,8 +51,13 @@ class BookController extends Controller
     /**
      * Creates a new book entity.
      *
+     * @param Request $request
+     *
      * @Route("/book/new", name="book_new")
+     *
      * @Method({"GET", "POST"})
+     *
+     * @return Response
      */
     public function newAction(Request $request)
     {
@@ -74,8 +82,13 @@ class BookController extends Controller
     /**
      * Finds and displays a book entity.
      *
+     * @param Book $book
+     *
      * @Route("/book/{id}", name="book_show")
+     *
      * @Method("GET")
+     *
+     * @return Response
      */
     public function showAction(Book $book)
     {
@@ -104,8 +117,14 @@ class BookController extends Controller
     /**
      * Displays a form to edit an existing book entity.
      *
+     * @param Request $request
+     * @param Book    $book
+     *
      * @Route("/book/{id}/edit", name="book_edit")
+     *
      * @Method({"GET", "POST"})
+     *
+     * @return Response
      */
     public function editAction(Request $request, Book $book)
     {
@@ -129,8 +148,14 @@ class BookController extends Controller
     /**
      * Deletes a book entity.
      *
+     * @param Request $request
+     * @param Book    $book
+     *
      * @Route("/book/{id}", name="book_delete")
+     *
      * @Method("DELETE")
+     *
+     * @return Response
      */
     public function deleteAction(Request $request, Book $book)
     {
@@ -147,26 +172,12 @@ class BookController extends Controller
     }
 
     /**
-     * Creates a form to delete a book entity.
-     *
-     * @param Book $book The book entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Book $book)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('book_delete', array('id' => $book->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
-
-    /**
      * @Route("/book/buy/{id}", name="book_buy")
+     *
      * @Method("GET")
      *
      * @param Book $book
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function buyBook(Book $book)
@@ -196,5 +207,21 @@ class BookController extends Controller
             'csrf_token' => $csrfToken,
             'stripe' => $stripe,
         ));
+    }
+
+    /**
+     * Creates a form to delete a book entity.
+     *
+     * @param Book $book The book entity
+     *
+     * @return FormInterface
+     */
+    private function createDeleteForm(Book $book)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('book_delete', array('id' => $book->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
     }
 }

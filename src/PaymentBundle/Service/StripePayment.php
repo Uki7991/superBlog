@@ -18,6 +18,12 @@ use PaymentBundle\SBPayment;
 
 class StripePayment implements SBPayment
 {
+    /**
+     * @param $customer
+     * @param $plan
+     *
+     * @return \Stripe\ApiResource
+     */
     public function getNewSubscription($customer, $plan)
     {
         return Subscription::create([
@@ -26,6 +32,12 @@ class StripePayment implements SBPayment
         ]);
     }
 
+    /**
+     * @param $email
+     * @param $token
+     *
+     * @return \Stripe\ApiResource
+     */
     public function getNewCustomer($email, $token)
     {
         return Customer::create(array(
@@ -34,6 +46,12 @@ class StripePayment implements SBPayment
         ));
     }
 
+    /**
+     * @param $name
+     * @param $type
+     *
+     * @return \Stripe\ApiResource
+     */
     public function getNewProduct($name, $type)
     {
         return Product::create([
@@ -42,6 +60,15 @@ class StripePayment implements SBPayment
         ]);
     }
 
+    /**
+     * @param $id
+     * @param $name
+     * @param $amount
+     * @param string $interval
+     * @param string $currency
+     *
+     * @return \Stripe\ApiResource
+     */
     public function getNewPlan($id, $name, $amount, $interval = 'month', $currency = 'usd')
     {
         return Plan::create([
@@ -53,6 +80,12 @@ class StripePayment implements SBPayment
         ]);
     }
 
+    /**
+     * @param $customer
+     * @param $amount
+     *
+     * @return \Stripe\ApiResource
+     */
     public function getNewCharge($customer, $amount)
     {
         $charge = \Stripe\Charge::create(array(
@@ -64,6 +97,12 @@ class StripePayment implements SBPayment
         return $charge;
     }
 
+    /**
+     * @param $secretKey
+     * @param $publushableKey
+     *
+     * @return array
+     */
     public function init($secretKey, $publushableKey)
     {
         $stripe = array(
@@ -76,11 +115,21 @@ class StripePayment implements SBPayment
         return $stripe;
     }
 
+    /**
+     * @param $id
+     *
+     * @return \Stripe\StripeObject
+     */
     public function getCustomer($id)
     {
         return Customer::retrieve($id);
     }
 
+    /**
+     * @param $id
+     *
+     * @return \Stripe\Collection
+     */
     public function getAllChargesByCustomerId($id)
     {
         return \Stripe\Charge::all(['customer' => $id]);

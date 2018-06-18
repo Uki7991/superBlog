@@ -8,12 +8,16 @@
 
 namespace PaymentBundle;
 
-
 use PaymentBundle\Service\StripePayment;
 
+/**
+ * Class StripeCreator
+ */
 class StripeCreator implements CreatorPayment
 {
-
+    /**
+     * @return mixed|StripePayment
+     */
     public function factoryMethod()
     {
         return new StripePayment();

@@ -26,7 +26,7 @@ class Image
      *
      * @ORM\Column(name="img_path", type="string", length=60, nullable=true)
      */
-    private $img_path;
+    private $imgPath;
 
     /**
      * @ORM\ManyToOne(targetEntity="PostBundle\Entity\Post", inversedBy="slides")
@@ -53,7 +53,7 @@ class Image
      */
     public function setImgPath($imgPath = null)
     {
-        $this->img_path = $imgPath;
+        $this->imgPath = $imgPath;
 
         return $this;
     }
@@ -65,7 +65,7 @@ class Image
      */
     public function getImgPath()
     {
-        return $this->img_path;
+        return $this->imgPath;
     }
 
     /**

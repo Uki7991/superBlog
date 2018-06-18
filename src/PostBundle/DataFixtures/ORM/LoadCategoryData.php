@@ -8,15 +8,22 @@
 
 namespace PostBundle\DataFixtures\ORM;
 
-
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use PostBundle\Entity\Category;
 
+/**
+ * Class LoadCategoryData
+ */
 class LoadCategoryData extends AbstractFixture implements ORMFixtureInterface
 {
+    /**
+     * @param ObjectManager $manager
+     *
+     * @throws \Doctrine\Common\DataFixtures\BadMethodCallException
+     */
     public function load(ObjectManager $manager)
     {
         $categoryEarth = new Category();
@@ -54,6 +61,9 @@ class LoadCategoryData extends AbstractFixture implements ORMFixtureInterface
         $this->addReference('category-animals', $catAnim);
     }
 
+    /**
+     * @return int
+     */
     public function getOrder()
     {
         return 1;

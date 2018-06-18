@@ -16,6 +16,9 @@ use UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
+/**
+ * Class UserUploadListener
+ */
 class UserUploadListener
 {
     private $uploader;

@@ -8,11 +8,16 @@
 
 namespace PaymentBundle;
 
-
 use PaymentBundle\Service\PaypalPayment;
 
+/**
+ * Class PaypalCreator
+ */
 class PaypalCreator implements CreatorPayment
 {
+    /**
+     * @return mixed|PaypalPayment
+     */
     public function factoryMethod()
     {
         return new PaypalPayment();

@@ -41,9 +41,11 @@ class PostEmbedType extends AbstractType
             ])
             ->add('tags')
         ;
-    }/**
- * {@inheritdoc}
- */
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

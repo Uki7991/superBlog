@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class LikeController
+ */
 class LikeController extends Controller
 {
     /**
@@ -17,6 +20,7 @@ class LikeController extends Controller
      * @Method("POST")
      *
      * @param Post $post
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function likePost(Post $post)
@@ -25,11 +29,10 @@ class LikeController extends Controller
 
         if (!$post->getUsersLikes()->contains($this->getUser())) {
             $post->addUsersLike($this->getUser());
-            $like_flag = true;
-        }
-        else {
+            $likeFlag = true;
+        } else {
             $post->removeUsersLike($this->getUser());
-            $like_flag = false;
+            $likeFlag = false;
         }
 
         $em->persist($post);
@@ -37,7 +40,7 @@ class LikeController extends Controller
 
         return $this->json([
             'status' => 'success',
-            'like_flag' => $like_flag,
+            'like_flag' => $likeFlag,
         ]);
     }
 
@@ -47,6 +50,7 @@ class LikeController extends Controller
      * @Method("POST")
      *
      * @param Comment $comment
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function likeComment(Comment $comment)
@@ -55,11 +59,10 @@ class LikeController extends Controller
 
         if (!$comment->getUsersLikes()->contains($this->getUser())) {
             $comment->addUsersLike($this->getUser());
-            $like_flag = true;
-        }
-        else {
+            $likeFlag = true;
+        } else {
             $comment->removeUsersLike($this->getUser());
-            $like_flag = false;
+            $likeFlag = false;
         }
 
         $em->persist($comment);
@@ -67,7 +70,7 @@ class LikeController extends Controller
 
         return $this->json([
             'status' => 'success',
-            'like_flag' => $like_flag,
+            'like_flag' => $likeFlag,
         ]);
     }
 }

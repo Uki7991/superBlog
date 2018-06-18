@@ -17,7 +17,8 @@ class TagController extends Controller
      * @Configuration\Route("/tag/{slug}", name="tag_show")
      * @Configuration\Method("GET")
      *
-     * @param $slug
+     * @param Request $request
+     * @param string  $slug
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */

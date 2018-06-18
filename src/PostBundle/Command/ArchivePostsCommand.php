@@ -17,7 +17,7 @@ class ArchivePostsCommand extends ContainerAwareCommand
      * ArchivePostsCommand constructor.
      * @param null|string $name
      */
-    public function __construct(?string $name = null)
+    public function __construct(string $name = null)
     {
         parent::__construct($name);
     }

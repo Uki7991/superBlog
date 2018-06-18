@@ -16,19 +16,27 @@ class PostArchive
     private $em;
     private $postRepo;
 
+    /**
+     * PostArchive constructor.
+     *
+     * @param EntityManager $manager
+     */
     public function __construct(EntityManager $manager)
     {
         $this->em = $manager;
         $this->postRepo = $this->em->getRepository(Post::class);
     }
 
+    /**
+     * @param Post $post
+     */
     public function archive(Post $post)
     {
         $post = $this->postRepo->find($post);
     }
 
     /**
-     * @param $days
+     * @param int $days
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -48,6 +56,7 @@ class PostArchive
                 $this->em->persist($post);
             }
             $this->em->flush();
+
             return true;
         }
 

@@ -7,6 +7,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
+/**
+ * Class ProfileFormType
+ */
 class ProfileFormType extends AbstractType
 {
     /**
@@ -19,13 +22,14 @@ class ProfileFormType extends AbstractType
             ->add('email', EmailType::class, array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
         ;
     }
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'UserBundle\Entity\User'
+            'data_class' => 'UserBundle\Entity\User',
         ));
     }
 
@@ -37,6 +41,9 @@ class ProfileFormType extends AbstractType
         return 'app_user_profile';
     }
 
+    /**
+     * @return null|string
+     */
     public function getName()
     {
         return $this->getBlockPrefix();

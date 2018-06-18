@@ -28,6 +28,7 @@ class Tag
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=30)
+     *
      * @Assert\NotBlank()
      */
     private $name;
@@ -53,14 +54,20 @@ class Tag
      */
     private $posts;
 
+    /**
+     * Tag constructor.
+     */
     public function __construct()
     {
         $this->posts = new ArrayCollection();
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
-        return (string)$this->getName();
+        return (string) $this->getName();
     }
 
     /**
@@ -101,13 +108,11 @@ class Tag
     /**
      * Set slugName.
      *
-     * @param string $slugName
-     *
      * @return Tag
      */
     public function setSlugName()
     {
-        $this->slugName = Helper::url_slug($this->getName(), ['transliterate' => true]);
+        $this->slugName = Helper::urlSlug($this->getName(), ['transliterate' => true]);
 
         return $this;
     }
@@ -130,8 +135,7 @@ class Tag
      */
     public function addPost(\PostBundle\Entity\Post $post)
     {
-        if ($this->posts->contains($post))
-        {
+        if ($this->posts->contains($post)) {
             return;
         }
 
@@ -147,8 +151,7 @@ class Tag
      */
     public function removePost(\PostBundle\Entity\Post $post)
     {
-        if (!$this->posts->contains($post))
-        {
+        if (!$this->posts->contains($post)) {
             return;
         }
 

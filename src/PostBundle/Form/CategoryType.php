@@ -8,6 +8,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class CategoryType
+ */
 class CategoryType extends AbstractType
 {
     /**
@@ -23,7 +26,9 @@ class CategoryType extends AbstractType
             ])
             ->add('save', SubmitType::class)
         ;
-    }/**
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -40,6 +45,4 @@ class CategoryType extends AbstractType
     {
         return 'postbundle_category';
     }
-
-
 }

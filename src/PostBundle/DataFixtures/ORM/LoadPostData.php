@@ -8,15 +8,20 @@
 
 namespace PostBundle\DataFixtures\ORM;
 
-
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use PostBundle\Entity\Post;
 
+/**
+ * Class LoadPostData
+ */
 class LoadPostData extends AbstractFixture implements ORMFixtureInterface
 {
+    /**
+     * @param ObjectManager $em
+     */
     public function load(ObjectManager $em)
     {
         $postEarth = new Post();
@@ -64,6 +69,9 @@ class LoadPostData extends AbstractFixture implements ORMFixtureInterface
         $em->flush();
     }
 
+    /**
+     * @return int
+     */
     public function getOrder()
     {
         return 2;

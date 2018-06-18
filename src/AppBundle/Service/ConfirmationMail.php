@@ -11,11 +11,19 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Proposal;
 
+/**
+ * Class ConfirmationMail
+ */
 class ConfirmationMail
 {
     private $mailer;
     private $templating;
 
+    /**
+     * ConfirmationMail constructor.
+     * @param \Swift_Mailer     $mailer
+     * @param \Twig_Environment $templating
+     */
     public function __construct(\Swift_Mailer $mailer, \Twig_Environment $templating)
     {
         $this->mailer = $mailer;
@@ -24,7 +32,8 @@ class ConfirmationMail
 
     /**
      * @param Proposal $proposal
-     * @param string $mailTo
+     * @param string   $mailTo
+     *
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
@@ -35,11 +44,9 @@ class ConfirmationMail
             ->setFrom('support@superblog.test')
             ->setTo($mailTo)
             ->setBody(
-                $this->templating->render(
-                // app/Resources/views/Emails/registration.html.twig
-                    ':Emails:registration.html.twig',
-                    array('name' => $proposal->getName())
-                ),
+                $this->templating->render(':Emails:registration.html.twig', [
+                    'name' => $proposal->getName(),
+                ]),
                 'text/html'
             );
 

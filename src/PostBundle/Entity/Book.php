@@ -24,6 +24,7 @@ class Book
 
     /**
      * @ORM\Column(name="title", type="string", length=150)
+     *
      * @Assert\NotBlank()
      *
      * @var string
@@ -32,6 +33,7 @@ class Book
 
     /**
      * @ORM\Column(name="author", type="string", length=100)
+     *
      * @Assert\NotBlank()
      *
      * @var string
@@ -40,8 +42,9 @@ class Book
 
     /**
      * @ORM\Column(name="price", type="float")
+     *
      * @Assert\NotBlank()
-     * 
+     *
      * @var float
      */
     private $price;

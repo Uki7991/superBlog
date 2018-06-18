@@ -12,10 +12,16 @@ use Doctrine\ORM\AbstractQuery;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findApiCats($query){
+    /**
+     * @param string $query
+     *
+     * @return mixed
+     */
+    public function findApiCats($query)
+    {
         $qb = $this->createQueryBuilder('c')
             ->where('c.name like :name')
-            ->setParameter('name', $query . '%')
+            ->setParameter('name', $query.'%')
             ->setMaxResults(8);
 
         $query = $qb->getQuery();
@@ -23,18 +29,32 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
-    public function getParentCats() {
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getParentCats()
+    {
         $qb = $this->createQueryBuilder('c')
             ->where('c.parent is null');
 
         return $qb;
     }
 
-    public function getParentCatsR() {
+    /**
+     * @return mixed
+     */
+    public function getParentCatsR()
+    {
         return $this->getParentCats()->getQuery()->getResult();
     }
 
-    public function getChildren($query) {
+    /**
+     * @param string $query
+     *
+     * @return mixed
+     */
+    public function getChildren($query)
+    {
         $qb = $this->createQueryBuilder('c')
             ->where('c.parent = :parent')
             ->setParameter('parent', $query);

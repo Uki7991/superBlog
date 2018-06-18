@@ -33,6 +33,7 @@ class Category
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=25)
+     *
      * @Assert\NotBlank()
      */
     private $name;
@@ -65,6 +66,9 @@ class Category
      */
     private $createdAt;
 
+    /**
+     * Category constructor.
+     */
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -107,9 +111,12 @@ class Category
         return $this->name;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
-        return (string)$this->getName();
+        return (string) $this->getName();
     }
 
     /**

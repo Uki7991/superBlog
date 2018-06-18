@@ -14,13 +14,15 @@ use PostBundle\Entity\Tag;
 class TagRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
-     * @param $criteria
+     * @param array $criteria
+     *
      * @return null|object|Tag
      */
-    public function findTagOrCreate($criteria) {
+    public function findTagOrCreate($criteria)
+    {
         $entity = $this->findOneBy($criteria);
 
-        if ($entity === null) {
+        if (null === $entity) {
             $entity = new Tag();
             $entity->setName($criteria['name']);
         }
@@ -28,6 +30,11 @@ class TagRepository extends \Doctrine\ORM\EntityRepository
         return $entity;
     }
 
+    /**
+     * @return mixed
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function findBigTag()
     {
         $qb = $this->createQueryBuilder('t')
@@ -42,10 +49,16 @@ class TagRepository extends \Doctrine\ORM\EntityRepository
         return $query->getOneOrNullResult();
     }
 
-    public function findApiTags($query){
+    /**
+     * @param string $query
+     *
+     * @return mixed
+     */
+    public function findApiTags($query)
+    {
         $qb = $this->createQueryBuilder('t')
             ->where('t.name like :name')
-            ->setParameter('name', $query . '%')
+            ->setParameter('name', $query.'%')
             ->setMaxResults(8);
 
         $query = $qb->getQuery();
@@ -53,6 +66,9 @@ class TagRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
+    /**
+     * @return mixed
+     */
     public function findAllApi()
     {
         $qb = $this->createQueryBuilder('t')

@@ -14,19 +14,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
+/**
+ * Class EasyAdminSubscriber
+ */
 class EasyAdminSubscriber extends Controller implements EventSubscriberInterface
 {
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         return array('easy_admin.pre_persist' => 'setUserToPost');
     }
 
+    /**
+     * @param GenericEvent $event
+     */
     public function setUserToPost(GenericEvent $event)
     {
         $entity = $event->getSubject();
 
-        if (!($entity instanceof Post))
-        {
+        if (!($entity instanceof Post)) {
             return;
         }
 

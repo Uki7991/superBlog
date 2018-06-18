@@ -8,11 +8,18 @@
 
 namespace AppBundle\Utils;
 
-
+/**
+ * Class Helper
+ */
 class Helper
 {
 
-    static public function slugify($text)
+    /**
+     * @param string $text
+     *
+     * @return mixed|null|string|string[]
+     */
+    public static function slugify(string $text)
     {
         $text = transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $text);
 
@@ -31,16 +38,20 @@ class Helper
      *     2) transliteration causes a loss of information
      *
      * @author Sean Murphy <sean@iamseanmurphy.com>
+     *
      * @copyright Copyright 2012 Sean Murphy. All rights reserved.
+     *
      * @license http://creativecommons.org/publicdomain/zero/1.0/
      *
      * @param string $str
      * @param array  $options
+     *
      * @return string
      */
-    static public function url_slug($str, $options = array()) {
+    public static function urlSlug($str, $options = array())
+    {
         // Make sure string is in UTF-8 and strip invalid UTF-8 characters
-        $str = mb_convert_encoding((string)$str, 'UTF-8', mb_list_encodings());
+        $str = mb_convert_encoding((string) $str, 'UTF-8', mb_list_encodings());
 
         $defaults = array(
             'delimiter' => '-',
@@ -53,7 +64,7 @@ class Helper
         // Merge options
         $options = array_merge($defaults, $options);
 
-        $char_map = array(
+        $charMap = array(
             // Latin
             'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'AE', 'Ç' => 'C',
             'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I',
@@ -109,7 +120,7 @@ class Helper
             'Ā' => 'A', 'Č' => 'C', 'Ē' => 'E', 'Ģ' => 'G', 'Ī' => 'i', 'Ķ' => 'k', 'Ļ' => 'L', 'Ņ' => 'N',
             'Š' => 'S', 'Ū' => 'u', 'Ž' => 'Z',
             'ā' => 'a', 'č' => 'c', 'ē' => 'e', 'ģ' => 'g', 'ī' => 'i', 'ķ' => 'k', 'ļ' => 'l', 'ņ' => 'n',
-            'š' => 's', 'ū' => 'u', 'ž' => 'z'
+            'š' => 's', 'ū' => 'u', 'ž' => 'z',
         );
 
         // Make custom replacements
@@ -117,14 +128,14 @@ class Helper
 
         // Transliterate characters to ASCII
         if ($options['transliterate']) {
-            $str = str_replace(array_keys($char_map), $char_map, $str);
+            $str = str_replace(array_keys($charMap), $charMap, $str);
         }
 
         // Replace non-alphanumeric characters with our delimiter
         $str = preg_replace('/[^\p{L}\p{Nd}]+/u', $options['delimiter'], $str);
 
         // Remove duplicate delimiters
-        $str = preg_replace('/(' . preg_quote($options['delimiter'], '/') . '){2,}/', '$1', $str);
+        $str = preg_replace('/('.preg_quote($options['delimiter'], '/').'){2,}/', '$1', $str);
 
         // Truncate slug to max. characters
         $str = mb_substr($str, 0, ($options['limit'] ? $options['limit'] : mb_strlen($str, 'UTF-8')), 'UTF-8');

@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class ProposalController
+ */
 class ProposalController extends Controller
 {
     /**
@@ -16,9 +19,11 @@ class ProposalController extends Controller
      *
      * @Method("POST")
      *
-     * @param Request $request
+     * @param Request          $request
      * @param ConfirmationMail $confirmationMail
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
+     *
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax

@@ -14,6 +14,9 @@ use Google_Client;
 use Google_Service_Drive;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
+/**
+ * Class UserController
+ */
 class UserController extends Controller
 {
     /**
@@ -113,7 +116,9 @@ class UserController extends Controller
      * @Route("/api/google/auth")
      *
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @throws \Google_Exception
      */
     public function apiGoogleAuth(Request $request)
@@ -139,6 +144,8 @@ class UserController extends Controller
                 'email' => $user->getEmails()[0]->getValue(),
             ]);
         }
+
+        return $this->redirectToRoute('');
     }
 
     /**
@@ -194,7 +201,7 @@ class UserController extends Controller
         $user = $userManager->findUserBy([$source => $data['id']]);
         if (!$user) {
             $user = $userManager->createUser();
-            $user->setUsername(Helper::url_slug($data['username'], ['transliterate' => true]));
+            $user->setUsername(Helper::urlSlug($data['username'], ['transliterate' => true]));
             $user->setEmail($data['email']);
             $user->setPlainPassword(md5(rand(111111, 999999)));
             $user->setEnabled(true);

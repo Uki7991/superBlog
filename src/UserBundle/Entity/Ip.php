@@ -32,6 +32,7 @@ class Ip
      * @var string
      *
      * @ORM\Column(name="ip", type="string", length=255)
+     *
      * @Assert\NotBlank()
      * @Assert\Ip(version="4")
      */
@@ -39,6 +40,7 @@ class Ip
 
     /**
      * @ORM\Column(name="created_at", type="datetime")
+     *
      * @Assert\NotBlank()
      * @Assert\DateTime()
      */
@@ -46,11 +48,15 @@ class Ip
 
     /**
      * @ORM\Column(name="updated_at", type="datetime")
+     *
      * @Assert\NotBlank()
      * @Assert\DateTime()
      */
     private $updatedAt;
 
+    /**
+     * Ip constructor.
+     */
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -148,8 +154,7 @@ class Ip
      */
     public function addPost(\PostBundle\Entity\Post $post)
     {
-        if ($this->posts->contains($post))
-        {
+        if ($this->posts->contains($post)) {
             return;
         }
 
@@ -165,8 +170,7 @@ class Ip
      */
     public function removePost(\PostBundle\Entity\Post $post)
     {
-        if (!$this->posts->contains($post))
-        {
+        if (!$this->posts->contains($post)) {
             return;
         }
 

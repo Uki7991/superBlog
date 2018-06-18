@@ -8,8 +8,13 @@
 
 namespace PaymentBundle;
 
-
+/**
+ * Interface CreatorPayment
+ */
 interface CreatorPayment
 {
+    /**
+     * @return mixed
+     */
     public function factoryMethod();
 }

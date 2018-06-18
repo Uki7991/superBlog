@@ -22,6 +22,13 @@ class ProfileController extends BaseController
     private $formFactory;
     private $userManager;
 
+    /**
+     * ProfileController constructor.
+     *
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param FactoryInterface         $formFactory
+     * @param UserManagerInterface     $userManager
+     */
     public function __construct(EventDispatcherInterface $eventDispatcher, FactoryInterface $formFactory, UserManagerInterface $userManager)
     {
         $this->eventDispatcher = $eventDispatcher;
@@ -31,6 +38,11 @@ class ProfileController extends BaseController
         parent::__construct($eventDispatcher, $formFactory, $userManager);
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function editAction(Request $request)
     {
         $user = $this->getUser();

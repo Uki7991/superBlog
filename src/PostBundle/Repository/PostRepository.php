@@ -21,14 +21,16 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
-     * @param $query
+     * @param string $query
+     *
      * @return mixed
      */
-    public function findApiPosts($query){
+    public function findApiPosts($query)
+    {
         $qb = $this->createQueryBuilder('p')
             ->select('p.title as name')
             ->where('p.title like :title')
-            ->setParameter('title', $query . '%')
+            ->setParameter('title', $query.'%')
             ->setMaxResults(8);
 
         $query = $qb->getQuery();
@@ -36,6 +38,11 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
+    /**
+     * @param integer $days
+     *
+     * @return mixed
+     */
     public function getOldPostsByDays($days)
     {
         $date = new \DateTime();

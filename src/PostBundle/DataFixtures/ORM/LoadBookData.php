@@ -8,7 +8,6 @@
 
 namespace PostBundle\DataFixtures\ORM;
 
-
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -16,8 +15,14 @@ use Doctrine\Common\Persistence\ObjectManager;
 use PostBundle\Entity\Book;
 use PostBundle\Entity\Category;
 
+/**
+ * Class LoadBookData
+ */
 class LoadBookData extends AbstractFixture implements ORMFixtureInterface
 {
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $bookEarth = new Book();
@@ -36,6 +41,9 @@ class LoadBookData extends AbstractFixture implements ORMFixtureInterface
         $manager->flush();
     }
 
+    /**
+     * @return int
+     */
     public function getOrder()
     {
         return 3;

@@ -14,6 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class PostType
+ */
 class PostType extends AbstractType
 {
     /**
@@ -42,7 +45,9 @@ class PostType extends AbstractType
                     return $repository->getParentCats();
                 },
             ]);
-    }/**
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)

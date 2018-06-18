@@ -52,7 +52,7 @@ class UserController extends FOSRestController
             $params = json_decode($content, true);
 
             $userActions = $this->get('user.actions');
-            $successfullyRegistered = $userActions->register($params["email"], $params["userName"], $params["password"]);
+            $successfullyRegistered = $userActions->register($params["email"], $params["userName"], $params["password"], $params['fisrstName'], $params['secondName'], $params['country'], 'default_avatar');
 
             $params = $successfullyRegistered + $params;
         }
