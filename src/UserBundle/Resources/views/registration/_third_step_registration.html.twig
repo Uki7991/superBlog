@@ -1,0 +1,14 @@
+<div class="my-5">
+    <h1 class="py-3">Third step</h1>
+
+    <form action="{{ path('user_registration_registration') }}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            {{ form_label(form.avatar, 'Avatar', { 'label_attr': {'for': 'avatar'} }) }}
+            {#<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">#}
+            {{ form_widget(form.avatar, { 'attr': {'class': 'form-control'}, 'id': 'avatar' }) }}
+        </div>
+        {{ form_widget(form._token) }}
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

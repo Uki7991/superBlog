@@ -1,0 +1,27 @@
+<div class="my-5">
+    <h1 class="py-3">First step</h1>
+
+    <form action="{{ path('user_registration_registration') }}" method="post">
+        <div class="form-group">
+            {{ form_label(form.email, 'E-mail', { 'label_attr': {'for': 'email'} }) }}
+            <small class="form-text text-danger">{{ form_errors(form.email) }}</small>
+            {#<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">#}
+            {{ form_widget(form.email, { 'attr': {'class': 'form-control'}, 'id': 'email' }) }}
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <small class="form-text text-danger">{{ form_errors(form.username) }}</small>
+            {{ form_label(form.username, 'Username', { 'label_attr': {'for': 'username'} }) }}
+            {#<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">#}
+            {{ form_widget(form.username, { 'attr': {'class': 'form-control'}, 'id': 'username' }) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.plainPassword, 'Password', { 'label_attr': {'for': 'password'} }) }}
+            <small class="form-text text-danger">{{ form_errors(form.plainPassword) }}</small>
+            {#<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">#}
+            {{ form_widget(form.plainPassword, { 'attr': {'class': 'form-control'}, 'id': 'password' }) }}
+        </div>
+        {{ form_widget(form._token) }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

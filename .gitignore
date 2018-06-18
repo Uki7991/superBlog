@@ -28,7 +28,8 @@
 
 # Assets and user uploads
 /web/bundles/
-/web/uploads/
+/web/uploads/posts/
+/web/uploads/images/
 /.web-server-pid
 # PHPUnit
 /app/phpunit.xml

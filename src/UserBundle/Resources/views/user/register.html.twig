@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block body %}
+
+    {% if step is defined %}
+
+        {% if step == 1 %}
+            {{ include('@User/registration/_first_step_registration.html.twig') }}
+        {% elseif step == 2 %}
+            {{ include('@User/registration/_second_step_registration.html.twig') }}
+        {% elseif step == 3 %}
+            {{ include('@User/registration/_third_step_registration.html.twig') }}
+        {% endif %}
+
+    {% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}

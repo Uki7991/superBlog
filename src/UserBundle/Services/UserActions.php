@@ -50,19 +50,20 @@ class UserActions
      * @param string $email
      * @param string $username
      * @param string $password
+     * @param string $firstName
+     * @param string $secondName
+     * @param string $country
+     * @param string $avatar
      *
      * @return array
      */
-    public function register($email, $username, $password)
+    public function register($email, $username, $password, $firstName, $secondName, $country, $avatar)
     {
         $emailExist = $this->userManager->findUserByEmail($email);
 
         // Check if the user exists to prevent Integrity constraint violation error in the insertion
         if ($emailExist) {
-            return [
-                "status" => "error",
-                "message" => "This e-mail is already exists!",
-            ];
+            return false;
         }
 
         $user = $this->userManager->createUser();
@@ -73,12 +74,13 @@ class UserActions
         $user->setEnabled(1); // enable the user or enable it later with a confirmation token in the email
         // this method will encrypt the password with the default settings :)
         $user->setPlainPassword($password);
+        $user->setFirstName($firstName);
+        $user->setSecondName($secondName);
+        $user->setCountry($country);
+        $user->setAvatar($avatar);
         $this->userManager->updateUser($user);
 
-        return [
-            "status" => "success",
-            "message" => "Welcome, you registered successfully!",
-        ];
+        return $user;
     }
 
     /**

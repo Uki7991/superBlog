@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use JMS\Serializer\Annotation as Serializer;
 use PostBundle\PostBundle;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="sb_users")
  * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
+ *
+ * @UniqueEntity({"email", "username"})
  */
 class User extends BaseUser
 {
@@ -89,6 +92,27 @@ class User extends BaseUser
     /**
      * @var string
      *
+     * @ORM\Column(name="first_name", type="string", length=150, options={})
+     */
+    protected $firstName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="second_name", type="string", length=150, options={})
+     */
+    protected $secondName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="country", type="string", length=100, nullable=true)
+     */
+    protected $country;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="google_id", type="string", length=255, nullable=true, unique=true)
      */
     protected $googleId;
@@ -120,6 +144,7 @@ class User extends BaseUser
         $this->postsLikes = new ArrayCollection();
         $this->commentsLikes = new ArrayCollection();
         $this->customers = new ArrayCollection();
+        $this->comments = new ArrayCollection();
         $this->setAvatar('default_avatar.png');
     }
 
@@ -407,5 +432,77 @@ class User extends BaseUser
     public function getCustomers()
     {
         return $this->customers;
+    }
+
+    /**
+     * Set firstName.
+     *
+     * @param string $firstName
+     *
+     * @return User
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName.
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set secondName.
+     *
+     * @param string $secondName
+     *
+     * @return User
+     */
+    public function setSecondName($secondName)
+    {
+        $this->secondName = $secondName;
+
+        return $this;
+    }
+
+    /**
+     * Get secondName.
+     *
+     * @return string
+     */
+    public function getSecondName()
+    {
+        return $this->secondName;
+    }
+
+    /**
+     * Set country.
+     *
+     * @param string|null $country
+     *
+     * @return User
+     */
+    public function setCountry($country = null)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country.
+     *
+     * @return string|null
+     */
+    public function getCountry()
+    {
+        return $this->country;
     }
 }
