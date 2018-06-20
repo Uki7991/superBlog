@@ -25,14 +25,14 @@ class Customer
     private $id;
 
     /**
-     * @ORM\Column(name="stripe_id", type="string", length=100)
+     * @ORM\Column(name="stripe_id", type="string", length=100, nullable=true)
      *
      * @var string
      */
     private $stripeId;
 
     /**
-     * @ORM\Column(name="paypal_id", type="string", length=100)
+     * @ORM\Column(name="paypal_id", type="string", length=100, nullable=true)
      *
      * @var string
      */
@@ -60,11 +60,11 @@ class Customer
     private $transactions;
 
     /**
-     * @ORM\Column(name="card_id", type="string", length=100)
+     * @ORM\OneToMany(targetEntity="PaymentBundle\Entity\Card", mappedBy="customer", cascade={"remove"})
      *
-     * @var string
+     * @var array
      */
-    private $cardId;
+    private $cards;
 
     /**
      * @ORM\Column(name="email", type="string", length=75)
@@ -96,6 +96,8 @@ class Customer
     {
         $this->orders = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->cards = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -144,30 +146,6 @@ class Customer
     public function getPaypalId()
     {
         return $this->paypalId;
-    }
-
-    /**
-     * Set cardId.
-     *
-     * @param string $cardId
-     *
-     * @return Customer
-     */
-    public function setCardId($cardId)
-    {
-        $this->cardId = $cardId;
-
-        return $this;
-    }
-
-    /**
-     * Get cardId.
-     *
-     * @return string
-     */
-    public function getCardId()
-    {
-        return $this->cardId;
     }
 
     /**
@@ -312,5 +290,41 @@ class Customer
     public function getTransactions()
     {
         return $this->transactions;
+    }
+
+    /**
+     * Add card.
+     *
+     * @param \PaymentBundle\Entity\Card $card
+     *
+     * @return Customer
+     */
+    public function addCard(\PaymentBundle\Entity\Card $card)
+    {
+        $this->cards[] = $card;
+
+        return $this;
+    }
+
+    /**
+     * Remove card.
+     *
+     * @param \PaymentBundle\Entity\Card $card
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeCard(\PaymentBundle\Entity\Card $card)
+    {
+        return $this->cards->removeElement($card);
+    }
+
+    /**
+     * Get cards.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCards()
+    {
+        return $this->cards;
     }
 }

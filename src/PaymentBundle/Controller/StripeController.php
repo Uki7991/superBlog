@@ -5,6 +5,7 @@
  */
 namespace PaymentBundle\Controller;
 
+use PaymentBundle\Entity\Card;
 use PaymentBundle\StripeCreator;
 use PostBundle\Entity\Book;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -41,7 +42,33 @@ class StripeController extends Controller
 
         $data = $request->request->all();
 
-        $customer = $stripeInstance->getNewCustomer($data['stripeEmail'], $data['stripeToken']);
+        $em = $this->getDoctrine()->getManager();
+        $customerRepo = $em->getRepository('PaymentBundle:Customer');
+        $cardRepo = $em->getRepository('PaymentBundle:Card');
+
+        $customer = $customerRepo->findOneBy(['email' => $data['stripeEmail']]);
+
+        if ($customer) {
+            $customer = $stripeInstance->getCustomerById($customer->getStripeId());
+        } else {
+            $customer = $stripeInstance->getNewCustomer($data['stripeEmail'], $data['stripeToken']);
+            $newCustomer = new \PaymentBundle\Entity\Customer();
+            $newCustomer->setStripeId($customer->id);
+            $newCustomer->setEmail($customer->email);
+            $newCustomer->setUser($this->getUser());
+            foreach ($customer->sources->data as $card) {
+                $cardExist = $cardRepo->findOneBy(['cardId' => $card->id]);
+                if (!$cardExist) {
+                    $newCard = new Card();
+                    $newCard->setCardId($card->id);
+                    $newCard->setCustomer($newCustomer);
+                    $newCustomer->addCard($newCard);
+                    $em->persist($newCard);
+                }
+            }
+            $em->persist($newCustomer);
+            $em->flush();
+        }
 
         $charge = $stripeInstance->getNewCharge($customer, $data['amount'] * 100);
 
@@ -51,7 +78,7 @@ class StripeController extends Controller
 
 //        $subscription = $stripeInstance->getNewSubscription($customer, $plan);
 
-        $customer = $stripeInstance->getCustomerById($customer->id);
+
 
         $charges = $stripeInstance->getAllChargesByCustomerId($customer->id);
 
