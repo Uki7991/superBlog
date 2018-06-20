@@ -40,10 +40,10 @@ class StripePayment implements SBPayment
      */
     public function getNewCustomer($email, $token)
     {
-        return Customer::create(array(
+        return Customer::create([
             'email' => $email,
-            'source'  => $token
-        ));
+            'source'  => $token,
+        ]);
     }
 
     /**
@@ -105,10 +105,10 @@ class StripePayment implements SBPayment
      */
     public function init($secretKey, $publushableKey)
     {
-        $stripe = array(
+        $stripe = [
             "secret_key"      => $secretKey,
-            "publishable_key" => $publushableKey
-        );
+            "publishable_key" => $publushableKey,
+        ];
 
         Stripe::setApiKey($stripe['secret_key']);
 
@@ -120,7 +120,7 @@ class StripePayment implements SBPayment
      *
      * @return \Stripe\StripeObject
      */
-    public function getCustomer($id)
+    public function getCustomerById($id)
     {
         return Customer::retrieve($id);
     }

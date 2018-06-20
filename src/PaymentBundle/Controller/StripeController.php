@@ -6,6 +6,7 @@
 namespace PaymentBundle\Controller;
 
 use PaymentBundle\StripeCreator;
+use PostBundle\Entity\Book;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Stripe\Charge;
 use Stripe\Customer;
@@ -50,7 +51,7 @@ class StripeController extends Controller
 
 //        $subscription = $stripeInstance->getNewSubscription($customer, $plan);
 
-        $customer = $stripeInstance->getCustomer($customer->id);
+        $customer = $stripeInstance->getCustomerById($customer->id);
 
         $charges = $stripeInstance->getAllChargesByCustomerId($customer->id);
 
@@ -82,6 +83,7 @@ class StripeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $catRepo = $em->getRepository('PostBundle:Category');
         $tagRepo = $em->getRepository('PostBundle:Tag');
+        $bookRepo = $em->getRepository('PostBundle:Book');
 
         $bigTag = $tagRepo->findBigTag();
 
@@ -89,6 +91,7 @@ class StripeController extends Controller
             'csrf_token' => $csrfToken,
             'categories' => $catRepo->getParentCatsR(),
             'tags' => $tagRepo->findAll(),
+            'book' => $bookRepo->find(1),
             'bigTag' => $bigTag['counts'],
             'stripe' => $stripe,
         ]);
